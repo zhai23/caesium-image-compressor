@@ -1077,32 +1077,32 @@ Saved: %4 (%5%)</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../../src/utils/Utils.cpp" line="198"/>
+        <location filename="../../src/utils/Utils.cpp" line="201"/>
         <source>Same as input</source>
         <translation>元と同じ</translation>
     </message>
     <message>
-        <location filename="../../src/utils/Utils.cpp" line="199"/>
+        <location filename="../../src/utils/Utils.cpp" line="202"/>
         <source>JPG</source>
         <translation>JPG</translation>
     </message>
     <message>
-        <location filename="../../src/utils/Utils.cpp" line="200"/>
+        <location filename="../../src/utils/Utils.cpp" line="203"/>
         <source>PNG</source>
         <translation>PNG</translation>
     </message>
     <message>
-        <location filename="../../src/utils/Utils.cpp" line="201"/>
+        <location filename="../../src/utils/Utils.cpp" line="204"/>
         <source>WebP</source>
         <translation>WebP</translation>
     </message>
     <message>
-        <location filename="../../src/utils/Utils.cpp" line="202"/>
+        <location filename="../../src/utils/Utils.cpp" line="205"/>
         <source>TIFF</source>
         <translation>TIFF</translation>
     </message>
     <message>
-        <location filename="../../src/utils/Utils.cpp" line="231"/>
+        <location filename="../../src/utils/Utils.cpp" line="234"/>
         <source>Auto</source>
         <translation>自動</translation>
     </message>

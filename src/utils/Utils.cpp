@@ -124,8 +124,11 @@ void showFileInNativeFileManager(const QString& filePath, const QString& fallbac
     }
 
 #if defined(Q_OS_WIN)
-    QStringList param = QStringList { "/select", ",", filePath };
-    if (QProcess::startDetached("explorer", param)) {
+    // explorer requires the native path (backslashes) and "/select," must be
+    // joined with the path into a single argument, otherwise it ignores the
+    // parameter and just opens the default location (e.g. the Desktop).
+    const QString nativePath = QDir::toNativeSeparators(filePath);
+    if (QProcess::startDetached("explorer", QStringList { "/select," + nativePath })) {
         return;
     }
 #elif defined(Q_OS_MAC)
