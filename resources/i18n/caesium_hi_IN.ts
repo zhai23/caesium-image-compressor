@@ -4,18 +4,26 @@
 <context>
     <name>AboutDialog</name>
     <message>
+        <location filename="../../views/AboutDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AboutDialog.h" line="156"/>
         <source>About Caesium - Image Compressor</source>
         <translation>सीजियम - चित्र संकुचक के बारे में</translation>
     </message>
     <message>
+        <location filename="../../views/AboutDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AboutDialog.h" line="158"/>
         <source>Caesium Image Compressor</source>
         <translation>सीजियम - चित्र संकुचक</translation>
     </message>
     <message>
+        <location filename="../../views/AboutDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AboutDialog.h" line="159"/>
         <source>Check for updates</source>
         <translation>अद्यतन के लिए जांचें</translation>
     </message>
     <message>
+        <location filename="../../views/AboutDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AboutDialog.h" line="161"/>
         <source>Copyright © 2023 Matteo Paonessa.
 All rights reserved.</source>
         <translation>कॉपीराइट © २०२३ मात्तेओ पाओनेसा।
@@ -25,54 +33,80 @@ All rights reserved.</source>
 <context>
     <name>AdvancedImportDialog</name>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="177"/>
         <source>Remove</source>
         <translation>हटाऐं</translation>
     </message>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="178"/>
         <source>Import files in subfolders when opening a directory</source>
         <translation>निर्देशिका खोलते समय सबफ़ोल्डर्स की फ़ाइलें आयात करें</translation>
     </message>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="179"/>
         <source>Add...</source>
         <translation>जोड़ें...</translation>
     </message>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="182"/>
         <source>bytes</source>
         <translation>बाइट</translation>
     </message>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="183"/>
         <source>KB</source>
         <translation>किलोबाइट</translation>
     </message>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="184"/>
         <source>MB</source>
         <translation>मेगाबाइट</translation>
     </message>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="186"/>
         <source>greater than</source>
         <translation>इससे बड़ा है</translation>
     </message>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="187"/>
         <source>equal to</source>
         <translation>इसके बराबर है</translation>
     </message>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="188"/>
         <source>less than</source>
         <translation>इससे छोटा है</translation>
     </message>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="190"/>
         <source>Import list</source>
         <translation>आयात सूची</translation>
     </message>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="181"/>
         <source>File name pattern (regex)</source>
         <translation>फ़ाइल नाम पैटर्न (रेगेक्स)</translation>
     </message>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="176"/>
         <source>Advanced Import</source>
         <translation>उन्नत आयात</translation>
     </message>
     <message>
+        <location filename="../../views/AdvancedImportDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_AdvancedImportDialog.h" line="180"/>
         <source>Do not import if size is</source>
         <translation>आयात न करें यदि आकार</translation>
     </message>
@@ -153,6 +187,8 @@ All rights reserved.</source>
         <translation>फ़ाइलें आयात की जा रही हैं...</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1438"/>
         <location filename="../../src/MainWindow.cpp" line="520"/>
         <location filename="../../src/MainWindow.cpp" line="739"/>
         <source>Cancel</source>
@@ -243,102 +279,159 @@ Saved: %4 (%5%)</source>
         <translation>पुन:संपीड़न विफल रहा</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1331"/>
         <source>Caesium Image Compressor</source>
         <translation>सीजियम - चित्र संकुचक</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1370"/>
         <source>Add...</source>
         <translation>जोड़ें...</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1342"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1371"/>
         <source>Remove</source>
         <translation>हटाऐं</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1356"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1358"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1372"/>
         <source>Compress</source>
         <translation>संकुचित करें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1403"/>
         <source>Compression</source>
         <translation>संकुचीकरण</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1377"/>
         <source>JPEG</source>
         <translation>जे पी ई जी</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1374"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1378"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1383"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1385"/>
         <source>Quality</source>
         <translation>गुणवत्ता</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1381"/>
         <source>PNG</source>
         <translation>पी एन जी</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1384"/>
         <source>WebP</source>
         <translation>वेब पी</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1394"/>
         <source>Lossless</source>
         <translation>दोषरहित</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1396"/>
         <source>Maximum output size</source>
         <translation>अधिकतम उत्पादन आकार</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1398"/>
         <source>bytes</source>
         <translation>बाइट</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1373"/>
         <source>Mode</source>
         <translation>तरीका</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1395"/>
         <source>Keep Metadata</source>
         <translation>मेटाडेटा रखें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1399"/>
         <source>KB</source>
         <translation>किलोबाइट</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1400"/>
         <source>MB</source>
         <translation>मेगाबाइट</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1419"/>
         <source>Resize</source>
         <translation>आकार परिवर्तित करें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1404"/>
         <source>Resize to fit</source>
         <translation>फ़िट होने तक आकार परिवर्तित करें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1405"/>
         <source>No resize</source>
         <translation>आकार परिवर्तित न करें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1406"/>
         <source>Dimensions</source>
         <translation>आयाम</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1407"/>
         <source>Percentage</source>
         <translation>प्रतिशत</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1408"/>
         <source>Short edge</source>
         <translation>छोटा किनारा</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1409"/>
         <source>Long edge</source>
         <translation>लम्बा किनारा</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1410"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1413"/>
         <source>Width</source>
         <translation>चौड़ाई</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1415"/>
         <location filename="../../src/MainWindow.cpp" line="885"/>
         <location filename="../../src/MainWindow.cpp" line="889"/>
         <location filename="../../src/MainWindow.cpp" line="924"/>
@@ -349,249 +442,374 @@ Saved: %4 (%5%)</source>
         <translation>पिक्सल</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1375"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1414"/>
         <source>Size</source>
         <translation>आकार</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1411"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1416"/>
         <source>Height</source>
         <translation>ऊँचाई</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1417"/>
         <source>Do not enlarge</source>
         <translation>बड़ा न करें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1418"/>
         <source>Keep aspect ratio</source>
         <translation>अनुपात बनाए रखें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1435"/>
         <source>Output</source>
         <translation>उत्पादन</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1420"/>
         <source>Folder</source>
         <translation>फ़ोल्डर</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1421"/>
         <source>Select...</source>
         <translation>चुनें...</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1422"/>
         <source>Same folder as input</source>
         <translation>निविष्ट के समान फ़ोल्डर</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1423"/>
         <source>Keep folder structure</source>
         <translation>फ़ोल्डर संरचना बनाए रखें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1424"/>
         <source>Skip if output size is bigger than the original</source>
         <translation>यदि उत्पादन का आकार मूल आकार से बड़ा हो तो छोड़ दें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1429"/>
         <source>Keep file dates</source>
         <translation>फ़ाइल की दिनांक रखें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1430"/>
         <source>Creation</source>
         <translation>निर्माण</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1431"/>
         <source>Last modified</source>
         <translation>अंतिम संशोधन</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1432"/>
         <source>Last access</source>
         <translation>अंतिम अभिगम</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1433"/>
         <source>Format</source>
         <translation>प्रारुप</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1437"/>
         <source>Converting to a new format or resizing can degrade quality even if &quot;lossless&quot; option is selected</source>
         <translation>किसी नए प्रारूप में परिवर्तित करने या आकार बदलने से गुणवत्ता ख़राब हो सकती है, भले ही &quot;दोषरहित&quot; विकल्प चुना गया हो</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1434"/>
         <source>Suffix</source>
         <translation>प्रत्यय</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1440"/>
         <source>Original</source>
         <translation>मूल</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1365"/>
         <location filename="../../src/MainWindow.cpp" line="1247"/>
         <source>Preview</source>
         <translation>पूर्वावलोकन</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1441"/>
         <source>Compressed</source>
         <translation>संकुचित</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1382"/>
         <source>Optimization level</source>
         <translation>अनुकूलन स्तर</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1386"/>
         <source>TIFF</source>
         <translation>टिफ़</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1393"/>
         <source>Method</source>
         <translation>तरीका</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1388"/>
         <source>Deflate level</source>
         <translation>डिफ्लेट स्तर</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1387"/>
         <source>Best</source>
         <translation>सर्वोत्तम</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1389"/>
         <source>Balanced</source>
         <translation>संतुलित</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1390"/>
         <source>Fast</source>
         <translation>तेज़</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1391"/>
         <source>Uncompressed</source>
         <translation>असम्पीडित</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1379"/>
         <source>Chroma subsampling</source>
         <translation>क्रोमा सबसैंपलिंग</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1380"/>
         <source>Progressive</source>
         <translation>प्रगतिशील</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1425"/>
         <source>Move the original file</source>
         <translation>मूल फ़ाइल स्थानांतरित करें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1426"/>
         <source>To Trash</source>
         <translation>कचरे में</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1427"/>
         <source>Delete Permanently</source>
         <translation>स्थायी रूप से हटाएँ</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1442"/>
         <source>Help</source>
         <translation>मदद</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1443"/>
         <source>File</source>
         <translation>फ़ाइल</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1444"/>
         <source>Edit</source>
         <translation>संपादन करें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1445"/>
         <source>View</source>
         <translation>देखें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1446"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1447"/>
         <source>Toolbar</source>
         <translation>उपकरण पट्टिका</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1332"/>
         <source>About Caesium Image Compressor</source>
         <translation>सीजियम चित्र संकुचक के बारे में</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1333"/>
         <source>Add files...</source>
         <translation>फ़ाइलें जोड़ें...</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1335"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1337"/>
         <source>Add folder...</source>
         <translation>फ़ोल्डर जोड़ें...</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1339"/>
         <source>Ctrl+Shift+O</source>
         <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1341"/>
         <location filename="../../src/MainWindow.cpp" line="220"/>
         <source>Exit</source>
         <translation>बंद करें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1344"/>
         <source>Del</source>
         <translatorcomment>Delete key on keyboard</translatorcomment>
         <translation>Del</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1346"/>
         <source>Select All</source>
         <translation>सभी चुनें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1348"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1350"/>
         <source>Clear</source>
         <translation>सभी हटाऐं</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1351"/>
         <source>Show previews</source>
         <translation>पूर्वावलोकन दिखाऐं</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1352"/>
         <source>Preferences...</source>
         <translation>अधिमान...</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1353"/>
         <source>Show original in file manager</source>
         <translation>फ़ाइल प्रबंधक में मूल फ़ाइल दिखाऐं</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1354"/>
         <source>Show compressed in file manager</source>
         <translation>फ़ाइल प्रबंधक में संकुचित फ़ाइल दिखाऐं</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1355"/>
         <source>Donate</source>
         <translation>दान करें</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1360"/>
         <source>Icons</source>
         <translation>प्रतीक चित्र</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1361"/>
         <source>Icons and Text</source>
         <translation>प्रतीक व लेख</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1362"/>
         <source>Hide</source>
         <translation>छुपाऐं</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1363"/>
         <source>Show</source>
         <translation>दिखाऐं</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1364"/>
         <source>Auto preview</source>
         <translation>स्वतः पूर्वावलोकन</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1367"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1369"/>
         <source>Advanced import...</source>
         <translation>उन्नत आयात...</translation>
     </message>
     <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1401"/>
         <location filename="../../src/MainWindow.cpp" line="899"/>
         <location filename="../../src/MainWindow.cpp" line="903"/>
         <source>%</source>
@@ -606,122 +824,182 @@ Saved: %4 (%5%)</source>
 <context>
     <name>PreferencesDialog</name>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="346"/>
         <source>Preferences</source>
         <translation>अधिमान</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="354"/>
         <source>Auto</source>
         <translation>स्वत:</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="355"/>
         <source>Light</source>
         <translation>हल्का</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="356"/>
         <source>Dark</source>
         <translation>गहरा</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="372"/>
         <source>No action</source>
         <translation>कोई कार्रवाई नहीं</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="373"/>
         <source>Close the application</source>
         <translation>एप्लिकेशन बंद करें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="374"/>
         <source>Sleep</source>
         <translation>निद्रा</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="375"/>
         <source>Shutdown</source>
         <translation>बंद करें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="376"/>
         <source>Open output folder</source>
         <translation>आउटपुट फ़ोल्डर खोलें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="361"/>
         <source>Perform an action after successful compression</source>
         <translation>सफल संकुचन के बाद कोई कार्रवाई करें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="369"/>
         <source> threads</source>
         <translation> थ्रेड</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="371"/>
         <source>Threads priority</source>
         <translation>थ्रेड प्राथमिकता</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="380"/>
         <source>Restart</source>
         <translation>पुनः आरंभ करें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="381"/>
         <source>Close</source>
         <translation>बंद करें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="347"/>
         <source>General</source>
         <translation>सामान्य</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="352"/>
         <source>Prompt before exit</source>
         <translation>बंद करने से पहले पूछें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="379"/>
         <source>Changes will apply after restart</source>
         <translation>पुनरारंभ के बाद परिवर्तन लागू होंगे</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="353"/>
         <source>Theme (experimental)</source>
         <translation>थीम (प्रयोगात्मक)</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="363"/>
         <source>This option applies when using command line or by dropping files to the application icon</source>
         <translation>यह विकल्प कमांड लाइन का उपयोग करते समय या एप्लिकेशन प्रतीक पर फ़ाइलें छोड़ते समय लागू होता है</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="351"/>
         <source>Check updates at startup</source>
         <translation>शुरु करते समय अद्यतन के लिए जांचें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="359"/>
         <source>Import files in subfolders when opening a directory</source>
         <translation>निर्देशिका खोलते समय सबफ़ोल्डर्स की फ़ाइलें आयात करें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="350"/>
         <source>Send anonymous usage reports</source>
         <translation>अनाम उपयोग प्रतिवेदन भेजें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="360"/>
         <source>Advanced</source>
         <translation>उन्नत</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="370"/>
         <source>Multithreading</source>
         <translation>बहुसूत्रण</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="348"/>
         <source>Skip message and warning dialogs during compression</source>
         <translation>संकुचित करते समय संदेश और चेतावनी संवाद छोड़ दें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="358"/>
         <source>Import</source>
         <translation>आयात करें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="365"/>
         <source>Import only</source>
         <translation>केवल आयात करें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="366"/>
         <source>Import and compress</source>
         <translation>आयात करें और संकुचित करें</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="368"/>
         <source>When importing files directly</source>
         <translation>फ़ाइलें सीधे आयात करते समय</translation>
     </message>
     <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="349"/>
         <source>Preferred language</source>
         <translation>अधिमानित भाषा</translation>
     </message>
@@ -833,14 +1111,20 @@ Saved: %4 (%5%)</source>
 <context>
     <name>UsageStatsDialog</name>
     <message>
+        <location filename="../../views/UsageStatsDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_UsageStatsDialog.h" line="76"/>
         <source>Usage Data</source>
         <translation>उपयोग की जानकारी</translation>
     </message>
     <message>
+        <location filename="../../views/UsageStatsDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_UsageStatsDialog.h" line="77"/>
         <source>This data is collected to provide the best long term support for the application. No data is sent to third parties.</source>
         <translation>यह जानकारी एप्लिकेशन के लिए सर्वोत्तम दीर्घकालिक सहायता प्रदान करने के लिए एकत्र की गयी है। तीसरे पक्ष को कोई जानकारी नहीं भेजी जाती है।</translation>
     </message>
     <message>
+        <location filename="../../views/UsageStatsDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_UsageStatsDialog.h" line="78"/>
         <source>Close</source>
         <translation>बंद करें</translation>
     </message>

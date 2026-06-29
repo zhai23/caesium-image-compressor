@@ -165,3 +165,5 @@ deploy.py
 manifests
 build
 ts.py
+/build_dir
+*.log
