@@ -28,6 +28,7 @@ private slots:
     static void onShowUsageDataLinkActivated([[maybe_unused]] const QString& link);
     static void onSkipCompressionDialogsToggled(bool checked);
     void onEnableMultiSelectionToggled(bool checked) const;
+    void onPreviewBackgroundChanged(int index) const;
     static void onMultithreadingMaxThreadsChanged(int value);
     static void onPostCompressionActionChanged(int value);
     static void onRestartButtonPressed();

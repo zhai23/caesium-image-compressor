@@ -96,6 +96,8 @@ MainWindow::MainWindow(QWidget* parent)
     connect(this->cImageModel, &CImageTreeModel::itemsChanged, this, &MainWindow::cModelItemsChanged);
     connect(ui->preview_GraphicsView, &QZoomGraphicsView::scaleFactorChanged, ui->previewCompressed_GraphicsView, &QZoomGraphicsView::setScaleFactor);
     connect(ui->previewCompressed_GraphicsView, &QZoomGraphicsView::scaleFactorChanged, ui->preview_GraphicsView, &QZoomGraphicsView::setScaleFactor);
+    connect(ui->preview_GraphicsView, &QZoomGraphicsView::previewBackgroundChangeRequested, this, &MainWindow::onPreviewBackgroundChangeRequested);
+    connect(ui->previewCompressed_GraphicsView, &QZoomGraphicsView::previewBackgroundChangeRequested, this, &MainWindow::onPreviewBackgroundChangeRequested);
     connect(ui->imageList_TreeView, &QWidget::customContextMenuRequested, this, &MainWindow::showListContextMenu);
     connect(ui->imageList_TreeView->header(), &QHeaderView::sortIndicatorChanged, this, &MainWindow::listSortChanged);
 
@@ -264,6 +266,7 @@ void MainWindow::initListWidget() const
     ui->imageList_TreeView->setItemDelegateForColumn(CImageColumns::INFO_COLUMN, htmlDelegate);
 
     this->applyMultiSelectionVisibility();
+    this->applyPreviewBackground();
 }
 
 void MainWindow::updateCheckBoxColumnWidth() const
@@ -287,6 +290,19 @@ void MainWindow::applyMultiSelectionVisibility() const
     if (enabled) {
         this->updateCheckBoxColumnWidth();
     }
+}
+
+void MainWindow::applyPreviewBackground() const
+{
+    int mode = QSettings().value("preferences/general/preview_background", 0).toInt();
+    ui->preview_GraphicsView->setPreviewBackground(mode);
+    ui->previewCompressed_GraphicsView->setPreviewBackground(mode);
+}
+
+void MainWindow::onPreviewBackgroundChangeRequested(int mode) const
+{
+    QSettings().setValue("preferences/general/preview_background", mode);
+    this->applyPreviewBackground();
 }
 
 void MainWindow::initTrayIcon()

@@ -49,6 +49,7 @@ void PreferencesDialog::setupConnections()
     connect(ui->showUsageData_Label, &QLabel::linkActivated, this, &PreferencesDialog::onShowUsageDataLinkActivated);
     connect(ui->skipCompressionDialogs_CheckBox, &QCheckBox::toggled, this, &PreferencesDialog::onSkipCompressionDialogsToggled);
     connect(ui->enableMultiSelection_CheckBox, &QCheckBox::toggled, this, &PreferencesDialog::onEnableMultiSelectionToggled);
+    connect(ui->previewBackground_ComboBox, &QComboBox::currentIndexChanged, this, &PreferencesDialog::onPreviewBackgroundChanged);
     connect(ui->postCompressionAction_ComboBox, &QComboBox::currentIndexChanged, this, &PreferencesDialog::onPostCompressionActionChanged);
     connect(ui->restart_Button, &QPushButton::pressed, this, &PreferencesDialog::onRestartButtonPressed);
     connect(ui->threadsPriority_Slider, &QSlider::valueChanged, this, &PreferencesDialog::onThreadsPriorityChanged);
@@ -79,6 +80,7 @@ void PreferencesDialog::loadPreferences() const
     ui->multithreadingMaxThreads_SpinBox->setValue(settings.value("preferences/general/multithreading_max_threads", QThread::idealThreadCount()).toInt());
     ui->skipCompressionDialogs_CheckBox->setChecked(settings.value("preferences/general/skip_compression_dialogs", false).toBool());
     ui->enableMultiSelection_CheckBox->setChecked(settings.value("preferences/general/enable_multi_selection", false).toBool());
+    ui->previewBackground_ComboBox->setCurrentIndex(settings.value("preferences/general/preview_background", 0).toInt());
     ui->theme_ComboBox->setCurrentIndex(settings.value("preferences/general/theme", 0).toInt());
     ui->themeVariant_ComboBox->setCurrentIndex(settings.value("preferences/general/theme_variant", 0).toInt());
     ui->argsBehaviour_ComboBox->setCurrentIndex(settings.value("preferences/general/args_behaviour", 0).toInt());
@@ -183,6 +185,16 @@ void PreferencesDialog::onEnableMultiSelectionToggled(bool checked) const
     // Apply live to the open main window so the column appears/disappears immediately.
     if (auto* mainWindow = qobject_cast<MainWindow*>(parent())) {
         mainWindow->applyMultiSelectionVisibility();
+    }
+}
+
+void PreferencesDialog::onPreviewBackgroundChanged(int index) const
+{
+    QSettings().setValue("preferences/general/preview_background", index);
+
+    // Apply live to the open main window so the preview background updates immediately.
+    if (auto* mainWindow = qobject_cast<MainWindow*>(parent())) {
+        mainWindow->applyPreviewBackground();
     }
 }
 

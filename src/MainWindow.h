@@ -31,6 +31,7 @@ public:
     [[nodiscard]] QTranslator* getTranslator() const;
 
     void applyMultiSelectionVisibility() const;
+    void applyPreviewBackground() const;
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -110,6 +111,7 @@ private slots:
     void installCompressionOptionsEventFilter() const;
     void onHeaderCheckStateToggled(Qt::CheckState state) const;
     void updateHeaderCheckState() const;
+    void onPreviewBackgroundChangeRequested(int mode) const;
 
 private:
     Ui::MainWindow* ui;

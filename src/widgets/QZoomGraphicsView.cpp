@@ -1,7 +1,11 @@
 #include "QZoomGraphicsView.h"
 
+#include <QActionGroup>
+#include <QContextMenuEvent>
 #include <QLabel>
+#include <QMenu>
 #include <QMovie>
+#include <QPainter>
 #include <QPainterPath>
 #include <QScrollBar>
 
@@ -10,6 +14,10 @@ QZoomGraphicsView::QZoomGraphicsView(QWidget* parent)
 {
     this->graphicsScene = new QGraphicsScene();
     this->setScene(this->graphicsScene);
+    // Ensure the whole viewport background is repainted (needed so the fixed
+    // white/black/checkerboard background covers the full area when scrolling).
+    this->setCacheMode(QGraphicsView::CacheNone);
+    this->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
     this->loaderLabel = new QLabel();
     this->loaderLabel->setAutoFillBackground(false);
@@ -111,4 +119,78 @@ void QZoomGraphicsView::removePixmap()
         auto* item = this->graphicsScene->items().at(indexOf);
         delete item;
     }
+}
+
+void QZoomGraphicsView::contextMenuEvent(QContextMenuEvent* event)
+{
+    QMenu menu(this);
+    auto* group = new QActionGroup(&menu);
+    group->setExclusive(true);
+
+    struct Entry {
+        int mode;
+        QString label;
+    };
+    const QList<Entry> entries = {
+        { THEME, tr("Theme") },
+        { WHITE, tr("White") },
+        { BLACK, tr("Black") },
+        { CHECKERBOARD, tr("Checkerboard") }
+    };
+
+    for (const Entry& e : entries) {
+        QAction* action = menu.addAction(e.label);
+        action->setCheckable(true);
+        action->setChecked(this->backgroundMode == e.mode);
+        group->addAction(action);
+        int mode = e.mode;
+        connect(action, &QAction::triggered, this, [this, mode]() {
+            emit this->previewBackgroundChangeRequested(mode);
+        });
+    }
+
+    menu.exec(event->globalPos());
+}
+
+void QZoomGraphicsView::setPreviewBackground(int mode)
+{
+    this->backgroundMode = mode;
+    this->resetCachedContent();
+    this->viewport()->update();
+}
+
+void QZoomGraphicsView::drawBackground(QPainter* painter, const QRectF& rect)
+{
+    if (this->backgroundMode == THEME) {
+        // Keep the default theme/palette-driven background.
+        QGraphicsView::drawBackground(painter, rect);
+        return;
+    }
+
+    // Paint a fixed background that fills the whole viewport, independent of the
+    // scene's scroll/zoom transform.
+    painter->save();
+    painter->resetTransform();
+    QRect viewportRect = this->viewport()->rect();
+
+    if (this->backgroundMode == WHITE) {
+        painter->fillRect(viewportRect, Qt::white);
+    } else if (this->backgroundMode == BLACK) {
+        painter->fillRect(viewportRect, Qt::black);
+    } else if (this->backgroundMode == CHECKERBOARD) {
+        const int tile = 10;
+        const QColor light(204, 204, 204);
+        const QColor dark(255, 255, 255);
+        painter->fillRect(viewportRect, dark);
+        for (int y = 0; y < viewportRect.height(); y += tile) {
+            for (int x = 0; x < viewportRect.width(); x += tile) {
+                bool shaded = ((x / tile) + (y / tile)) % 2 == 0;
+                if (shaded) {
+                    painter->fillRect(QRect(x, y, tile, tile), light);
+                }
+            }
+        }
+    }
+
+    painter->restore();
 }

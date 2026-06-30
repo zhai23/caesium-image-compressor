@@ -13,6 +13,13 @@ class QZoomGraphicsView : public QGraphicsView {
     Q_OBJECT
 
 public:
+    enum PreviewBackground {
+        THEME = 0,
+        WHITE = 1,
+        BLACK = 2,
+        CHECKERBOARD = 3
+    };
+
     explicit QZoomGraphicsView(QWidget* parent = nullptr);
     void wheelEvent(QWheelEvent* event) override;
     void resetScaleFactor();
@@ -20,6 +27,11 @@ public:
     void setZoomEnabled(bool l);
     void showPixmap(const QPixmap& pixmap);
     void removePixmap();
+    void setPreviewBackground(int mode);
+
+protected:
+    void drawBackground(QPainter* painter, const QRectF& rect) override;
+    void contextMenuEvent(QContextMenuEvent* event) override;
 
 private:
     const double WHEEL_TOLERANCE = 1; // Experimental for touchpads
@@ -31,6 +43,7 @@ private:
     bool zooming = false;
     bool loading = false;
     bool zoomEnabled = true;
+    int backgroundMode = THEME;
 
     QLabel* loaderLabel;
     QMovie* loaderMovie;
@@ -45,6 +58,7 @@ public slots:
 
 signals:
     void scaleFactorChanged(QWheelEvent* event);
+    void previewBackgroundChangeRequested(int mode);
 };
 
 #endif // QZOOMGRAPHICSVIEW_H
