@@ -17,14 +17,15 @@ enum class CImageStatus {
     WARNING
 };
 
-constexpr int CIMAGE_COLUMNS_SIZE = 5;
+constexpr int CIMAGE_COLUMNS_SIZE = 6;
 
 enum CImageColumns {
-    NAME_COLUMN = 0,
-    SIZE_COLUMN = 1,
-    RESOLUTION_COLUMN = 2,
-    RATIO_COLUMN = 3,
-    INFO_COLUMN = 4
+    CHECKBOX_COLUMN = 0,
+    NAME_COLUMN = 1,
+    SIZE_COLUMN = 2,
+    RESOLUTION_COLUMN = 3,
+    RATIO_COLUMN = 4,
+    INFO_COLUMN = 5
 };
 
 enum ResizeMode {

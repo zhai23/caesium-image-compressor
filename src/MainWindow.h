@@ -106,6 +106,8 @@ private slots:
     static void onJPEGProgressiveToggled(bool checked);
     void recompressFailed();
     void installCompressionOptionsEventFilter() const;
+    void onHeaderCheckStateToggled(Qt::CheckState state) const;
+    void updateHeaderCheckState() const;
 
 private:
     Ui::MainWindow* ui;
@@ -136,6 +138,7 @@ private:
     void initTrayIconContextMenu();
     void initListWidget() const;
     void initTrayIcon();
+    void updateCheckBoxColumnWidth() const;
 
     void toggleUIEnabled(bool enabled) const;
     void importFiles(const QStringList& fileList, QString baseFolder);

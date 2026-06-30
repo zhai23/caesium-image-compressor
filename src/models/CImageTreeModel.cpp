@@ -8,7 +8,7 @@
 
 CImageTreeModel::CImageTreeModel()
 {
-    rootItem = new CImageTreeItem({ tr("Name"), tr("Size"), tr("Resolution"), tr("Saved"), tr("Info") });
+    rootItem = new CImageTreeItem({ QString(""), tr("Name"), tr("Size"), tr("Resolution"), tr("Saved"), tr("Info") });
 }
 
 CImageTreeModel::~CImageTreeModel()
@@ -139,11 +139,20 @@ QVariant CImageTreeModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    if (role != Qt::DisplayRole && role != Qt::DecorationRole) {
+    if (role != Qt::DisplayRole && role != Qt::DecorationRole && role != Qt::CheckStateRole) {
         return QVariant();
     }
 
     CImageTreeItem* item = static_cast<CImageTreeItem*>(index.internalPointer());
+
+    if (role == Qt::CheckStateRole) {
+        // Only the checkbox column has a check state; every other column must
+        // return an invalid QVariant, otherwise Qt draws a checkbox in them too.
+        if (index.column() == CImageColumns::CHECKBOX_COLUMN) {
+            return item->isChecked() ? Qt::Checked : Qt::Unchecked;
+        }
+        return QVariant();
+    }
 
     if (role == Qt::DisplayRole && index.column() == CImageColumns::NAME_COLUMN) {
         // Little hack to get the default application text color to apply transparency to the base folder text
@@ -198,7 +207,55 @@ Qt::ItemFlags CImageTreeModel::flags(const QModelIndex& index) const
         return Qt::NoItemFlags;
     }
 
-    return QAbstractItemModel::flags(index);
+    Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
+    if (index.column() == CImageColumns::CHECKBOX_COLUMN) {
+        defaultFlags |= Qt::ItemIsUserCheckable;
+    }
+    return defaultFlags;
+}
+
+bool CImageTreeModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    if (!index.isValid()) {
+        return false;
+    }
+
+    if (role == Qt::CheckStateRole && index.column() == CImageColumns::CHECKBOX_COLUMN) {
+        CImageTreeItem* item = static_cast<CImageTreeItem*>(index.internalPointer());
+        item->setChecked(value.toInt() == Qt::Checked);
+        emit dataChanged(index, index, { Qt::CheckStateRole });
+        emit checkedItemsChanged();
+        return true;
+    }
+
+    return false;
+}
+
+void CImageTreeModel::setAllChecked(bool checked)
+{
+    const QVector<CImageTreeItem*> items = rootItem->children();
+    if (items.isEmpty()) {
+        return;
+    }
+    for (CImageTreeItem* item : items) {
+        item->setChecked(checked);
+    }
+    QModelIndex topLeft = this->index(0, CImageColumns::CHECKBOX_COLUMN);
+    QModelIndex bottomRight = this->index(items.count() - 1, CImageColumns::CHECKBOX_COLUMN);
+    emit dataChanged(topLeft, bottomRight, { Qt::CheckStateRole });
+    emit checkedItemsChanged();
+}
+
+int CImageTreeModel::checkedItemsCount() const
+{
+    int count = 0;
+    const QVector<CImageTreeItem*> items = rootItem->children();
+    for (CImageTreeItem* item : items) {
+        if (item->isChecked()) {
+            count++;
+        }
+    }
+    return count;
 }
 
 QVariant CImageTreeModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -230,6 +287,34 @@ double CImageTreeModel::originalItemsSize() const
         auto item = itemsIterator.next();
         auto size = (double)item->getCImage()->getOriginalSize();
         totalSize += size;
+    }
+    return totalSize;
+}
+
+double CImageTreeModel::checkedCompressedItemsSize() const
+{
+    QVectorIterator<CImageTreeItem*> itemsIterator(rootItem->children());
+    double totalSize = 0;
+    while (itemsIterator.hasNext()) {
+        auto item = itemsIterator.next();
+        if (!item->isChecked()) {
+            continue;
+        }
+        totalSize += (double)item->getCImage()->getCompressedSize();
+    }
+    return totalSize;
+}
+
+double CImageTreeModel::checkedOriginalItemsSize() const
+{
+    QVectorIterator<CImageTreeItem*> itemsIterator(rootItem->children());
+    double totalSize = 0;
+    while (itemsIterator.hasNext()) {
+        auto item = itemsIterator.next();
+        if (!item->isChecked()) {
+            continue;
+        }
+        totalSize += (double)item->getCImage()->getOriginalSize();
     }
     return totalSize;
 }

@@ -167,3 +167,4 @@ build
 ts.py
 /build_dir
 *.log
+/portable

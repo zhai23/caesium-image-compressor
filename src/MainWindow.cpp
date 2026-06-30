@@ -21,6 +21,7 @@
 #include <services/Importer.h>
 #include <utility>
 #include <widgets/QCaesiumMessageBox.h>
+#include <widgets/QCheckBoxHeaderView.h>
 
 #ifdef Q_OS_MAC
 #include "./updater/osx/CocoaInitializer.h"
@@ -185,6 +186,7 @@ void MainWindow::showEvent(QShowEvent* event)
 {
     QMainWindow::showEvent(event);
 
+    this->updateCheckBoxColumnWidth();
     MainWindow::initUpdater();
 }
 
@@ -229,6 +231,22 @@ void MainWindow::initListWidget() const
     this->proxyModel->setSourceModel(this->cImageModel);
     ui->imageList_TreeView->setModel(this->proxyModel);
     ui->imageList_TreeView->setIconSize(QSize(10, 10));
+
+    auto* checkBoxHeader = new QCheckBoxHeaderView(CImageColumns::CHECKBOX_COLUMN, Qt::Horizontal, ui->imageList_TreeView);
+    checkBoxHeader->setStretchLastSection(false);
+    checkBoxHeader->setSortIndicatorShown(true);
+    ui->imageList_TreeView->setHeader(checkBoxHeader);
+    connect(checkBoxHeader, &QCheckBoxHeaderView::checkStateToggled, this, &MainWindow::onHeaderCheckStateToggled);
+    connect(this->cImageModel, &CImageTreeModel::checkedItemsChanged, this, &MainWindow::updateHeaderCheckState);
+
+    // Make the checkbox column square: width equals the header height so the
+    // header cell (and the checkbox inside it) is a square.
+    // The header enforces a global minimumSectionSize (~30px by default); lower
+    // it so the column can shrink. The exact width is applied again in
+    // showEvent() once the header has its final height.
+    ui->imageList_TreeView->header()->setMinimumSectionSize(16);
+    ui->imageList_TreeView->header()->setSectionResizeMode(CImageColumns::CHECKBOX_COLUMN, QHeaderView::Fixed);
+    this->updateCheckBoxColumnWidth();
     ui->imageList_TreeView->header()->resizeSection(CImageColumns::NAME_COLUMN, QSettings().value("mainwindow/list_view/header_column_size/name", 250).toInt());
     ui->imageList_TreeView->header()->resizeSection(CImageColumns::SIZE_COLUMN, QSettings().value("mainwindow/list_view/header_column_size/size", defaultSectionSize).toInt());
     ui->imageList_TreeView->header()->resizeSection(CImageColumns::RESOLUTION_COLUMN, QSettings().value("mainwindow/list_view/header_column_size/resolution", defaultSectionSize).toInt());
@@ -236,9 +254,28 @@ void MainWindow::initListWidget() const
 
     ui->imageList_TreeView->header()->setSortIndicator(QSettings().value("mainwindow/list_view/sort_column_index", 0).toInt(), QSettings().value("mainwindow/list_view/sort_column_order", Qt::AscendingOrder).value<Qt::SortOrder>());
 
-    ui->imageList_TreeView->header()->resizeSection(CImageColumns::RATIO_COLUMN, QSettings().value("mainwindow/list_view/header_column_size/ratio", defaultSectionSize).toInt());
-    ui->imageList_TreeView->header()->resizeSection(CImageColumns::RATIO_COLUMN, QSettings().value("mainwindow/list_view/header_column_size/ratio", defaultSectionSize).toInt());
-    ui->imageList_TreeView->setItemDelegate(new HtmlDelegate());
+    // Apply the HTML delegate to the data columns only; the checkbox column keeps
+    // the default delegate so the check indicator is rendered natively.
+    auto* htmlDelegate = new HtmlDelegate();
+    ui->imageList_TreeView->setItemDelegateForColumn(CImageColumns::NAME_COLUMN, htmlDelegate);
+    ui->imageList_TreeView->setItemDelegateForColumn(CImageColumns::SIZE_COLUMN, htmlDelegate);
+    ui->imageList_TreeView->setItemDelegateForColumn(CImageColumns::RESOLUTION_COLUMN, htmlDelegate);
+    ui->imageList_TreeView->setItemDelegateForColumn(CImageColumns::RATIO_COLUMN, htmlDelegate);
+    ui->imageList_TreeView->setItemDelegateForColumn(CImageColumns::INFO_COLUMN, htmlDelegate);
+}
+
+void MainWindow::updateCheckBoxColumnWidth() const
+{
+    // Square checkbox column: width == header height.
+    auto* header = ui->imageList_TreeView->header();
+    int size = header->height();
+    if (size <= 0) {
+        size = header->sizeHint().height();
+    }
+    if (size <= 0) {
+        size = 24;
+    }
+    header->resizeSection(CImageColumns::CHECKBOX_COLUMN, size);
 }
 
 void MainWindow::initTrayIcon()
@@ -619,6 +656,15 @@ void MainWindow::startCompression(bool onlyFailed)
         return;
     }
 
+    if (this->cImageModel->checkedItemsCount() == 0) {
+        QCaesiumMessageBox msgBox(this);
+        msgBox.setText(tr("No images selected"));
+        msgBox.setInformativeText(tr("Please check at least one image to compress."));
+        msgBox.addButton(tr("Ok"), QMessageBox::AcceptRole);
+        msgBox.exec();
+        return;
+    }
+
     if (!QSettings().value("preferences/general/multithreading", true).toBool()) {
         QThreadPool::globalInstance()->setMaxThreadCount(1);
     } else {
@@ -661,8 +707,8 @@ void MainWindow::startCompression(bool onlyFailed)
         this->compressionWatcher->setFuture(this->cImageModel->getRootItem()->compress(compressionOptions));
     }
 
-    compressionSummary.totalImages = this->cImageModel->rowCount();
-    compressionSummary.totalUncompressedSize = this->cImageModel->originalItemsSize();
+    compressionSummary.totalImages = this->cImageModel->checkedItemsCount();
+    compressionSummary.totalUncompressedSize = this->cImageModel->checkedOriginalItemsSize();
     compressionSummary.totalCompressedSize = 0;
     compressionSummary.elapsedTime = 0;
 
@@ -811,7 +857,7 @@ void MainWindow::compressionFinished()
         this->previewImage(this->proxyModel->mapToSource(ui->imageList_TreeView->selectionModel()->selectedRows().at(0)));
     }
 
-    compressionSummary.totalCompressedSize = this->cImageModel->compressedItemsSize();
+    compressionSummary.totalCompressedSize = this->cImageModel->checkedCompressedItemsSize();
     compressionSummary.elapsedTime = compressionTimer.isValid() ? compressionTimer.elapsed() : 0;
 
     if (QSettings().value("preferences/general/send_usage_reports", true).toBool()) {
@@ -1072,6 +1118,8 @@ void MainWindow::cModelItemsChanged() const
 
     ui->actionShow_original_in_file_manager->setDisabled(itemsCount == 0);
     ui->actionShow_compressed_in_file_manager->setDisabled(itemsCount == 0);
+
+    this->updateHeaderCheckState();
 }
 
 void MainWindow::initUpdater()
@@ -1271,6 +1319,32 @@ void MainWindow::listSortChanged(int logicalIndex, Qt::SortOrder order)
 {
     QSettings().setValue("mainwindow/list_view/sort_column_index", logicalIndex);
     QSettings().setValue("mainwindow/list_view/sort_column_order", order);
+}
+
+void MainWindow::onHeaderCheckStateToggled(Qt::CheckState state) const
+{
+    this->cImageModel->setAllChecked(state == Qt::Checked);
+}
+
+void MainWindow::updateHeaderCheckState() const
+{
+    auto* header = qobject_cast<QCheckBoxHeaderView*>(ui->imageList_TreeView->header());
+    if (header == nullptr) {
+        return;
+    }
+
+    int total = this->cImageModel->getRootItem()->childCount();
+    int checked = this->cImageModel->checkedItemsCount();
+
+    Qt::CheckState state;
+    if (total == 0 || checked == 0) {
+        state = Qt::Unchecked;
+    } else if (checked == total) {
+        state = Qt::Checked;
+    } else {
+        state = Qt::PartiallyChecked;
+    }
+    header->setCheckState(state);
 }
 
 void MainWindow::on_actionCompress_triggered()

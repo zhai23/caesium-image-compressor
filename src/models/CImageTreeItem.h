@@ -32,6 +32,9 @@ public:
     QFuture<void> compressOnlyFailed(const CompressionOptions& compressionOptions);
     void setCompressionCanceled(bool canceled);
 
+    bool isChecked() const;
+    void setChecked(bool checked);
+
     void setData(QStringList data);
 
 private:
@@ -40,6 +43,7 @@ private:
     CImage* cImage;
     CImageTreeItem* m_parentItem;
     bool compressionCanceled = false;
+    bool checked = true;
 
     QFuture<void> performCompression(const CompressionOptions& compressionOptions, bool onlyFailed = false);
 };

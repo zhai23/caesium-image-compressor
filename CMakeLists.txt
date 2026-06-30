@@ -105,6 +105,7 @@ set(SOURCES
         src/widgets/QZoomGraphicsView.cpp
         src/widgets/QCaesiumMessageBox.cpp
         src/widgets/QMainCheckBox.cpp
+        src/widgets/QCheckBoxHeaderView.cpp
         src/widgets/QLoadingLabel.cpp
         src/widgets/QCollapseToolButton.cpp
         src/delegates/HtmlDelegate.cpp

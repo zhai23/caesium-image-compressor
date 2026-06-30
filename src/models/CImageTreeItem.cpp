@@ -6,6 +6,7 @@ CImageTreeItem::CImageTreeItem(CImage* cImage, CImageTreeItem* parent)
     : m_parentItem(parent)
 {
     QStringList columnStrings = {
+        "",
         cImage->getFileName(),
         cImage->getFormattedSize(),
         cImage->getResolution(),
@@ -112,6 +113,9 @@ QFuture<void> CImageTreeItem::performCompression(const CompressionOptions& compr
         if (item->compressionCanceled || this->compressionCanceled) {
             return;
         }
+        if (!item->isChecked()) {
+            return;
+        }
         CImage* image = item->getCImage();
         if (!onlyFailed || (onlyFailed && image->getStatus() == CImageStatus::ERROR)) {
             image->setStatus(CImageStatus::COMPRESSING);
@@ -138,4 +142,14 @@ void CImageTreeItem::setData(QStringList data)
 void CImageTreeItem::setCompressionCanceled(bool canceled)
 {
     this->compressionCanceled = canceled;
+}
+
+bool CImageTreeItem::isChecked() const
+{
+    return this->checked;
+}
+
+void CImageTreeItem::setChecked(bool checked)
+{
+    this->checked = checked;
 }
