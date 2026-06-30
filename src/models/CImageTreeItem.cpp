@@ -1,5 +1,6 @@
 #include "CImageTreeItem.h"
 
+#include <QSettings>
 #include <QtConcurrent>
 
 CImageTreeItem::CImageTreeItem(CImage* cImage, CImageTreeItem* parent)
@@ -109,11 +110,12 @@ QFuture<void> CImageTreeItem::compressOnlyFailed(const CompressionOptions& compr
 
 QFuture<void> CImageTreeItem::performCompression(const CompressionOptions& compressionOptions, bool onlyFailed)
 {
-    return QtConcurrent::map(m_childItems, [compressionOptions, onlyFailed, this](const CImageTreeItem* item) {
+    bool multiSelectionEnabled = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
+    return QtConcurrent::map(m_childItems, [compressionOptions, onlyFailed, multiSelectionEnabled, this](const CImageTreeItem* item) {
         if (item->compressionCanceled || this->compressionCanceled) {
             return;
         }
-        if (!item->isChecked()) {
+        if (multiSelectionEnabled && !item->isChecked()) {
             return;
         }
         CImage* image = item->getCImage();

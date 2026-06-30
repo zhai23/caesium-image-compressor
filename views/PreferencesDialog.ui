@@ -222,8 +222,20 @@
      <property name="flat">
       <bool>true</bool>
      </property>
-     <layout class="QGridLayout" name="gridLayout_4">
-      <item row="1" column="0" colspan="3">
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="4" column="0" colspan="5">
+        <widget class="QCheckBox" name="enableMultiSelection_CheckBox">
+         <property name="font">
+          <font>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Enable multi-selection column in the image list</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="3">
        <widget class="QLabel" name="postCompressionAction_Label">
         <property name="font">
          <font>

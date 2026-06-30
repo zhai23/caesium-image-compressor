@@ -2,6 +2,7 @@
 
 #include <QDragEnterEvent>
 #include <QMimeData>
+#include <QMouseEvent>
 #include <QSettings>
 
 #include <QFileInfo>
@@ -43,4 +44,27 @@ void QDropTreeView::dropEvent(QDropEvent* event)
 
     event->acceptProposedAction();
     emit dropFinished(fileList);
+}
+
+void QDropTreeView::mousePressEvent(QMouseEvent* event)
+{
+    QModelIndex index = this->indexAt(event->pos());
+
+    // Let the base class toggle the checkbox / handle normal selection first.
+    QTreeView::mousePressEvent(event);
+
+    // Clicking the checkbox indicator toggles the check but does NOT change the
+    // selection. Make a click in the checkbox column also select the row, just
+    // like clicking any other column.
+    if (index.isValid() && index.column() == CImageColumns::CHECKBOX_COLUMN && this->selectionModel() != nullptr) {
+        QItemSelectionModel::SelectionFlags flags = QItemSelectionModel::Rows;
+        if (event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier)) {
+            // Preserve multi-select gestures.
+            flags |= QItemSelectionModel::Select;
+        } else {
+            flags |= QItemSelectionModel::ClearAndSelect;
+        }
+        this->selectionModel()->select(index, flags);
+        this->setCurrentIndex(index);
+    }
 }

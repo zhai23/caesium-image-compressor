@@ -172,30 +172,30 @@ All rights reserved.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="316"/>
+        <location filename="../../src/MainWindow.cpp" line="327"/>
         <source>Import files...</source>
         <translation>Dateien importieren...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="332"/>
+        <location filename="../../src/MainWindow.cpp" line="343"/>
         <source>Import folder...</source>
         <translation>Ordner importieren ...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="557"/>
+        <location filename="../../src/MainWindow.cpp" line="568"/>
         <source>Importing files...</source>
         <translation>Importiere Dateien ...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1438"/>
-        <location filename="../../src/MainWindow.cpp" line="557"/>
-        <location filename="../../src/MainWindow.cpp" line="785"/>
+        <location filename="../../src/MainWindow.cpp" line="568"/>
+        <location filename="../../src/MainWindow.cpp" line="798"/>
         <source>Cancel</source>
         <translation>Abbruch</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="643"/>
+        <location filename="../../src/MainWindow.cpp" line="654"/>
         <source>You are about to overwrite your original images and this action can&apos;t be undone.
 
 Do you really want to continue?</source>
@@ -204,77 +204,77 @@ Do you really want to continue?</source>
 Wollen Sie trotzdem fortfahren?</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="645"/>
+        <location filename="../../src/MainWindow.cpp" line="656"/>
         <source>No</source>
         <translation>Nein</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1274"/>
-        <location filename="../../src/MainWindow.cpp" line="1279"/>
+        <location filename="../../src/MainWindow.cpp" line="1289"/>
+        <location filename="../../src/MainWindow.cpp" line="1294"/>
         <source>File not found</source>
         <translation>Datei nicht vorhanden</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1310"/>
+        <location filename="../../src/MainWindow.cpp" line="1325"/>
         <source>Finishing...</source>
         <translation>Beende...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="696"/>
-        <location filename="../../src/MainWindow.cpp" line="1403"/>
+        <location filename="../../src/MainWindow.cpp" line="709"/>
+        <location filename="../../src/MainWindow.cpp" line="1418"/>
         <source>Compressing...</source>
         <translation>Komprimiere...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="782"/>
+        <location filename="../../src/MainWindow.cpp" line="795"/>
         <source>Do you really want to quit?</source>
         <translation>Wollen Sie wirklich beenden?</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="644"/>
-        <location filename="../../src/MainWindow.cpp" line="784"/>
+        <location filename="../../src/MainWindow.cpp" line="655"/>
+        <location filename="../../src/MainWindow.cpp" line="797"/>
         <source>Yes</source>
         <translation>Ja</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="629"/>
+        <location filename="../../src/MainWindow.cpp" line="640"/>
         <source>Please select an output folder first</source>
         <translation>Bitte wählen Sie zuerst den Ausgabeordner aus.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="630"/>
-        <location filename="../../src/MainWindow.cpp" line="663"/>
-        <location filename="../../src/MainWindow.cpp" line="897"/>
+        <location filename="../../src/MainWindow.cpp" line="641"/>
+        <location filename="../../src/MainWindow.cpp" line="676"/>
+        <location filename="../../src/MainWindow.cpp" line="912"/>
         <source>Ok</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="661"/>
+        <location filename="../../src/MainWindow.cpp" line="674"/>
         <source>No images selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Bilder ausgewählt</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="662"/>
+        <location filename="../../src/MainWindow.cpp" line="675"/>
         <source>Please check at least one image to compress.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte wählen Sie mindestens ein Bild zum Komprimieren aus.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="806"/>
+        <location filename="../../src/MainWindow.cpp" line="819"/>
         <source>Select output folder...</source>
         <translation>Ausgabeordner wählen...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="872"/>
+        <location filename="../../src/MainWindow.cpp" line="887"/>
         <source>Compression finished!</source>
         <translation>Kompression fertiggestellt!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="887"/>
+        <location filename="../../src/MainWindow.cpp" line="902"/>
         <source>You just saved %1!</source>
         <translation>Sie haben %1 eingespart!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="891"/>
+        <location filename="../../src/MainWindow.cpp" line="906"/>
         <source>Total files: %1
 Original size: %2
 Compressed size: %3
@@ -285,7 +285,7 @@ Komprimierte Größe: %3
 Einsparung: %4 (%5%)</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1586"/>
+        <location filename="../../src/MainWindow.cpp" line="1601"/>
         <source>Recompress failed</source>
         <translation>Neukomprimierung fehlgeschlagen...</translation>
     </message>
@@ -497,12 +497,12 @@ Einsparung: %4 (%5%)</translation>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1415"/>
-        <location filename="../../src/MainWindow.cpp" line="931"/>
-        <location filename="../../src/MainWindow.cpp" line="935"/>
-        <location filename="../../src/MainWindow.cpp" line="970"/>
-        <location filename="../../src/MainWindow.cpp" line="973"/>
-        <location filename="../../src/MainWindow.cpp" line="982"/>
+        <location filename="../../src/MainWindow.cpp" line="946"/>
+        <location filename="../../src/MainWindow.cpp" line="950"/>
         <location filename="../../src/MainWindow.cpp" line="985"/>
+        <location filename="../../src/MainWindow.cpp" line="988"/>
+        <location filename="../../src/MainWindow.cpp" line="997"/>
+        <location filename="../../src/MainWindow.cpp" line="1000"/>
         <source>px</source>
         <translation>px</translation>
     </message>
@@ -801,7 +801,7 @@ Einsparung: %4 (%5%)</translation>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1365"/>
-        <location filename="../../src/MainWindow.cpp" line="1295"/>
+        <location filename="../../src/MainWindow.cpp" line="1310"/>
         <source>Preview</source>
         <translation>Vorschau</translation>
     </message>
@@ -820,13 +820,13 @@ Einsparung: %4 (%5%)</translation>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1401"/>
-        <location filename="../../src/MainWindow.cpp" line="945"/>
-        <location filename="../../src/MainWindow.cpp" line="949"/>
+        <location filename="../../src/MainWindow.cpp" line="960"/>
+        <location filename="../../src/MainWindow.cpp" line="964"/>
         <source>%</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1110"/>
+        <location filename="../../src/MainWindow.cpp" line="1125"/>
         <source>images in list</source>
         <translation>Bilder in Liste</translation>
     </message>
@@ -835,181 +835,181 @@ Einsparung: %4 (%5%)</translation>
     <name>PreferencesDialog</name>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="346"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="353"/>
         <source>Preferences</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="354"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="361"/>
         <source>Auto</source>
         <translation>Auto</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="355"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="362"/>
         <source>Light</source>
         <translation>Hell</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="356"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="363"/>
         <source>Dark</source>
         <translation>Dunkel</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="371"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="379"/>
         <source>Threads priority</source>
         <translation>Priorität der Kerne</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="380"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="388"/>
         <source>Restart</source>
         <translation>Neustarten</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="381"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="389"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="347"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="354"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="352"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="359"/>
         <source>Prompt before exit</source>
         <translation>Rückfragen vor Beenden</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="369"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="377"/>
         <source> threads</source>
         <translation> Kerne</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="372"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="380"/>
         <source>No action</source>
         <translation>nichts</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="373"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="381"/>
         <source>Close the application</source>
         <translation>Caesium beenden</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="374"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="382"/>
         <source>Sleep</source>
         <translation>Ruhemodus</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="375"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="383"/>
         <source>Shutdown</source>
         <translation type="unfinished">Ausschalten</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="376"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="384"/>
         <source>Open output folder</source>
         <translation>Ausgabeornder öffnen</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="361"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="369"/>
         <source>Perform an action after successful compression</source>
         <translation>Welche Aktion soll nach einer erfolgreichen Kompression ausgeführt werden?</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="379"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="387"/>
         <source>Changes will apply after restart</source>
         <translation>Änderungen werden nach Neustart wirksam</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="353"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="360"/>
         <source>Theme (experimental)</source>
         <translation>Theme (experimentell)</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="363"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="371"/>
         <source>This option applies when using command line or by dropping files to the application icon</source>
         <translation>Diese Option gilt, wenn die Befehlszeile verwendet wird oder Dateien auf das Anwendungssymbol gezogen werden</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="351"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="358"/>
         <source>Check updates at startup</source>
         <translation>Beim Start auf Updates prüfen</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="359"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="366"/>
         <source>Import files in subfolders when opening a directory</source>
         <translation>Dateien in Unterordner auch importieren</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="350"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="357"/>
         <source>Send anonymous usage reports</source>
         <translation>Anonyme Nutzungsreporte senden</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="360"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="367"/>
         <source>Advanced</source>
         <translation>Fortgeschritten</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="370"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="378"/>
         <source>Multithreading</source>
         <translation>Anzahl der zu nutzenden CPU-Kerne</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="348"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="355"/>
         <source>Skip message and warning dialogs during compression</source>
         <translation>Ignoriere Meldungen und Warnungen während Komprimierung</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="358"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="365"/>
         <source>Import</source>
         <translation>Import</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="365"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="373"/>
         <source>Import only</source>
         <translation>Nur importieren</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="366"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="374"/>
         <source>Import and compress</source>
         <translation>Importieren und komprimieren</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="368"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="376"/>
         <source>When importing files directly</source>
         <translation>Beim direkten Importieren von Dateien</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="349"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="356"/>
         <source>Preferred language</source>
         <translation>Bevorzugte Sprache</translation>
     </message>
@@ -1018,12 +1018,18 @@ Einsparung: %4 (%5%)</translation>
         <source>Show usage data</source>
         <translation>Zeige Nutzungsdaten</translation>
     </message>
+    <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="368"/>
+        <source>Enable multi-selection column in the image list</source>
+        <translation>Mehrfachauswahlspalte in der Bildliste aktivieren</translation>
+    </message>
 </context>
 <context>
     <name>QIODevice</name>
     <message>
         <location filename="../../src/dialogs/AdvancedImportDialog.cpp" line="131"/>
-        <location filename="../../src/MainWindow.cpp" line="318"/>
+        <location filename="../../src/MainWindow.cpp" line="329"/>
         <source>Image Files</source>
         <translation>Bilddateien</translation>
     </message>

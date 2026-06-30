@@ -30,6 +30,8 @@ public:
 
     [[nodiscard]] QTranslator* getTranslator() const;
 
+    void applyMultiSelectionVisibility() const;
+
 protected:
     void closeEvent(QCloseEvent* event) override;
     void showEvent(QShowEvent* event) override;

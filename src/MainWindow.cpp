@@ -262,6 +262,8 @@ void MainWindow::initListWidget() const
     ui->imageList_TreeView->setItemDelegateForColumn(CImageColumns::RESOLUTION_COLUMN, htmlDelegate);
     ui->imageList_TreeView->setItemDelegateForColumn(CImageColumns::RATIO_COLUMN, htmlDelegate);
     ui->imageList_TreeView->setItemDelegateForColumn(CImageColumns::INFO_COLUMN, htmlDelegate);
+
+    this->applyMultiSelectionVisibility();
 }
 
 void MainWindow::updateCheckBoxColumnWidth() const
@@ -276,6 +278,15 @@ void MainWindow::updateCheckBoxColumnWidth() const
         size = 24;
     }
     header->resizeSection(CImageColumns::CHECKBOX_COLUMN, size);
+}
+
+void MainWindow::applyMultiSelectionVisibility() const
+{
+    bool enabled = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
+    ui->imageList_TreeView->setColumnHidden(CImageColumns::CHECKBOX_COLUMN, !enabled);
+    if (enabled) {
+        this->updateCheckBoxColumnWidth();
+    }
 }
 
 void MainWindow::initTrayIcon()
@@ -656,7 +667,9 @@ void MainWindow::startCompression(bool onlyFailed)
         return;
     }
 
-    if (this->cImageModel->checkedItemsCount() == 0) {
+    bool multiSelectionEnabled = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
+
+    if (multiSelectionEnabled && this->cImageModel->checkedItemsCount() == 0) {
         QCaesiumMessageBox msgBox(this);
         msgBox.setText(tr("No images selected"));
         msgBox.setInformativeText(tr("Please check at least one image to compress."));
@@ -707,8 +720,8 @@ void MainWindow::startCompression(bool onlyFailed)
         this->compressionWatcher->setFuture(this->cImageModel->getRootItem()->compress(compressionOptions));
     }
 
-    compressionSummary.totalImages = this->cImageModel->checkedItemsCount();
-    compressionSummary.totalUncompressedSize = this->cImageModel->checkedOriginalItemsSize();
+    compressionSummary.totalImages = multiSelectionEnabled ? this->cImageModel->checkedItemsCount() : this->cImageModel->rowCount();
+    compressionSummary.totalUncompressedSize = multiSelectionEnabled ? this->cImageModel->checkedOriginalItemsSize() : this->cImageModel->originalItemsSize();
     compressionSummary.totalCompressedSize = 0;
     compressionSummary.elapsedTime = 0;
 
@@ -857,7 +870,9 @@ void MainWindow::compressionFinished()
         this->previewImage(this->proxyModel->mapToSource(ui->imageList_TreeView->selectionModel()->selectedRows().at(0)));
     }
 
-    compressionSummary.totalCompressedSize = this->cImageModel->checkedCompressedItemsSize();
+    compressionSummary.totalCompressedSize = QSettings().value("preferences/general/enable_multi_selection", false).toBool()
+        ? this->cImageModel->checkedCompressedItemsSize()
+        : this->cImageModel->compressedItemsSize();
     compressionSummary.elapsedTime = compressionTimer.isValid() ? compressionTimer.elapsed() : 0;
 
     if (QSettings().value("preferences/general/send_usage_reports", true).toBool()) {

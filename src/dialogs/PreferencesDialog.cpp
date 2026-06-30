@@ -48,6 +48,7 @@ void PreferencesDialog::setupConnections()
     connect(ui->multithreadingMaxThreads_SpinBox, &QSpinBox::valueChanged, this, &PreferencesDialog::onMultithreadingMaxThreadsChanged);
     connect(ui->showUsageData_Label, &QLabel::linkActivated, this, &PreferencesDialog::onShowUsageDataLinkActivated);
     connect(ui->skipCompressionDialogs_CheckBox, &QCheckBox::toggled, this, &PreferencesDialog::onSkipCompressionDialogsToggled);
+    connect(ui->enableMultiSelection_CheckBox, &QCheckBox::toggled, this, &PreferencesDialog::onEnableMultiSelectionToggled);
     connect(ui->postCompressionAction_ComboBox, &QComboBox::currentIndexChanged, this, &PreferencesDialog::onPostCompressionActionChanged);
     connect(ui->restart_Button, &QPushButton::pressed, this, &PreferencesDialog::onRestartButtonPressed);
     connect(ui->threadsPriority_Slider, &QSlider::valueChanged, this, &PreferencesDialog::onThreadsPriorityChanged);
@@ -77,6 +78,7 @@ void PreferencesDialog::loadPreferences() const
     ui->multithreading_CheckBox->setChecked(settings.value("preferences/general/multithreading", true).toBool());
     ui->multithreadingMaxThreads_SpinBox->setValue(settings.value("preferences/general/multithreading_max_threads", QThread::idealThreadCount()).toInt());
     ui->skipCompressionDialogs_CheckBox->setChecked(settings.value("preferences/general/skip_compression_dialogs", false).toBool());
+    ui->enableMultiSelection_CheckBox->setChecked(settings.value("preferences/general/enable_multi_selection", false).toBool());
     ui->theme_ComboBox->setCurrentIndex(settings.value("preferences/general/theme", 0).toInt());
     ui->themeVariant_ComboBox->setCurrentIndex(settings.value("preferences/general/theme_variant", 0).toInt());
     ui->argsBehaviour_ComboBox->setCurrentIndex(settings.value("preferences/general/args_behaviour", 0).toInt());
@@ -172,6 +174,16 @@ int PreferencesDialog::getLocaleIndex()
 void PreferencesDialog::onSkipCompressionDialogsToggled(bool checked)
 {
     QSettings().setValue("preferences/general/skip_compression_dialogs", checked);
+}
+
+void PreferencesDialog::onEnableMultiSelectionToggled(bool checked) const
+{
+    QSettings().setValue("preferences/general/enable_multi_selection", checked);
+
+    // Apply live to the open main window so the column appears/disappears immediately.
+    if (auto* mainWindow = qobject_cast<MainWindow*>(parent())) {
+        mainWindow->applyMultiSelectionVisibility();
+    }
 }
 
 void PreferencesDialog::changeEvent(QEvent* event)
