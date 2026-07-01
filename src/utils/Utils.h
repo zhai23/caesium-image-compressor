@@ -127,6 +127,7 @@ typedef struct CompressionOptions {
     FileDatesOutputOption datesMap;
     CompressionMode compressionMode;
     MaxOutputSize maxOutputSize;
+    bool cacheOriginals;
 } CompressionOptions;
 
 typedef struct FileDates {

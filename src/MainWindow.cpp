@@ -426,6 +426,7 @@ void MainWindow::writeSettings() const
     QSettings().setValue("compression_options/output/output_suffix", ui->outputSuffix_LineEdit->text());
     QSettings().setValue("compression_options/output/same_folder_as_input", ui->sameOutputFolderAsInput_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/skip_if_bigger", ui->skipIfBigger_CheckBox->isChecked());
+    QSettings().setValue("compression_options/output/cache_originals", ui->cacheOriginals_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/keep_dates", ui->keepDates_CheckBox->checkState());
     QSettings().setValue("compression_options/output/keep_creation_date", ui->keepCreationDate_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/keep_last_modified_date", ui->keepLastModifiedDate_CheckBox->isChecked());
@@ -479,6 +480,7 @@ void MainWindow::readSettings()
     ui->outputSuffix_LineEdit->setText(QSettings().value("compression_options/output/output_suffix", "").toString());
     ui->sameOutputFolderAsInput_CheckBox->setChecked(QSettings().value("compression_options/output/same_folder_as_input", false).toBool());
     ui->skipIfBigger_CheckBox->setChecked(QSettings().value("compression_options/output/skip_if_bigger", true).toBool());
+    ui->cacheOriginals_CheckBox->setChecked(QSettings().value("compression_options/output/cache_originals", false).toBool());
     ui->keepDates_CheckBox->setCheckState(QSettings().value("compression_options/output/keep_dates", Qt::Unchecked).value<Qt::CheckState>());
     ui->keepCreationDate_CheckBox->setChecked(QSettings().value("compression_options/output/keep_creation_date", false).toBool());
     ui->keepLastModifiedDate_CheckBox->setChecked(QSettings().value("compression_options/output/keep_last_modified_date", false).toBool());
@@ -511,8 +513,12 @@ void MainWindow::previewImage(const QModelIndex& imageIndex, bool forceRuntimePr
 
     CImage* cImage = this->cImageModel->getRootItem()->children().at(imageIndex.row())->getCImage();
     QString imageToBePreviewed = forceRuntimePreview ? cImage->getTemporaryPreviewFullPath() : cImage->getCompressedFullPath();
+    // When "cache originals" is on, the original-preview pane should show the
+    // cached pristine copy (the on-disk original may already be overwritten).
+    bool cacheOriginals = QSettings().value("compression_options/output/cache_originals", false).toBool();
+    QString originalPreviewPath = cImage->getCompressionSourcePath(cacheOriginals);
     QList<std::pair<QString, bool>> images;
-    images.append(std::pair<QString, bool>(cImage->getFullPath(), false));
+    images.append(std::pair<QString, bool>(originalPreviewPath, false));
 
     // TODO Manage failure better
     std::function<ImagePreview(std::pair<QString, bool>)> loadPixmap = [this, forceRuntimePreview, cImage](const std::pair<QString, bool>& pair) {
@@ -632,7 +638,10 @@ void MainWindow::removeFiles(bool all)
         auto currentIndex = this->proxyModel->mapToSource(indexes.at(i));
         auto indexRow = currentIndex.row();
         auto indexParent = currentIndex.parent();
-        this->updateFolderMap(this->cImageModel->getRootItem()->children().at(indexRow)->getCImage()->getFullPath(), -1);
+        auto* cImage = this->cImageModel->getRootItem()->children().at(indexRow)->getCImage();
+        this->updateFolderMap(cImage->getFullPath(), -1);
+        // Drop the cached original copy (if any) for the removed image.
+        cImage->removeCachedOriginal();
         this->cImageModel->removeRows(indexRow, 1, indexParent);
     }
     this->previewWatcher->cancel();
@@ -789,6 +798,7 @@ CompressionOptions MainWindow::getCompressionOptions(const QString& rootFolder) 
         datesMap,
         static_cast<CompressionMode>(ui->compressionMode_ComboBox->currentIndex()),
         maxOutputSize,
+        ui->cacheOriginals_CheckBox->isChecked(),
     };
 
     return compressionOptions;
@@ -1453,6 +1463,12 @@ void MainWindow::clearCache()
         return;
     }
 
+    // Remove the cached originals subfolder (used by "Cache originals for re-compression").
+    QDir originalsDir(cacheDir.absoluteFilePath("originals"));
+    if (originalsDir.exists()) {
+        originalsDir.removeRecursively();
+    }
+
     foreach (QString cacheFile, cacheDir.entryList()) {
         cacheDir.remove(cacheFile);
     }
@@ -1484,6 +1500,11 @@ void MainWindow::on_actionPreview_triggered() const
 void MainWindow::on_skipIfBigger_CheckBox_toggled(bool checked)
 {
     QSettings().setValue("compression_options/output/skip_if_bigger", checked);
+}
+
+void MainWindow::on_cacheOriginals_CheckBox_toggled(bool checked)
+{
+    QSettings().setValue("compression_options/output/cache_originals", checked);
 }
 
 void MainWindow::outputFormatIndexChanged(int index) const

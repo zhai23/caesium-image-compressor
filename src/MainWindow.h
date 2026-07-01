@@ -90,6 +90,7 @@ private slots:
     static void on_actionAuto_preview_toggled(bool toggled);
     void on_actionPreview_triggered() const;
     static void on_skipIfBigger_CheckBox_toggled(bool checked);
+    static void on_cacheOriginals_CheckBox_toggled(bool checked);
     void outputFormatIndexChanged(int index) const;
     void moveOriginalFileToggled(bool checked) const;
     static void moveOriginalFileDestinationChanged(int index);

@@ -39,6 +39,11 @@ public:
     QString getFormat() const;
     CCSParameters getCSParameters(const CompressionOptions& compressionOptions) const;
 
+    QString getCachedOriginalPath() const;
+    bool ensureCachedOriginal() const;
+    QString getCompressionSourcePath(bool cacheOriginals) const;
+    void removeCachedOriginal() const;
+
 private:
     CImageStatus status;
     QString fullPath;

@@ -107,7 +107,7 @@ QString CImage::getFullPath() const
 
 bool CImage::preview(const CompressionOptions& compressionOptions) const
 {
-    QString inputFullPath = this->fullPath;
+    QString inputFullPath = this->getCompressionSourcePath(compressionOptions.cacheOriginals);
     QFileInfo inputFileInfo(inputFullPath);
     QString outputFullPath = this->getTemporaryPreviewFullPath();
     if (outputFullPath.isEmpty()) {
@@ -140,15 +140,26 @@ bool CImage::preview(const CompressionOptions& compressionOptions) const
 
 bool CImage::compress(const CompressionOptions& compressionOptions)
 {
+    // If caching originals is enabled, make sure a pristine copy of the original
+    // exists BEFORE we (potentially) overwrite it. All source reads below use
+    // this copy so re-compressing later still uses the uncompressed original.
+    if (compressionOptions.cacheOriginals) {
+        this->ensureCachedOriginal();
+    }
+
     QString outputPath = compressionOptions.sameFolderAsInput ? this->getDirectory() : compressionOptions.outputPath;
     QString inputFullPath = this->getFullPath();
+    // The path the image bytes are actually READ from (original, or its cached copy).
+    QString sourceReadPath = this->getCompressionSourcePath(compressionOptions.cacheOriginals);
     QString suffix = compressionOptions.suffix;
     QFileInfo inputFileInfo = QFileInfo(inputFullPath);
+    // Size/comparisons should reflect the actual source bytes being read.
+    QFileInfo sourceFileInfo = QFileInfo(sourceReadPath);
     QString outputFormat = getOutputSupportedFormats()[compressionOptions.format];
     bool convert = compressionOptions.format != 0 && this->format.compare(outputFormat, Qt::CaseInsensitive) != 0;
     this->additionalInfo = "";
-    if (!inputFileInfo.exists()) {
-        qCritical() << "File" << inputFullPath << "does not exist.";
+    if (!QFileInfo::exists(sourceReadPath)) {
+        qCritical() << "File" << sourceReadPath << "does not exist.";
         this->additionalInfo = QIODevice::tr("Input file does not exist");
         return false;
     }
@@ -197,15 +208,16 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
 
     tempFile.close();
 
-    QString inputCopyFile = inputFullPath;
+    QString inputCopyFile = sourceReadPath;
+    QString compressionInput = sourceReadPath;
     if (convert) {
-        QImage imageToBeConverted = QImage(inputFullPath);
+        QImage imageToBeConverted = QImage(sourceReadPath);
         bool conversionSuccess = imageToBeConverted.save(tempFileFullPath, getOutputSupportedFormats().at(compressionOptions.format).toLower().toUtf8().constData(), 100);
         this->additionalInfo = QIODevice::tr("File conversion failed");
         if (!conversionSuccess) {
             return false;
         }
-        inputFullPath = tempFileFullPath;
+        compressionInput = tempFileFullPath;
     }
 
     QString previewPath = this->getTemporaryPreviewFullPath();
@@ -217,14 +229,14 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
 
     CCSParameters r_parameters = this->getCSParameters(compressionOptions);
 
-    size_t maxOutputSize = getMaxOutputSizeInBytes(compressionOptions.maxOutputSize, inputFileInfo.size());
+    size_t maxOutputSize = getMaxOutputSizeInBytes(compressionOptions.maxOutputSize, sourceFileInfo.size());
 
-    CCSResult result = compressionOptions.compressionMode == SIZE ? c_compress_to_size(inputFullPath.toUtf8().constData(), tempFileFullPath.toUtf8().constData(), r_parameters, maxOutputSize, true) : c_compress(inputFullPath.toUtf8().constData(), tempFileFullPath.toUtf8().constData(), r_parameters);
+    CCSResult result = compressionOptions.compressionMode == SIZE ? c_compress_to_size(compressionInput.toUtf8().constData(), tempFileFullPath.toUtf8().constData(), r_parameters, maxOutputSize, true) : c_compress(compressionInput.toUtf8().constData(), tempFileFullPath.toUtf8().constData(), r_parameters);
 
     if (result.success) {
         QFileInfo outputInfo(tempFileFullPath);
 
-        bool outputIsBiggerThanInput = outputInfo.size() >= inputFileInfo.size() && compressionOptions.skipIfBigger;
+        bool outputIsBiggerThanInput = outputInfo.size() >= sourceFileInfo.size() && compressionOptions.skipIfBigger;
         bool inputAlreadyMoved = false;
 
         // If the output is bigger, and we are converting, we should fall back to the original file with original extension
@@ -309,7 +321,7 @@ CCSParameters CImage::getCSParameters(const CompressionOptions& compressionOptio
 
     // Resize
     if (compressionOptions.resize) {
-        QImageReader imageReader(this->getFullPath());
+        QImageReader imageReader(this->getCompressionSourcePath(compressionOptions.cacheOriginals));
         QSize originalSize = imageReader.size();
 
         std::tuple<unsigned int, unsigned int> dimensions = cResize(&imageReader, compressionOptions);
@@ -458,4 +470,57 @@ size_t CImage::getMaxOutputSizeInBytes(MaxOutputSize maxOutputSize, size_t origi
     }
 
     return maxOutputSize.maxOutputSize << (maxOutputSize.unit * 10);
+}
+
+QString CImage::getCachedOriginalPath() const
+{
+    // A stable, unique path for the cached copy of the ORIGINAL image, derived
+    // from the original full path hash. Lives in an "originals" subfolder of the
+    // app cache so it stays isolated from the preview cache.
+    QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation)
+        + QDir::separator() + "originals";
+    QString fileName = this->hashedFullPath + "." + this->extension;
+    return cacheDir + QDir::separator() + fileName;
+}
+
+bool CImage::ensureCachedOriginal() const
+{
+    // Lazily copy the original image into the cache the first time we need it.
+    // Subsequent (re-)compressions reuse the copy, so re-compressing after the
+    // original was overwritten still uses the pristine source.
+    QString cachedPath = this->getCachedOriginalPath();
+    if (QFile::exists(cachedPath)) {
+        return true;
+    }
+
+    QString cacheDir = QFileInfo(cachedPath).absolutePath();
+    if (!QDir(cacheDir).mkpath(cacheDir)) {
+        qWarning() << "Cannot create originals cache path" << cacheDir;
+        return false;
+    }
+
+    if (!QFile::copy(this->fullPath, cachedPath)) {
+        qWarning() << "Cannot cache original" << this->fullPath << "to" << cachedPath;
+        return false;
+    }
+    return true;
+}
+
+QString CImage::getCompressionSourcePath(bool cacheOriginals) const
+{
+    if (cacheOriginals) {
+        QString cachedPath = this->getCachedOriginalPath();
+        if (QFile::exists(cachedPath)) {
+            return cachedPath;
+        }
+    }
+    return this->fullPath;
+}
+
+void CImage::removeCachedOriginal() const
+{
+    QString cachedPath = this->getCachedOriginalPath();
+    if (QFile::exists(cachedPath)) {
+        QFile::remove(cachedPath);
+    }
 }
