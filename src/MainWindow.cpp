@@ -77,6 +77,7 @@ MainWindow::MainWindow(QWidget* parent)
     this->setupCompressButton();
 
     ui->format_ComboBox->addItems(getOutputSupportedFormats());
+    ui->format_ComboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     this->setupChromaSubsamplingComboBox();
 
     ui->JPEGToggle_ToolButton->setContent(ui->JPEGOptions_Frame);
