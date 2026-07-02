@@ -1826,14 +1826,12 @@ QScrollArea &gt; QWidget &gt; QScrollBar { background: 1; }</string>
      <height>33</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionDonate"/>
-    <addaction name="separator"/>
-    <addaction name="actionAbout_Caesium_Image_Compressor"/>
-   </widget>
+    <widget class="QMenu" name="menuHelp">
+     <property name="title">
+      <string>Help</string>
+     </property>
+     <addaction name="actionAbout_Caesium_Image_Compressor"/>
+    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
@@ -2031,17 +2029,8 @@ QScrollArea &gt; QWidget &gt; QScrollBar { background: 1; }</string>
    <property name="text">
     <string>Show compressed in file manager</string>
    </property>
-  </action>
-  <action name="actionDonate">
-   <property name="icon">
-    <iconset resource="../resources/resources.qrc">
-     <normaloff>:/icons/ui/donate.svg</normaloff>:/icons/ui/donate.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Donate</string>
-   </property>
-  </action>
-  <action name="actionCompress">
+   </action>
+   <action name="actionCompress">
    <property name="enabled">
     <bool>false</bool>
    </property>

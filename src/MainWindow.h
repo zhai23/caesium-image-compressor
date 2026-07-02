@@ -81,7 +81,6 @@ private slots:
     void compressionCanceled() const;
     static void listSortChanged(int logicalIndex, Qt::SortOrder order);
     void on_actionCompress_triggered();
-    static void on_actionDonate_triggered();
     void startCompression(bool onlyfailed = false);
     void on_actionToolbarIcons_only_triggered() const;
     void on_actionToolbarIcons_and_Text_triggered() const;

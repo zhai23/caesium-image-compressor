@@ -1409,11 +1409,6 @@ void MainWindow::on_actionCompress_triggered()
     this->startCompression();
 }
 
-void MainWindow::on_actionDonate_triggered()
-{
-    QDesktopServices::openUrl(QUrl("https://saerasoft.com/caesium/donate", QUrl::TolerantMode));
-}
-
 void MainWindow::on_actionToolbarIcons_only_triggered() const
 {
     ui->actionToolbarIcons_and_Text->setChecked(false);
