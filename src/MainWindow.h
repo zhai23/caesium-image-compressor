@@ -102,7 +102,7 @@ private slots:
     void onAdvancedImportTriggered();
     void onPNGOptimizationLevelChanged(int value) const;
     void onTIFFCompressionMethodChanged(int index) const;
-    static void onTIFFDeflateLevelChanged(int value);
+    void onTIFFDeflateLevelChanged(int value) const;
     void onJPEGChromaSubsamplingChanged() const;
     static void onJPEGOptionsVisibilityChanged(bool visible);
     static void onPNGOptionsVisibilityChanged(bool visible);
@@ -145,6 +145,7 @@ private:
     void initListWidget() const;
     void initTrayIcon();
     void updateCheckBoxColumnWidth() const;
+    void updateTIFFDeflateLevelLabel(int value) const;
 
     void toggleUIEnabled(bool enabled) const;
     void importFiles(const QStringList& fileList, QString baseFolder);
@@ -159,8 +160,7 @@ private:
     CompressionOptions getCompressionOptions(const QString& rootFolder) const;
     static void clearCache();
     void changeEvent(QEvent* event) override;
-    void setupChromaSubsamplingComboBox() const;
-    void setupCompressButton();
+    void setupChromaSubsamplingComboBox() const;    void setupCompressButton();
 };
 
 #endif // MAINWINDOW_H

@@ -468,6 +468,7 @@ void MainWindow::readSettings()
     ui->WebPQuality_SpinBox->setValue(QSettings().value("compression_options/compression/webp_quality", 60).toInt());
     ui->TIFFCompressionMethod_ComboBox->setCurrentIndex(QSettings().value("compression_options/compression/tiff_method", 1).toInt());
     ui->TIFFDeflateLevel_Slider->setValue(QSettings().value("compression_options/compression/tiff_deflate_level", 2).toInt());
+    this->updateTIFFDeflateLevelLabel(ui->TIFFDeflateLevel_Slider->value());
     ui->maxOutputSize_SpinBox->setValue(QSettings().value("compression_options/compression/max_output_size", 500).toInt());
     ui->maxOutputSizeUnit_ComboBox->setCurrentIndex(QSettings().value("compression_options/compression/max_output_size_unit", 0).toInt());
 
@@ -1631,9 +1632,23 @@ void MainWindow::onTIFFCompressionMethodChanged(int index) const
     QSettings().setValue("compression_options/compression/tiff_method", index);
 }
 
-void MainWindow::onTIFFDeflateLevelChanged(int value)
+void MainWindow::onTIFFDeflateLevelChanged(int value) const
 {
     QSettings().setValue("compression_options/compression/tiff_deflate_level", value);
+    this->updateTIFFDeflateLevelLabel(value);
+}
+
+void MainWindow::updateTIFFDeflateLevelLabel(int value) const
+{
+    QString text;
+    if (value <= 1) {
+        text = tr("Fast");
+    } else if (value >= 3) {
+        text = tr("Best");
+    } else {
+        text = tr("Balanced");
+    }
+    ui->TIFFDeflateLevelValue_Label->setText(text);
 }
 
 void MainWindow::onJPEGChromaSubsamplingChanged() const
