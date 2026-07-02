@@ -428,6 +428,7 @@ void MainWindow::writeSettings() const
     QSettings().setValue("compression_options/output/same_folder_as_input", ui->sameOutputFolderAsInput_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/skip_if_bigger", ui->skipIfBigger_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/cache_originals", ui->cacheOriginals_CheckBox->isChecked());
+    QSettings().setValue("compression_options/output/delete_original_format_file", ui->deleteOriginalFormatFile_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/keep_dates", ui->keepDates_CheckBox->checkState());
     QSettings().setValue("compression_options/output/keep_creation_date", ui->keepCreationDate_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/keep_last_modified_date", ui->keepLastModifiedDate_CheckBox->isChecked());
@@ -482,6 +483,7 @@ void MainWindow::readSettings()
     ui->sameOutputFolderAsInput_CheckBox->setChecked(QSettings().value("compression_options/output/same_folder_as_input", false).toBool());
     ui->skipIfBigger_CheckBox->setChecked(QSettings().value("compression_options/output/skip_if_bigger", true).toBool());
     ui->cacheOriginals_CheckBox->setChecked(QSettings().value("compression_options/output/cache_originals", false).toBool());
+    ui->deleteOriginalFormatFile_CheckBox->setChecked(QSettings().value("compression_options/output/delete_original_format_file", false).toBool());
     ui->keepDates_CheckBox->setCheckState(QSettings().value("compression_options/output/keep_dates", Qt::Unchecked).value<Qt::CheckState>());
     ui->keepCreationDate_CheckBox->setChecked(QSettings().value("compression_options/output/keep_creation_date", false).toBool());
     ui->keepLastModifiedDate_CheckBox->setChecked(QSettings().value("compression_options/output/keep_last_modified_date", false).toBool());
@@ -800,6 +802,7 @@ CompressionOptions MainWindow::getCompressionOptions(const QString& rootFolder) 
         static_cast<CompressionMode>(ui->compressionMode_ComboBox->currentIndex()),
         maxOutputSize,
         ui->cacheOriginals_CheckBox->isChecked(),
+        ui->deleteOriginalFormatFile_CheckBox->isChecked(),
     };
 
     return compressionOptions;
@@ -1273,7 +1276,16 @@ void MainWindow::on_actionShow_original_in_file_manager_triggered() const
 
     auto currentIndex = this->proxyModel->mapToSource(this->selectedIndexes.at(0));
     auto cImage = this->cImageModel->getRootItem()->children().at(currentIndex.row())->getCImage();
-    showFileInNativeFileManager(cImage->getFullPath(), cImage->getDirectory());
+
+    // The file that actually lives on disk in the original location is the
+    // compressed output (same folder + base name, possibly a new extension after
+    // a format conversion). Show that if it exists; otherwise fall back to the
+    // untouched original.
+    QString path = cImage->getCompressedFullPath();
+    if (path.isEmpty() || !QFileInfo::exists(path)) {
+        path = cImage->getFullPath();
+    }
+    showFileInNativeFileManager(path, QFileInfo(path).absolutePath());
 }
 
 void MainWindow::on_actionShow_compressed_in_file_manager_triggered() const
@@ -1506,6 +1518,11 @@ void MainWindow::on_skipIfBigger_CheckBox_toggled(bool checked)
 void MainWindow::on_cacheOriginals_CheckBox_toggled(bool checked)
 {
     QSettings().setValue("compression_options/output/cache_originals", checked);
+}
+
+void MainWindow::on_deleteOriginalFormatFile_CheckBox_toggled(bool checked)
+{
+    QSettings().setValue("compression_options/output/delete_original_format_file", checked);
 }
 
 void MainWindow::outputFormatIndexChanged(int index) const

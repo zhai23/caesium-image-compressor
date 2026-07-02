@@ -289,6 +289,29 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
             this->additionalInfo = QIODevice::tr("Cannot copy output file, check your permissions");
             return false;
         }
+
+        // If enabled, keep only the current output in the destination folder:
+        // remove any same-named image file with a DIFFERENT extension (e.g. a
+        // grok.png / grok.jpg / grok.tiff left over from earlier conversions),
+        // regardless of whether this run converted the format.
+        if (compressionOptions.deleteOriginalFormatFile) {
+            QString baseName = inputFileInfo.completeBaseName() + suffix;
+            QFileInfo outputFileInfoForName(outputFullPath);
+            const QStringList imageExtensions = { "png", "jpg", "jpeg", "webp", "tif", "tiff" };
+            for (const QString& ext : imageExtensions) {
+                QString candidate = outputDir.absoluteFilePath(baseName + "." + ext);
+                QFileInfo candidateInfo(candidate);
+                // Skip the file we just wrote (compare by canonical/absolute path).
+                if (candidateInfo.absoluteFilePath() == outputFileInfoForName.absoluteFilePath()) {
+                    continue;
+                }
+                if (candidateInfo.exists()) {
+                    if (!QFile::moveToTrash(candidate)) {
+                        QFile::remove(candidate);
+                    }
+                }
+            }
+        }
         if (compressionOptions.moveOriginalFile && !inputAlreadyMoved) {
             if (compressionOptions.moveOriginalFileDestination == 0 && !QFile::moveToTrash(this->getFullPath())) {
                 qWarning() << "Cannot move to trash file" << this->getFullPath();

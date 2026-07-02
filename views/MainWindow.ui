@@ -1468,6 +1468,16 @@ QScrollArea &gt; QWidget &gt; QScrollBar { background: 1; }</string>
                 </widget>
                </item>
                <item>
+                <widget class="QCheckBox" name="deleteOriginalFormatFile_CheckBox">
+                 <property name="toolTip">
+                  <string>After converting to a new format, delete the same-named file with the original extension in the output folder.</string>
+                 </property>
+                 <property name="text">
+                  <string>Delete original-format file after conversion</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <layout class="QHBoxLayout" name="moveOriginalFile_HorizontalLayout">
                  <property name="spacing">
                   <number>0</number>

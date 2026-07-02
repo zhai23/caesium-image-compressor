@@ -128,6 +128,7 @@ typedef struct CompressionOptions {
     CompressionMode compressionMode;
     MaxOutputSize maxOutputSize;
     bool cacheOriginals;
+    bool deleteOriginalFormatFile;
 } CompressionOptions;
 
 typedef struct FileDates {
