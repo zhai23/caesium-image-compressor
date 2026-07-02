@@ -1014,6 +1014,7 @@ void MainWindow::on_fitTo_ComboBox_currentIndexChanged(int index) const
         ui->width_Label->show();
         ui->width_SpinBox->show();
         ui->width_SpinBox->setSuffix(tr("px"));
+        ui->width_SpinBox->setMaximum(99999);
         ui->height_Label->hide();
         ui->height_SpinBox->hide();
         ui->height_SpinBox->setSuffix(tr("px"));
@@ -1029,6 +1030,7 @@ void MainWindow::on_fitTo_ComboBox_currentIndexChanged(int index) const
         ui->height_Label->show();
         ui->height_SpinBox->show();
         ui->height_SpinBox->setSuffix(tr("px"));
+        ui->height_SpinBox->setMaximum(99999);
         ui->keepAspectRatio_CheckBox->setEnabled(false);
         break;
     }

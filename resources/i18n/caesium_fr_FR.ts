@@ -209,19 +209,19 @@ Voulez vous vraiment continuer?</translation>
         <translation>Non</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1329"/>
-        <location filename="../../src/MainWindow.cpp" line="1334"/>
+        <location filename="../../src/MainWindow.cpp" line="1331"/>
+        <location filename="../../src/MainWindow.cpp" line="1336"/>
         <source>File not found</source>
         <translation>Fichier non trouvé</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1365"/>
+        <location filename="../../src/MainWindow.cpp" line="1367"/>
         <source>Finishing...</source>
         <translation>Finalisation...</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="738"/>
-        <location filename="../../src/MainWindow.cpp" line="1458"/>
+        <location filename="../../src/MainWindow.cpp" line="1460"/>
         <source>Compressing...</source>
         <translation>Compression...</translation>
     </message>
@@ -285,7 +285,7 @@ Taille compressé: %3
 Econominé: %4 (%5%)</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1671"/>
+        <location filename="../../src/MainWindow.cpp" line="1673"/>
         <source>Recompress failed</source>
         <translation>Echec de la recompression</translation>
     </message>
@@ -446,9 +446,9 @@ Econominé: %4 (%5%)</translation>
         <location filename="../../src/MainWindow.cpp" line="977"/>
         <location filename="../../src/MainWindow.cpp" line="981"/>
         <location filename="../../src/MainWindow.cpp" line="1016"/>
-        <location filename="../../src/MainWindow.cpp" line="1019"/>
-        <location filename="../../src/MainWindow.cpp" line="1028"/>
-        <location filename="../../src/MainWindow.cpp" line="1031"/>
+        <location filename="../../src/MainWindow.cpp" line="1020"/>
+        <location filename="../../src/MainWindow.cpp" line="1029"/>
+        <location filename="../../src/MainWindow.cpp" line="1032"/>
         <source>px</source>
         <translation>px</translation>
     </message>
@@ -565,7 +565,7 @@ Econominé: %4 (%5%)</translation>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1376"/>
-        <location filename="../../src/MainWindow.cpp" line="1350"/>
+        <location filename="../../src/MainWindow.cpp" line="1352"/>
         <source>Preview</source>
         <translation>Aperçu</translation>
     </message>
@@ -594,19 +594,19 @@ Econominé: %4 (%5%)</translation>
         <translation>Méthode</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1647"/>
+        <location filename="../../src/MainWindow.cpp" line="1649"/>
         <source>Best</source>
         <translation>Meilleur</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1405"/>
-        <location filename="../../src/MainWindow.cpp" line="1649"/>
+        <location filename="../../src/MainWindow.cpp" line="1651"/>
         <source>Balanced</source>
         <translation>Équilibré</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1645"/>
+        <location filename="../../src/MainWindow.cpp" line="1647"/>
         <source>Fast</source>
         <translation></translation>
     </message>
@@ -820,7 +820,7 @@ Econominé: %4 (%5%)</translation>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1156"/>
+        <location filename="../../src/MainWindow.cpp" line="1158"/>
         <source>images in list</source>
         <translation>images dans une liste</translation>
     </message>

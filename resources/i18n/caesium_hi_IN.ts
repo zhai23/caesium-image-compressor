@@ -209,19 +209,19 @@ Do you really want to continue?</source>
         <translation>नहीं</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1329"/>
-        <location filename="../../src/MainWindow.cpp" line="1334"/>
+        <location filename="../../src/MainWindow.cpp" line="1331"/>
+        <location filename="../../src/MainWindow.cpp" line="1336"/>
         <source>File not found</source>
         <translation>फाइल नहीं मिली</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1365"/>
+        <location filename="../../src/MainWindow.cpp" line="1367"/>
         <source>Finishing...</source>
         <translation>पूर्ण हो रहा है...</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="738"/>
-        <location filename="../../src/MainWindow.cpp" line="1458"/>
+        <location filename="../../src/MainWindow.cpp" line="1460"/>
         <source>Compressing...</source>
         <translation>संकुचन हो रहा है...</translation>
     </message>
@@ -285,7 +285,7 @@ Saved: %4 (%5%)</source>
 सहेजा गया: %4 (%5%)</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1671"/>
+        <location filename="../../src/MainWindow.cpp" line="1673"/>
         <source>Recompress failed</source>
         <translation>पुन:संपीड़न विफल रहा</translation>
     </message>
@@ -446,9 +446,9 @@ Saved: %4 (%5%)</source>
         <location filename="../../src/MainWindow.cpp" line="977"/>
         <location filename="../../src/MainWindow.cpp" line="981"/>
         <location filename="../../src/MainWindow.cpp" line="1016"/>
-        <location filename="../../src/MainWindow.cpp" line="1019"/>
-        <location filename="../../src/MainWindow.cpp" line="1028"/>
-        <location filename="../../src/MainWindow.cpp" line="1031"/>
+        <location filename="../../src/MainWindow.cpp" line="1020"/>
+        <location filename="../../src/MainWindow.cpp" line="1029"/>
+        <location filename="../../src/MainWindow.cpp" line="1032"/>
         <source>px</source>
         <translation>पिक्सल</translation>
     </message>
@@ -565,7 +565,7 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1376"/>
-        <location filename="../../src/MainWindow.cpp" line="1350"/>
+        <location filename="../../src/MainWindow.cpp" line="1352"/>
         <source>Preview</source>
         <translation>पूर्वावलोकन</translation>
     </message>
@@ -594,19 +594,19 @@ Saved: %4 (%5%)</source>
         <translation>तरीका</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1647"/>
+        <location filename="../../src/MainWindow.cpp" line="1649"/>
         <source>Best</source>
         <translation>सर्वोत्तम</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1405"/>
-        <location filename="../../src/MainWindow.cpp" line="1649"/>
+        <location filename="../../src/MainWindow.cpp" line="1651"/>
         <source>Balanced</source>
         <translation>संतुलित</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1645"/>
+        <location filename="../../src/MainWindow.cpp" line="1647"/>
         <source>Fast</source>
         <translation>तेज़</translation>
     </message>
@@ -820,7 +820,7 @@ Saved: %4 (%5%)</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1156"/>
+        <location filename="../../src/MainWindow.cpp" line="1158"/>
         <source>images in list</source>
         <translation>चित्र सूची में</translation>
     </message>
