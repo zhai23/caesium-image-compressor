@@ -3,15 +3,6 @@
 #include "ui_AboutDialog.h"
 #include <QSettings>
 
-#ifdef Q_OS_MAC
-#include "./updater/osx/CocoaInitializer.h"
-#include "./updater/osx/SparkleAutoUpdater.h"
-#endif
-
-#ifdef Q_OS_WIN
-#include "./updater/win/winsparkle.h"
-#endif
-
 AboutDialog::AboutDialog(QWidget* parent)
     : QDialog(parent)
     , ui(new Ui::AboutDialog)
@@ -37,17 +28,9 @@ AboutDialog::~AboutDialog()
 
 void AboutDialog::onCheckForUpdatesClicked()
 {
-#ifdef Q_OS_MAC
-    ui->checkForUpdates_Button->setEnabled(false);
-    CocoaInitializer initializer;
-    auto updater = new SparkleAutoUpdater("https://saerasoft.com/repository/com.saerasoft.caesium/osx/appcast.xml");
-    updater->checkForUpdates();
-    ui->checkForUpdates_Button->setEnabled(true);
-#endif
-
-#ifdef Q_OS_WIN
-    win_sparkle_check_update_with_ui();
-#endif
+    if (auto* mainWindow = qobject_cast<MainWindow*>(parent())) {
+        mainWindow->checkForUpdates(false);
+    }
 }
 
 void AboutDialog::changeEvent(QEvent* event)

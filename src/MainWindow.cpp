@@ -10,8 +10,12 @@
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QMovie>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QProgressBar>
 #include <QProgressDialog>
+#include <QRegularExpression>
 #include <QScrollBar>
 #include <QWheelEvent>
 #include <QWindow>
@@ -26,10 +30,6 @@
 #ifdef Q_OS_MAC
 #include "./updater/osx/CocoaInitializer.h"
 #include "./updater/osx/SparkleAutoUpdater.h"
-#endif
-
-#ifdef Q_OS_WIN
-#include "./updater/win/winsparkle.h"
 #endif
 
 MainWindow::MainWindow(QWidget* parent)
@@ -169,10 +169,6 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow()
 {
-#ifdef Q_OS_WIN
-    win_sparkle_cleanup();
-#endif
-
     delete proxyModel;
     delete cImageModel;
     delete aboutDialog;
@@ -190,7 +186,7 @@ void MainWindow::showEvent(QShowEvent* event)
     QMainWindow::showEvent(event);
 
     this->updateCheckBoxColumnWidth();
-    MainWindow::initUpdater();
+    this->initUpdater();
 }
 
 void MainWindow::initStatusBar() const
@@ -1172,29 +1168,97 @@ void MainWindow::cModelItemsChanged() const
 
 void MainWindow::initUpdater()
 {
-
-#ifdef Q_OS_MAC
-    CocoaInitializer initializer;
-    auto updater = new SparkleAutoUpdater("https://saerasoft.com/repository/com.saerasoft.caesium/osx/appcast.xml");
-    updater->setCheckForUpdatesAutomatically(QSettings().value("preferences/general/check_updates_at_startup", true).toBool());
     if (QSettings().value("preferences/general/check_updates_at_startup", true).toBool()) {
-        updater->checkForUpdates();
+        // Silent check on startup: only prompt if a newer version is found.
+        this->checkForUpdates(true);
     }
-#endif
+}
 
-#if defined(Q_OS_WIN)
-    QString locale = LanguageManager::getLocaleFromPreferences(QSettings().value("preferences/language/locale", "default"));
-    if (locale != "default") {
-        win_sparkle_set_lang(locale.replace('_', '-').toUtf8().constData());
+void MainWindow::checkForUpdates(bool silent) const
+{
+    QString appcastUrl = "https://raw.githubusercontent.com/zhai23/caesium-image-compressor/refs/heads/main/appcast.xml";
+
+    auto* manager = new QNetworkAccessManager(const_cast<MainWindow*>(this));
+    QNetworkRequest request { QUrl(appcastUrl) };
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+
+    QNetworkReply* reply = manager->get(request);
+    connect(reply, &QNetworkReply::finished, this, [this, reply, manager, silent]() {
+        reply->deleteLater();
+        manager->deleteLater();
+
+        if (reply->error() != QNetworkReply::NoError) {
+            if (!silent) {
+                QCaesiumMessageBox msgBox;
+                msgBox.setText(tr("Could not check for updates."));
+                msgBox.setInformativeText(reply->errorString());
+                msgBox.addButton(tr("Ok"), QMessageBox::AcceptRole);
+                msgBox.exec();
+            }
+            return;
+        }
+
+        const QString xml = QString::fromUtf8(reply->readAll());
+
+        // Parse the latest version and download URL from the appcast.
+        QString latestVersion;
+        QString downloadUrl;
+        QRegularExpression versionRe(R"RX(sparkle:version\s*=\s*"([^"]+)")RX");
+        QRegularExpression urlRe(R"RX(url\s*=\s*"([^"]+)")RX");
+        QRegularExpressionMatch vm = versionRe.match(xml);
+        QRegularExpressionMatch um = urlRe.match(xml);
+        if (vm.hasMatch()) {
+            latestVersion = vm.captured(1).trimmed();
+        }
+        if (um.hasMatch()) {
+            downloadUrl = um.captured(1).trimmed();
+        }
+
+        if (latestVersion.isEmpty()) {
+            if (!silent) {
+                QCaesiumMessageBox msgBox;
+                msgBox.setText(tr("Could not check for updates."));
+                msgBox.addButton(tr("Ok"), QMessageBox::AcceptRole);
+                msgBox.exec();
+            }
+            return;
+        }
+
+        QString currentVersion = QCoreApplication::applicationVersion();
+        if (isVersionNewer(latestVersion, currentVersion)) {
+            QCaesiumMessageBox msgBox;
+            msgBox.setText(tr("A new version is available!"));
+            msgBox.setInformativeText(tr("Version %1 is available (you have %2). Do you want to download it?")
+                    .arg(latestVersion, currentVersion));
+            auto* yesButton = msgBox.addButton(tr("Download"), QMessageBox::YesRole);
+            msgBox.addButton(tr("Not now"), QMessageBox::NoRole);
+            msgBox.exec();
+            if (msgBox.clickedButton() == yesButton && !downloadUrl.isEmpty()) {
+                QDesktopServices::openUrl(QUrl(downloadUrl, QUrl::TolerantMode));
+            }
+        } else if (!silent) {
+            QCaesiumMessageBox msgBox;
+            msgBox.setText(tr("You are up to date!"));
+            msgBox.setInformativeText(tr("Version %1 is the latest available.").arg(currentVersion));
+            msgBox.addButton(tr("Ok"), QMessageBox::AcceptRole);
+            msgBox.exec();
+        }
+    });
+}
+
+bool MainWindow::isVersionNewer(const QString& candidate, const QString& current)
+{
+    const QStringList c = candidate.split('.');
+    const QStringList u = current.split('.');
+    int n = qMax(c.size(), u.size());
+    for (int i = 0; i < n; ++i) {
+        int cv = i < c.size() ? c.at(i).toInt() : 0;
+        int uv = i < u.size() ? u.at(i).toInt() : 0;
+        if (cv != uv) {
+            return cv > uv;
+        }
     }
-    win_sparkle_set_appcast_url("https://raw.githubusercontent.com/zhai23/caesium-image-compressor/refs/heads/main/appcast.xml");
-    win_sparkle_init();
-
-    if (QSettings().value("preferences/general/check_updates_at_startup", true).toBool()) {
-        win_sparkle_check_update_without_ui();
-    }
-
-#endif
+    return false;
 }
 
 void MainWindow::on_actionShow_previews_toggled(bool toggled) const

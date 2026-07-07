@@ -32,6 +32,7 @@ public:
 
     void applyMultiSelectionVisibility() const;
     void applyPreviewBackground() const;
+    void checkForUpdates(bool silent) const;
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -138,7 +139,8 @@ private:
     QTranslator* translator;
 
     void initStatusBar() const;
-    static void initUpdater();
+    void initUpdater();
+    static bool isVersionNewer(const QString& candidate, const QString& current);
     void initListContextMenu();
     void initTrayIconContextMenu();
     void initListWidget() const;
