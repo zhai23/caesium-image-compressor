@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
     <channel>
         <item>
-            <enclosure sparkle:version="2.8.5" url="https://github.com/zhai23/caesium-image-compressor/releases/latest" />
+            <enclosure sparkle:version="2.8.6" url="https://github.com/zhai23/caesium-image-compressor/releases/latest" />
         </item>
     </channel>
 </rss>
