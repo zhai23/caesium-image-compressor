@@ -33,6 +33,7 @@ public:
     void applyMultiSelectionVisibility() const;
     void applyPreviewBackground() const;
     void checkForUpdates(bool silent) const;
+    void refreshPreviewForResizeChange() const;
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -51,7 +52,7 @@ private slots:
     void on_actionClear_triggered();
     void on_width_SpinBox_valueChanged(int arg1) const;
     void on_height_SpinBox_valueChanged(int arg1) const;
-    static void on_edge_SpinBox_valueChanged(int arg1);
+    void on_edge_SpinBox_valueChanged(int arg1) const;
     void on_keepAspectRatio_CheckBox_toggled(bool checked) const;
     void on_doNotEnlarge_CheckBox_toggled(bool checked) const;
     void on_actionSelect_All_triggered() const;

@@ -172,30 +172,30 @@ All rights reserved.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="340"/>
+        <location filename="../../src/MainWindow.cpp" line="341"/>
         <source>Import files...</source>
         <translation>載入檔案...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="356"/>
+        <location filename="../../src/MainWindow.cpp" line="357"/>
         <source>Import folder...</source>
         <translation>載入檔案夾...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="590"/>
+        <location filename="../../src/MainWindow.cpp" line="591"/>
         <source>Importing files...</source>
         <translation>正在載入檔案...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1448"/>
-        <location filename="../../src/MainWindow.cpp" line="590"/>
-        <location filename="../../src/MainWindow.cpp" line="825"/>
+        <location filename="../../src/MainWindow.cpp" line="591"/>
+        <location filename="../../src/MainWindow.cpp" line="826"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="679"/>
+        <location filename="../../src/MainWindow.cpp" line="680"/>
         <source>You are about to overwrite your original images and this action can&apos;t be undone.
 
 Do you really want to continue?</source>
@@ -204,69 +204,69 @@ Do you really want to continue?</source>
 確定繼續嗎？</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="681"/>
+        <location filename="../../src/MainWindow.cpp" line="682"/>
         <source>No</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="734"/>
-        <location filename="../../src/MainWindow.cpp" line="1519"/>
+        <location filename="../../src/MainWindow.cpp" line="735"/>
+        <location filename="../../src/MainWindow.cpp" line="1556"/>
         <source>Compressing...</source>
         <translation>正在壓縮...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="822"/>
+        <location filename="../../src/MainWindow.cpp" line="823"/>
         <source>Do you really want to quit?</source>
         <translation>確定退出嗎？</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="680"/>
-        <location filename="../../src/MainWindow.cpp" line="824"/>
+        <location filename="../../src/MainWindow.cpp" line="681"/>
+        <location filename="../../src/MainWindow.cpp" line="825"/>
         <source>Yes</source>
         <translation>確定</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="665"/>
+        <location filename="../../src/MainWindow.cpp" line="666"/>
         <source>Please select an output folder first</source>
         <translation>請首先選擇一個輸出文件夾</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="666"/>
-        <location filename="../../src/MainWindow.cpp" line="701"/>
-        <location filename="../../src/MainWindow.cpp" line="939"/>
-        <location filename="../../src/MainWindow.cpp" line="1195"/>
-        <location filename="../../src/MainWindow.cpp" line="1221"/>
-        <location filename="../../src/MainWindow.cpp" line="1243"/>
+        <location filename="../../src/MainWindow.cpp" line="667"/>
+        <location filename="../../src/MainWindow.cpp" line="702"/>
+        <location filename="../../src/MainWindow.cpp" line="940"/>
+        <location filename="../../src/MainWindow.cpp" line="1232"/>
+        <location filename="../../src/MainWindow.cpp" line="1258"/>
+        <location filename="../../src/MainWindow.cpp" line="1280"/>
         <source>Ok</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="699"/>
+        <location filename="../../src/MainWindow.cpp" line="700"/>
         <source>No images selected</source>
         <translation>未選擇圖片</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="700"/>
+        <location filename="../../src/MainWindow.cpp" line="701"/>
         <source>Please check at least one image to compress.</source>
         <translation>請至少勾選一張圖片進行壓縮。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="846"/>
+        <location filename="../../src/MainWindow.cpp" line="847"/>
         <source>Select output folder...</source>
         <translation>選擇輸出檔案夾...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="914"/>
+        <location filename="../../src/MainWindow.cpp" line="915"/>
         <source>Compression finished!</source>
         <translation>壓縮完成！</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="929"/>
+        <location filename="../../src/MainWindow.cpp" line="930"/>
         <source>You just saved %1!</source>
         <translation>你已節省 %1 的儲存空間!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="933"/>
+        <location filename="../../src/MainWindow.cpp" line="934"/>
         <source>Total files: %1
 Original size: %2
 Compressed size: %3
@@ -277,54 +277,54 @@ Saved: %4 (%5%)</source>
 節省比例: %4 (%5%)</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1193"/>
-        <location filename="../../src/MainWindow.cpp" line="1220"/>
+        <location filename="../../src/MainWindow.cpp" line="1230"/>
+        <location filename="../../src/MainWindow.cpp" line="1257"/>
         <source>Could not check for updates.</source>
         <translation>無法檢查更新。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1230"/>
+        <location filename="../../src/MainWindow.cpp" line="1267"/>
         <source>A new version is available!</source>
         <translation>有新版本可用！</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1231"/>
+        <location filename="../../src/MainWindow.cpp" line="1268"/>
         <source>Version %1 is available (you have %2). Do you want to download it?</source>
         <translation>版本 %1 可用（目前 %2）。是否下載？</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1233"/>
+        <location filename="../../src/MainWindow.cpp" line="1270"/>
         <source>Download</source>
         <translation>下載</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1234"/>
+        <location filename="../../src/MainWindow.cpp" line="1271"/>
         <source>Not now</source>
         <translation>暫不</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1241"/>
+        <location filename="../../src/MainWindow.cpp" line="1278"/>
         <source>You are up to date!</source>
         <translation>已是最新版本！</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1242"/>
+        <location filename="../../src/MainWindow.cpp" line="1279"/>
         <source>Version %1 is the latest available.</source>
         <translation>版本 %1 已是最新。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1395"/>
-        <location filename="../../src/MainWindow.cpp" line="1400"/>
+        <location filename="../../src/MainWindow.cpp" line="1432"/>
+        <location filename="../../src/MainWindow.cpp" line="1437"/>
         <source>File not found</source>
         <translation>未找到文件</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1431"/>
+        <location filename="../../src/MainWindow.cpp" line="1468"/>
         <source>Finishing...</source>
         <translation>壓縮中...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1732"/>
+        <location filename="../../src/MainWindow.cpp" line="1769"/>
         <source>Recompress failed</source>
         <translation>再壓縮失敗</translation>
     </message>
@@ -464,12 +464,12 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1418"/>
-        <location filename="../../src/MainWindow.cpp" line="973"/>
-        <location filename="../../src/MainWindow.cpp" line="977"/>
-        <location filename="../../src/MainWindow.cpp" line="1012"/>
-        <location filename="../../src/MainWindow.cpp" line="1016"/>
-        <location filename="../../src/MainWindow.cpp" line="1025"/>
-        <location filename="../../src/MainWindow.cpp" line="1028"/>
+        <location filename="../../src/MainWindow.cpp" line="974"/>
+        <location filename="../../src/MainWindow.cpp" line="978"/>
+        <location filename="../../src/MainWindow.cpp" line="1013"/>
+        <location filename="../../src/MainWindow.cpp" line="1017"/>
+        <location filename="../../src/MainWindow.cpp" line="1026"/>
+        <location filename="../../src/MainWindow.cpp" line="1029"/>
         <source>px</source>
         <translation>px</translation>
     </message>
@@ -590,19 +590,19 @@ Saved: %4 (%5%)</source>
         <translation>方法</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1708"/>
+        <location filename="../../src/MainWindow.cpp" line="1745"/>
         <source>Best</source>
         <translation>最佳</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1396"/>
-        <location filename="../../src/MainWindow.cpp" line="1710"/>
+        <location filename="../../src/MainWindow.cpp" line="1747"/>
         <source>Balanced</source>
         <translation>平衡</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1706"/>
+        <location filename="../../src/MainWindow.cpp" line="1743"/>
         <source>Fast</source>
         <translation>最快</translation>
     </message>
@@ -742,7 +742,7 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1344"/>
-        <location filename="../../src/MainWindow.cpp" line="221"/>
+        <location filename="../../src/MainWindow.cpp" line="222"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
@@ -827,7 +827,7 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1367"/>
-        <location filename="../../src/MainWindow.cpp" line="1416"/>
+        <location filename="../../src/MainWindow.cpp" line="1453"/>
         <source>Preview</source>
         <translation>預覽</translation>
     </message>
@@ -846,13 +846,13 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1404"/>
-        <location filename="../../src/MainWindow.cpp" line="987"/>
-        <location filename="../../src/MainWindow.cpp" line="991"/>
+        <location filename="../../src/MainWindow.cpp" line="988"/>
+        <location filename="../../src/MainWindow.cpp" line="992"/>
         <source>%</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1154"/>
+        <location filename="../../src/MainWindow.cpp" line="1191"/>
         <source>images in list</source>
         <translation>張已選圖片</translation>
     </message>
@@ -1115,7 +1115,7 @@ Saved: %4 (%5%)</source>
     <name>QIODevice</name>
     <message>
         <location filename="../../src/dialogs/AdvancedImportDialog.cpp" line="131"/>
-        <location filename="../../src/MainWindow.cpp" line="342"/>
+        <location filename="../../src/MainWindow.cpp" line="343"/>
         <source>Image Files</source>
         <translation>圖片檔案</translation>
     </message>

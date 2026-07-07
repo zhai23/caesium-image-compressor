@@ -8,6 +8,7 @@
 #include "utils/Logger.h"
 #include "utils/PostCompressionActions.h"
 #include <QDesktopServices>
+#include <QFile>
 #include <QFileDialog>
 #include <QMovie>
 #include <QNetworkAccessManager>
@@ -1033,6 +1034,7 @@ void MainWindow::on_fitTo_ComboBox_currentIndexChanged(int index) const
 
     QSettings().setValue("compression_options/resize/fit_to", index);
     this->toggleLosslessWarningVisible();
+    this->refreshPreviewForResizeChange();
 }
 
 void MainWindow::on_width_SpinBox_valueChanged(int value) const
@@ -1040,6 +1042,8 @@ void MainWindow::on_width_SpinBox_valueChanged(int value) const
     if (ui->fitTo_ComboBox->currentIndex() == ResizeMode::PERCENTAGE && ui->keepAspectRatio_CheckBox->isChecked()) {
         ui->height_SpinBox->setValue(value);
     }
+    QSettings().setValue("compression_options/resize/width", value);
+    this->refreshPreviewForResizeChange();
 }
 
 void MainWindow::on_height_SpinBox_valueChanged(int value) const
@@ -1047,11 +1051,14 @@ void MainWindow::on_height_SpinBox_valueChanged(int value) const
     if (ui->fitTo_ComboBox->currentIndex() == ResizeMode::PERCENTAGE && ui->keepAspectRatio_CheckBox->isChecked()) {
         ui->width_SpinBox->setValue(value);
     }
+    QSettings().setValue("compression_options/resize/height", value);
+    this->refreshPreviewForResizeChange();
 }
 
-void MainWindow::on_edge_SpinBox_valueChanged(int value)
+void MainWindow::on_edge_SpinBox_valueChanged(int value) const
 {
     QSettings().setValue("compression_options/resize/size", value);
+    this->refreshPreviewForResizeChange();
 }
 
 void MainWindow::on_keepAspectRatio_CheckBox_toggled(bool checked) const
@@ -1060,6 +1067,7 @@ void MainWindow::on_keepAspectRatio_CheckBox_toggled(bool checked) const
         ui->height_SpinBox->setValue(ui->width_SpinBox->value());
     }
     QSettings().setValue("compression_options/resize/keep_aspect_ratio", checked);
+    this->refreshPreviewForResizeChange();
 }
 
 void MainWindow::on_doNotEnlarge_CheckBox_toggled(bool checked) const
@@ -1073,7 +1081,36 @@ void MainWindow::on_doNotEnlarge_CheckBox_toggled(bool checked) const
         ui->height_SpinBox->setMaximum(maximum);
     }
     QSettings().setValue("compression_options/resize/do_not_enlarge", checked);
+    this->refreshPreviewForResizeChange();
 }
+
+void MainWindow::refreshPreviewForResizeChange() const
+{
+    // Keep the "resize enabled" flag in sync so the preview/compression use the
+    // current mode, then force a live runtime preview of the selected image.
+    QSettings().setValue("compression_options/resize/resize", ui->fitTo_ComboBox->currentIndex() != ResizeMode::NO_RESIZE);
+
+    if (!QSettings().value("mainwindow/previews_visible", false).toBool()) {
+        return;
+    }
+    if (this->selectedCount != 1 || this->selectedIndexes.isEmpty()) {
+        return;
+    }
+    auto currentIndex = this->selectedIndexes.at(0);
+    if (currentIndex.row() == -1) {
+        return;
+    }
+
+    auto sourceIndex = this->proxyModel->mapToSource(currentIndex);
+    // Drop any stale cached preview for the new settings, then regenerate.
+    CImage* cImage = this->cImageModel->getRootItem()->children().at(sourceIndex.row())->getCImage();
+    QString previewPath = cImage->getTemporaryPreviewFullPath();
+    if (!previewPath.isEmpty() && QFile::exists(previewPath)) {
+        QFile::remove(previewPath);
+    }
+    this->previewImage(sourceIndex, true);
+}
+
 
 void MainWindow::on_actionSelect_All_triggered() const
 {
