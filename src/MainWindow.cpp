@@ -1182,12 +1182,12 @@ void MainWindow::initUpdater()
     }
 #endif
 
-#if defined(Q_OS_WIN) && !defined(IS_PORTABLE)
+#if defined(Q_OS_WIN)
     QString locale = LanguageManager::getLocaleFromPreferences(QSettings().value("preferences/language/locale", "default"));
     if (locale != "default") {
         win_sparkle_set_lang(locale.replace('_', '-').toUtf8().constData());
     }
-    win_sparkle_set_appcast_url("https://saerasoft.com/repository/com.saerasoft.caesium/win/appcast.xml");
+    win_sparkle_set_appcast_url("https://raw.githubusercontent.com/zhai23/caesium-image-compressor/refs/heads/main/appcast.xml");
     win_sparkle_init();
 
     if (QSettings().value("preferences/general/check_updates_at_startup", true).toBool()) {
