@@ -186,6 +186,10 @@ QString getCompressionOptionsHash()
         implodedSettings.append(currentKey + ":" + settings.value(currentKey).toString() + "||");
     }
     settings.endGroup();
+    // The transparency fill color lives outside the compression_options group but
+    // affects conversion output, so include it in the cache key too.
+    implodedSettings.append("transparency_fill_color:"
+        + settings.value("preferences/general/transparency_fill_color", "#FFFFFF").toString() + "||");
     return hashString(implodedSettings, QCryptographicHash::Sha256);
 }
 

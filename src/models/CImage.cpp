@@ -3,8 +3,11 @@
 
 #include "./exceptions/ImageNotSupportedException.h"
 #include "exceptions/ImageTooBigException.h"
+#include <QColor>
 #include <QDir>
+#include <QImage>
 #include <QImageReader>
+#include <QPainter>
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <cmath>
@@ -123,6 +126,7 @@ bool CImage::preview(const CompressionOptions& compressionOptions) const
     CCSParameters r_parameters = this->getCSParameters(compressionOptions);
     if (convert) {
         QImage imageToBeConverted = QImage(inputFullPath);
+        imageToBeConverted = prepareImageForConversion(imageToBeConverted, compressionOptions.format, compressionOptions.transparencyFillColor);
         bool conversionSuccess = imageToBeConverted.save(outputFullPath, getOutputSupportedFormats().at(compressionOptions.format).toLower().toUtf8().constData(), 100);
         if (!conversionSuccess) {
             return false;
@@ -212,17 +216,7 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
     QString compressionInput = sourceReadPath;
     if (convert) {
         QImage imageToBeConverted = QImage(sourceReadPath);
-        // Some sources (e.g. palette/indexed PNGs) produce palette-based images
-        // that downstream encoders (libcaesium's TIFF) can't handle. Normalize to
-        // a plain RGB(A) format before saving so conversion output is standard.
-        if (!imageToBeConverted.isNull()
-            && (imageToBeConverted.format() == QImage::Format_Indexed8
-                || imageToBeConverted.format() == QImage::Format_Mono
-                || imageToBeConverted.format() == QImage::Format_MonoLSB)) {
-            imageToBeConverted = imageToBeConverted.hasAlphaChannel()
-                ? imageToBeConverted.convertToFormat(QImage::Format_ARGB32)
-                : imageToBeConverted.convertToFormat(QImage::Format_RGB32);
-        }
+        imageToBeConverted = prepareImageForConversion(imageToBeConverted, compressionOptions.format, compressionOptions.transparencyFillColor);
         bool conversionSuccess = imageToBeConverted.save(tempFileFullPath, getOutputSupportedFormats().at(compressionOptions.format).toLower().toUtf8().constData(), 100);
         this->additionalInfo = QIODevice::tr("File conversion failed");
         if (!conversionSuccess) {
@@ -504,6 +498,42 @@ size_t CImage::getMaxOutputSizeInBytes(MaxOutputSize maxOutputSize, size_t origi
     }
 
     return maxOutputSize.maxOutputSize << (maxOutputSize.unit * 10);
+}
+
+QImage CImage::prepareImageForConversion(const QImage& source, int targetFormatIndex, const QString& fillColorHex)
+{
+    QImage image = source;
+    if (image.isNull()) {
+        return image;
+    }
+
+    // Normalize palette/mono images to a plain RGB(A) format so encoders can
+    // handle them.
+    if (image.format() == QImage::Format_Indexed8
+        || image.format() == QImage::Format_Mono
+        || image.format() == QImage::Format_MonoLSB) {
+        image = image.hasAlphaChannel()
+            ? image.convertToFormat(QImage::Format_ARGB32)
+            : image.convertToFormat(QImage::Format_RGB32);
+    }
+
+    // JPG has no alpha channel: composite transparent pixels onto a solid fill
+    // color so they don't turn into garbage.
+    bool targetHasNoAlpha = (targetFormatIndex == 1); // 1 = JPG
+    if (targetHasNoAlpha && image.hasAlphaChannel()) {
+        QColor fill(fillColorHex.isEmpty() ? "#FFFFFF" : fillColorHex);
+        if (!fill.isValid()) {
+            fill = QColor(Qt::white);
+        }
+        QImage flattened(image.size(), QImage::Format_RGB32);
+        flattened.fill(fill);
+        QPainter painter(&flattened);
+        painter.drawImage(0, 0, image);
+        painter.end();
+        image = flattened;
+    }
+
+    return image;
 }
 
 QString CImage::getCachedOriginalPath() const

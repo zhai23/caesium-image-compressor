@@ -190,7 +190,7 @@ All rights reserved.</source>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1484"/>
         <location filename="../../src/MainWindow.cpp" line="641"/>
-        <location filename="../../src/MainWindow.cpp" line="876"/>
+        <location filename="../../src/MainWindow.cpp" line="877"/>
         <source>Cancel</source>
         <translation>취소</translation>
     </message>
@@ -209,30 +209,30 @@ Do you really want to continue?</source>
         <translation>아니요</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1495"/>
-        <location filename="../../src/MainWindow.cpp" line="1500"/>
+        <location filename="../../src/MainWindow.cpp" line="1496"/>
+        <location filename="../../src/MainWindow.cpp" line="1501"/>
         <source>File not found</source>
         <translation>파일을 찾을 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1535"/>
+        <location filename="../../src/MainWindow.cpp" line="1536"/>
         <source>Finishing...</source>
         <translation>완료 중...</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="785"/>
-        <location filename="../../src/MainWindow.cpp" line="1623"/>
+        <location filename="../../src/MainWindow.cpp" line="1624"/>
         <source>Compressing...</source>
         <translation>압축 중...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="873"/>
+        <location filename="../../src/MainWindow.cpp" line="874"/>
         <source>Do you really want to quit?</source>
         <translation>정말로 종료하시겠습니까?</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="731"/>
-        <location filename="../../src/MainWindow.cpp" line="875"/>
+        <location filename="../../src/MainWindow.cpp" line="876"/>
         <source>Yes</source>
         <translation>예</translation>
     </message>
@@ -244,10 +244,10 @@ Do you really want to continue?</source>
     <message>
         <location filename="../../src/MainWindow.cpp" line="717"/>
         <location filename="../../src/MainWindow.cpp" line="752"/>
-        <location filename="../../src/MainWindow.cpp" line="992"/>
-        <location filename="../../src/MainWindow.cpp" line="1292"/>
-        <location filename="../../src/MainWindow.cpp" line="1318"/>
-        <location filename="../../src/MainWindow.cpp" line="1340"/>
+        <location filename="../../src/MainWindow.cpp" line="993"/>
+        <location filename="../../src/MainWindow.cpp" line="1293"/>
+        <location filename="../../src/MainWindow.cpp" line="1319"/>
+        <location filename="../../src/MainWindow.cpp" line="1341"/>
         <source>Ok</source>
         <translation>확인</translation>
     </message>
@@ -262,22 +262,22 @@ Do you really want to continue?</source>
         <translation>압축할 이미지를 하나 이상 선택하세요.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="897"/>
+        <location filename="../../src/MainWindow.cpp" line="898"/>
         <source>Select output folder...</source>
         <translation>출력 폴더 선택...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="967"/>
+        <location filename="../../src/MainWindow.cpp" line="968"/>
         <source>Compression finished!</source>
         <translation>압축 완료!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="982"/>
+        <location filename="../../src/MainWindow.cpp" line="983"/>
         <source>You just saved %1!</source>
         <translation>%1을(를) 방금 저장했습니다!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="986"/>
+        <location filename="../../src/MainWindow.cpp" line="987"/>
         <source>Total files: %1
 Original size: %2
 Compressed size: %3
@@ -288,43 +288,43 @@ Saved: %4 (%5%)</source>
 절약됨: %4 (%5%)</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1290"/>
-        <location filename="../../src/MainWindow.cpp" line="1317"/>
+        <location filename="../../src/MainWindow.cpp" line="1291"/>
+        <location filename="../../src/MainWindow.cpp" line="1318"/>
         <source>Could not check for updates.</source>
         <translation>업데이트를 확인할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1327"/>
+        <location filename="../../src/MainWindow.cpp" line="1328"/>
         <source>A new version is available!</source>
         <translation>새 버전이 있습니다!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1328"/>
+        <location filename="../../src/MainWindow.cpp" line="1329"/>
         <source>Version %1 is available (you have %2). Do you want to download it?</source>
         <translation>버전 %1 사용 가능 (현재 %2). 다운로드하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1330"/>
+        <location filename="../../src/MainWindow.cpp" line="1331"/>
         <source>Download</source>
         <translation>다운로드</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1331"/>
+        <location filename="../../src/MainWindow.cpp" line="1332"/>
         <source>Not now</source>
         <translation>나중에</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1338"/>
+        <location filename="../../src/MainWindow.cpp" line="1339"/>
         <source>You are up to date!</source>
         <translation>최신 버전입니다!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1339"/>
+        <location filename="../../src/MainWindow.cpp" line="1340"/>
         <source>Version %1 is the latest available.</source>
         <translation>버전 %1 이 최신입니다.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1836"/>
+        <location filename="../../src/MainWindow.cpp" line="1837"/>
         <source>Recompress failed</source>
         <translation>재압축 실패</translation>
     </message>
@@ -482,12 +482,12 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1454"/>
-        <location filename="../../src/MainWindow.cpp" line="1026"/>
-        <location filename="../../src/MainWindow.cpp" line="1030"/>
-        <location filename="../../src/MainWindow.cpp" line="1065"/>
-        <location filename="../../src/MainWindow.cpp" line="1069"/>
-        <location filename="../../src/MainWindow.cpp" line="1078"/>
-        <location filename="../../src/MainWindow.cpp" line="1081"/>
+        <location filename="../../src/MainWindow.cpp" line="1027"/>
+        <location filename="../../src/MainWindow.cpp" line="1031"/>
+        <location filename="../../src/MainWindow.cpp" line="1066"/>
+        <location filename="../../src/MainWindow.cpp" line="1070"/>
+        <location filename="../../src/MainWindow.cpp" line="1079"/>
+        <location filename="../../src/MainWindow.cpp" line="1082"/>
         <source>px</source>
         <translation>px</translation>
     </message>
@@ -604,7 +604,7 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1403"/>
-        <location filename="../../src/MainWindow.cpp" line="1518"/>
+        <location filename="../../src/MainWindow.cpp" line="1519"/>
         <source>Preview</source>
         <translation>미리보기</translation>
     </message>
@@ -633,19 +633,19 @@ Saved: %4 (%5%)</source>
         <translation>방법</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1812"/>
+        <location filename="../../src/MainWindow.cpp" line="1813"/>
         <source>Best</source>
         <translation>최고</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1432"/>
-        <location filename="../../src/MainWindow.cpp" line="1814"/>
+        <location filename="../../src/MainWindow.cpp" line="1815"/>
         <source>Balanced</source>
         <translation>균형 잡힌</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1810"/>
+        <location filename="../../src/MainWindow.cpp" line="1811"/>
         <source>Fast</source>
         <translation>빠름</translation>
     </message>
@@ -848,13 +848,13 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1440"/>
-        <location filename="../../src/MainWindow.cpp" line="1040"/>
-        <location filename="../../src/MainWindow.cpp" line="1044"/>
+        <location filename="../../src/MainWindow.cpp" line="1041"/>
+        <location filename="../../src/MainWindow.cpp" line="1045"/>
         <source>%</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1251"/>
+        <location filename="../../src/MainWindow.cpp" line="1252"/>
         <source>images in list</source>
         <translation>목록에서 이미지 보기</translation>
     </message>
@@ -893,224 +893,242 @@ Saved: %4 (%5%)</source>
     <name>PreferencesDialog</name>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="371"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="385"/>
         <source>Preferences</source>
         <translation>환경 설정</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="385"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="407"/>
         <source>Auto</source>
         <translation>자동</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="386"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="408"/>
         <source>Light</source>
         <translation>밝기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="387"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="409"/>
         <source>Dark</source>
         <translation>어두운</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="401"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="423"/>
         <source> threads</source>
         <translation> 스레드</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="404"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="426"/>
         <source>No action</source>
         <translation>작업 없음</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="405"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="427"/>
         <source>Close the application</source>
         <translation>응용 프로그램 닫기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="406"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="428"/>
         <source>Sleep</source>
         <translation>잠자기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="407"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="429"/>
         <source>Shutdown</source>
         <translation>종료</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="408"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="430"/>
         <source>Open output folder</source>
         <translation>출력 폴더 열기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="393"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="415"/>
         <source>Perform an action after successful compression</source>
         <translation>압축 성공 후 작업 수행</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="403"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="425"/>
         <source>Threads priority</source>
         <translation>스레드 우선순위</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="412"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="434"/>
         <source>Restart</source>
         <translation>재시작</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="413"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="435"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="372"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="386"/>
         <source>General</source>
         <translation>일반</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="383"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="405"/>
         <source>Prompt before exit</source>
         <translation>종료 전에 확인</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="411"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="433"/>
         <source>Changes will apply after restart</source>
         <translation>변경 사항은 재시작 후 적용됩니다</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="384"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="406"/>
         <source>Theme (experimental)</source>
         <translation>테마 (실험적)</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="395"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="417"/>
         <source>This option applies when using command line or by dropping files to the application icon</source>
         <translation>이 옵션은 명령줄을 사용하거나 애플리케이션 아이콘에 파일을 드롭할 때 적용됩니다.</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="382"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="404"/>
         <source>Check updates at startup</source>
         <translation>시작 시 업데이트 확인</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="390"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="412"/>
         <source>Import files in subfolders when opening a directory</source>
         <translation>디렉토리를 열 때 하위 폴더의 파일 가져오기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="381"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="403"/>
         <source>Send anonymous usage reports</source>
         <translation>익명 사용 보고서 전송</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="391"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="413"/>
         <source>Advanced</source>
         <translation>고급</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="402"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="424"/>
         <source>Multithreading</source>
         <translation>다중 스레딩</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="373"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="387"/>
         <source>Skip message and warning dialogs during compression</source>
         <translation>압축 중 메시지 및 경고 대화 상자 건너뛰기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="389"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="411"/>
         <source>Import</source>
         <translation>가져오기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="397"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="419"/>
         <source>Import only</source>
         <translation>가져오기 전용</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="398"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="420"/>
         <source>Import and compress</source>
         <translation>가져오기 및 압축</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="400"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="422"/>
         <source>When importing files directly</source>
         <translation>파일을 직접 가져올 때</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="380"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="402"/>
         <source>Preferred language</source>
         <translation>선호하는 언어</translation>
     </message>
     <message>
-        <location filename="../../src/dialogs/PreferencesDialog.cpp" line="23"/>
+        <location filename="../../src/dialogs/PreferencesDialog.cpp" line="25"/>
         <source>Show usage data</source>
         <translation>사용 데이터 표시</translation>
     </message>
     <message>
+        <location filename="../../src/dialogs/PreferencesDialog.cpp" line="213"/>
+        <source>Transparency fill color</source>
+        <translation>투명 영역 채우기 색</translation>
+    </message>
+    <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="392"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="414"/>
         <source>Enable multi-selection column in the image list</source>
         <translation>이미지 목록에서 다중 선택 열 활성화</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="374"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="388"/>
         <source>Preview background</source>
         <translation>미리보기 배경</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="375"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="389"/>
         <source>Theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="376"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="390"/>
         <source>White</source>
         <translation>흰색</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="377"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="391"/>
         <source>Black</source>
         <translation>검정색</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="378"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="392"/>
         <source>Checkerboard</source>
         <translation>체커보드</translation>
+    </message>
+    <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="395"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="399"/>
+        <source>Color used to fill transparent areas when converting to JPG (which has no transparency).</source>
+        <translation>JPG(투명 미지원)로 변환할 때 투명 영역을 채우는 색입니다.</translation>
+    </message>
+    <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="397"/>
+        <source>Transparency fill color (JPG)</source>
+        <translation>투명 영역 채우기 색 (JPG)</translation>
     </message>
 </context>
 <context>
@@ -1122,52 +1140,52 @@ Saved: %4 (%5%)</source>
         <translation>이미지 파일</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="163"/>
+        <location filename="../../src/models/CImage.cpp" line="167"/>
         <source>Input file does not exist</source>
         <translation>입력 파일이 존재하지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="188"/>
+        <location filename="../../src/models/CImage.cpp" line="192"/>
         <source>Cannot make output path, check your permissions</source>
         <translation>출력 경로를 만들 수 없습니다. 권한을 확인하세요.</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="205"/>
+        <location filename="../../src/models/CImage.cpp" line="209"/>
         <source>Temporary file creation failed</source>
         <translation>임시 파일 생성 실패</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="227"/>
+        <location filename="../../src/models/CImage.cpp" line="221"/>
         <source>File conversion failed</source>
         <translation>파일 변환 실패</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="279"/>
+        <location filename="../../src/models/CImage.cpp" line="273"/>
         <source>Skipped: compressed file is bigger than original</source>
         <translation>건너뛰기: 압축된 파일이 원본보다 큽니다</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="289"/>
+        <location filename="../../src/models/CImage.cpp" line="283"/>
         <source>Cannot copy output file, check your permissions</source>
         <translation>출력 파일을 복사할 수 없습니다. 권한을 확인하세요.</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="318"/>
+        <location filename="../../src/models/CImage.cpp" line="312"/>
         <source>Cannot move original file to trash, check your permissions</source>
         <translation>원본 파일을 휴지통으로 이동할 수 없습니다. 권한을 확인하세요.</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="321"/>
+        <location filename="../../src/models/CImage.cpp" line="315"/>
         <source>Cannot delete original file, check your permissions</source>
         <translation>원본 파일을 삭제할 수 없습니다. 권한을 확인하세요.</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="447"/>
+        <location filename="../../src/models/CImage.cpp" line="441"/>
         <source>Compressing...</source>
         <translation>압축 중...</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="449"/>
+        <location filename="../../src/models/CImage.cpp" line="443"/>
         <source>Error:</source>
         <translation>오류:</translation>
     </message>
@@ -1182,32 +1200,32 @@ Saved: %4 (%5%)</source>
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../../src/utils/Utils.cpp" line="202"/>
+        <location filename="../../src/utils/Utils.cpp" line="206"/>
         <source>Same as input</source>
         <translation>입력과 동일</translation>
     </message>
     <message>
-        <location filename="../../src/utils/Utils.cpp" line="203"/>
+        <location filename="../../src/utils/Utils.cpp" line="207"/>
         <source>JPG</source>
         <translation>JPG</translation>
     </message>
     <message>
-        <location filename="../../src/utils/Utils.cpp" line="204"/>
+        <location filename="../../src/utils/Utils.cpp" line="208"/>
         <source>PNG</source>
         <translation>PNG</translation>
     </message>
     <message>
-        <location filename="../../src/utils/Utils.cpp" line="205"/>
+        <location filename="../../src/utils/Utils.cpp" line="209"/>
         <source>WebP</source>
         <translation>WebP</translation>
     </message>
     <message>
-        <location filename="../../src/utils/Utils.cpp" line="206"/>
+        <location filename="../../src/utils/Utils.cpp" line="210"/>
         <source>TIFF</source>
         <translation>TIFF</translation>
     </message>
     <message>
-        <location filename="../../src/utils/Utils.cpp" line="235"/>
+        <location filename="../../src/utils/Utils.cpp" line="239"/>
         <source>Auto</source>
         <translation>자동</translation>
     </message>

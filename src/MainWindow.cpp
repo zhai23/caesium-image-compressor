@@ -851,6 +851,7 @@ CompressionOptions MainWindow::getCompressionOptions(const QString& rootFolder) 
         maxOutputSize,
         ui->cacheOriginals_CheckBox->isChecked(),
         ui->deleteOriginalFormatFile_CheckBox->isChecked(),
+        QSettings().value("preferences/general/transparency_fill_color", "#FFFFFF").toString(),
     };
 
     return compressionOptions;

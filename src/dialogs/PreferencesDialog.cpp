@@ -5,6 +5,8 @@
 #include "UsageStatsDialog.h"
 #include "utils/LanguageManager.h"
 #include "utils/Utils.h"
+#include <QColor>
+#include <QColorDialog>
 #include <QJsonDocument>
 #include <QProcess>
 #include <QSettings>
@@ -50,6 +52,7 @@ void PreferencesDialog::setupConnections()
     connect(ui->skipCompressionDialogs_CheckBox, &QCheckBox::toggled, this, &PreferencesDialog::onSkipCompressionDialogsToggled);
     connect(ui->enableMultiSelection_CheckBox, &QCheckBox::toggled, this, &PreferencesDialog::onEnableMultiSelectionToggled);
     connect(ui->previewBackground_ComboBox, &QComboBox::currentIndexChanged, this, &PreferencesDialog::onPreviewBackgroundChanged);
+    connect(ui->transparencyFillColor_Button, &QPushButton::clicked, this, &PreferencesDialog::onTransparencyFillColorClicked);
     connect(ui->postCompressionAction_ComboBox, &QComboBox::currentIndexChanged, this, &PreferencesDialog::onPostCompressionActionChanged);
     connect(ui->restart_Button, &QPushButton::pressed, this, &PreferencesDialog::onRestartButtonPressed);
     connect(ui->threadsPriority_Slider, &QSlider::valueChanged, this, &PreferencesDialog::onThreadsPriorityChanged);
@@ -81,6 +84,7 @@ void PreferencesDialog::loadPreferences() const
     ui->skipCompressionDialogs_CheckBox->setChecked(settings.value("preferences/general/skip_compression_dialogs", false).toBool());
     ui->enableMultiSelection_CheckBox->setChecked(settings.value("preferences/general/enable_multi_selection", false).toBool());
     ui->previewBackground_ComboBox->setCurrentIndex(settings.value("preferences/general/preview_background", 0).toInt());
+    this->updateTransparencyFillColorButton(settings.value("preferences/general/transparency_fill_color", "#FFFFFF").toString());
     ui->theme_ComboBox->setCurrentIndex(settings.value("preferences/general/theme", 0).toInt());
     ui->themeVariant_ComboBox->setCurrentIndex(settings.value("preferences/general/theme_variant", 0).toInt());
     ui->argsBehaviour_ComboBox->setCurrentIndex(settings.value("preferences/general/args_behaviour", 0).toInt());
@@ -196,6 +200,43 @@ void PreferencesDialog::onPreviewBackgroundChanged(int index) const
     if (auto* mainWindow = qobject_cast<MainWindow*>(parent())) {
         mainWindow->applyPreviewBackground();
     }
+}
+
+void PreferencesDialog::onTransparencyFillColorClicked()
+{
+    QString currentHex = QSettings().value("preferences/general/transparency_fill_color", "#FFFFFF").toString();
+    QColor initial(currentHex);
+    if (!initial.isValid()) {
+        initial = QColor(Qt::white);
+    }
+
+    QColor chosen = QColorDialog::getColor(initial, this, tr("Transparency fill color"));
+    if (!chosen.isValid()) {
+        return;
+    }
+
+    QString hex = chosen.name(QColor::HexRgb);
+    QSettings().setValue("preferences/general/transparency_fill_color", hex);
+    this->updateTransparencyFillColorButton(hex);
+
+    // Refresh the preview so the flattened result updates immediately.
+    if (auto* mainWindow = qobject_cast<MainWindow*>(parent())) {
+        mainWindow->refreshPreview();
+    }
+}
+
+void PreferencesDialog::updateTransparencyFillColorButton(const QString& hex) const
+{
+    QColor color(hex);
+    if (!color.isValid()) {
+        color = QColor(Qt::white);
+    }
+    // Show the chosen color as a swatch on the button, with the hex as text.
+    QString textColor = (color.lightness() > 127) ? "#000000" : "#FFFFFF";
+    ui->transparencyFillColor_Button->setStyleSheet(
+        QString("QPushButton { background-color: %1; color: %2; border: 1px solid gray; padding: 3px; }")
+            .arg(color.name(QColor::HexRgb), textColor));
+    ui->transparencyFillColor_Button->setText(color.name(QColor::HexRgb).toUpper());
 }
 
 void PreferencesDialog::changeEvent(QEvent* event)

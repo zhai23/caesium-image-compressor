@@ -67,6 +67,10 @@ private:
     void setCompressedInfo(const QFileInfo& fileInfo);
     static void setFileDates(const QFileInfo& fileInfo, FileDatesOutputOption datesMap, const FileDates& inputFileDates);
     static size_t getMaxOutputSizeInBytes(MaxOutputSize maxOutputSize, size_t originalSize);
+    // Prepare a source QImage for saving to a target format: normalize palette
+    // images and, for formats without alpha (JPG), composite transparent pixels
+    // onto the given fill color so they don't become garbage.
+    static QImage prepareImageForConversion(const QImage& source, int targetFormatIndex, const QString& fillColorHex);
 };
 
 #endif // CIMAGE_H

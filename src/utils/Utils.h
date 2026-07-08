@@ -129,6 +129,7 @@ typedef struct CompressionOptions {
     MaxOutputSize maxOutputSize;
     bool cacheOriginals;
     bool deleteOriginalFormatFile;
+    QString transparencyFillColor;
 } CompressionOptions;
 
 typedef struct FileDates {

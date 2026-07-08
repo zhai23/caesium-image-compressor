@@ -29,6 +29,7 @@ private slots:
     static void onSkipCompressionDialogsToggled(bool checked);
     void onEnableMultiSelectionToggled(bool checked) const;
     void onPreviewBackgroundChanged(int index) const;
+    void onTransparencyFillColorClicked();
     static void onMultithreadingMaxThreadsChanged(int value);
     static void onPostCompressionActionChanged(int value);
     static void onRestartButtonPressed();
@@ -41,6 +42,7 @@ private:
     void loadPreferences() const;
     void loadLanguages() const;
     void loadThemes() const;
+    void updateTransparencyFillColorButton(const QString& hex) const;
     void changeEvent(QEvent* event) override;
 };
 

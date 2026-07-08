@@ -93,6 +93,36 @@
         </item>
        </widget>
       </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="transparencyFillColor_Label">
+        <property name="font">
+         <font>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Color used to fill transparent areas when converting to JPG (which has no transparency).</string>
+        </property>
+        <property name="text">
+         <string>Transparency fill color (JPG)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="2" colspan="2">
+       <widget class="QPushButton" name="transparencyFillColor_Button">
+        <property name="font">
+         <font>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Color used to fill transparent areas when converting to JPG (which has no transparency).</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="2">
        <widget class="QComboBox" name="theme_ComboBox">
         <property name="font">
