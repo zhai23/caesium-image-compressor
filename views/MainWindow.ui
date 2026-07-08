@@ -1701,36 +1701,97 @@ QScrollArea &gt; QWidget &gt; QScrollBar { background: 1; }</string>
         <property name="verticalSpacing">
          <number>4</number>
         </property>
-        <item row="0" column="1">
-         <widget class="QLoadingLabel" name="originalImageSize_Label">
-          <property name="frameShadow">
-           <enum>QFrame::Shadow::Plain</enum>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="originalImage_Label">
-          <property name="text">
-           <string>Original</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3">
-         <widget class="QLoadingLabel" name="compressedImageSize_Label">
-          <property name="textFormat">
-           <enum>Qt::TextFormat::RichText</enum>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
+         <item row="0" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="originalHeader_HLayout">
+           <item>
+            <widget class="QLabel" name="originalImage_Label">
+             <property name="text">
+              <string>Original</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="originalImageInfo_Label">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="originalHeader_HSpacer">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLoadingLabel" name="originalImageSize_Label">
+             <property name="frameShadow">
+              <enum>QFrame::Shadow::Plain</enum>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="2" colspan="2">
+          <layout class="QHBoxLayout" name="compressedHeader_HLayout">
+           <item>
+            <widget class="QLabel" name="compressedImage_Label">
+             <property name="text">
+              <string>Compressed</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="compressedImageInfo_Label">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="compressedHeader_HSpacer">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLoadingLabel" name="compressedImageSize_Label">
+             <property name="textFormat">
+              <enum>Qt::TextFormat::RichText</enum>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
         <item row="1" column="0" colspan="2">
          <widget class="QZoomGraphicsView" name="preview_GraphicsView">
           <property name="frameShape">
@@ -1796,13 +1857,6 @@ QScrollArea &gt; QWidget &gt; QScrollBar { background: 1; }</string>
           </property>
           <property name="resizeAnchor">
            <enum>QGraphicsView::ViewportAnchor::AnchorViewCenter</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="compressedImage_Label">
-          <property name="text">
-           <string>Compressed</string>
           </property>
          </widget>
         </item>

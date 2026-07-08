@@ -10,6 +10,8 @@
 #include <climits>
 #include <dialogs/AboutDialog.h>
 
+class QTimer;
+
 #include "models/CImageSortFilterProxyModel.h"
 #include "models/CImageTreeModel.h"
 #include "network/NetworkOperations.h"
@@ -33,7 +35,8 @@ public:
     void applyMultiSelectionVisibility() const;
     void applyPreviewBackground() const;
     void checkForUpdates(bool silent) const;
-    void refreshPreviewForResizeChange() const;
+    void refreshPreview() const;
+    void doRefreshPreview() const;
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -122,6 +125,7 @@ private:
     CImageTreeModel* cImageModel;
     QFutureWatcher<void>* compressionWatcher;
     QFutureWatcher<ImagePreview>* previewWatcher;
+    QTimer* previewRefreshTimer = nullptr;
     QMap<QString, int> folderMap;
     AboutDialog* aboutDialog = nullptr;
     QString lastOpenedDirectory;

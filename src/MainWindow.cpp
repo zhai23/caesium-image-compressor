@@ -18,6 +18,7 @@
 #include <QProgressDialog>
 #include <QRegularExpression>
 #include <QScrollBar>
+#include <QTimer>
 #include <QWheelEvent>
 #include <QWindow>
 #include <QtConcurrent>
@@ -52,6 +53,10 @@ MainWindow::MainWindow(QWidget* parent)
     this->aboutDialog = new AboutDialog(this);
     this->compressionWatcher = new QFutureWatcher<void>();
     this->previewWatcher = new QFutureWatcher<ImagePreview>();
+    this->previewRefreshTimer = new QTimer(this);
+    this->previewRefreshTimer->setSingleShot(true);
+    this->previewRefreshTimer->setInterval(350);
+    connect(this->previewRefreshTimer, &QTimer::timeout, this, &MainWindow::doRefreshPreview);
     this->listContextMenu = new QMenu();
     this->trayIconContextMenu = new QMenu();
     this->networkOperations = new NetworkOperations();
@@ -108,6 +113,36 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->previewCompressed_GraphicsView->horizontalScrollBar(), &QAbstractSlider::valueChanged, ui->preview_GraphicsView, &QZoomGraphicsView::setHorizontalScrollBarValue);
     connect(ui->previewCompressed_GraphicsView->verticalScrollBar(), &QAbstractSlider::valueChanged, ui->preview_GraphicsView, &QZoomGraphicsView::setVerticalScrollBarValue);
     connect(keepDatesButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::keepDatesButtonGroupClicked);
+
+    // Refresh the preview for resize only when the user finishes editing a size
+    // field (presses Enter or the field loses focus), not on every keystroke.
+    connect(ui->width_SpinBox, &QSpinBox::editingFinished, this, &MainWindow::refreshPreview);
+    connect(ui->height_SpinBox, &QSpinBox::editingFinished, this, &MainWindow::refreshPreview);
+    connect(ui->edge_SpinBox, &QSpinBox::editingFinished, this, &MainWindow::refreshPreview);
+
+    // Refresh the preview whenever any compression parameter changes.
+    connect(ui->format_ComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::refreshPreview);
+    connect(ui->lossless_CheckBox, &QCheckBox::toggled, this, &MainWindow::refreshPreview);
+    connect(ui->keepMetadata_CheckBox, &QCheckBox::toggled, this, &MainWindow::refreshPreview);
+    connect(ui->compressionMode_ComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::refreshPreview);
+    connect(ui->JPEGChromaSubsampling_ComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::refreshPreview);
+    connect(ui->JPEGProgressive_CheckBox, &QCheckBox::toggled, this, &MainWindow::refreshPreview);
+    connect(ui->TIFFCompressionMethod_ComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::refreshPreview);
+    connect(ui->maxOutputSizeUnit_ComboBox, &QComboBox::currentIndexChanged, this, &MainWindow::refreshPreview);
+    // Sliders: refresh only when the user releases the handle (not on every step,
+    // even though the number field mirrors the slider live).
+    connect(ui->JPEGQuality_Slider, &QSlider::sliderReleased, this, &MainWindow::refreshPreview);
+    connect(ui->PNGQuality_Slider, &QSlider::sliderReleased, this, &MainWindow::refreshPreview);
+    connect(ui->PNGOptimizationLevel_Slider, &QSlider::sliderReleased, this, &MainWindow::refreshPreview);
+    connect(ui->WebPQuality_Slider, &QSlider::sliderReleased, this, &MainWindow::refreshPreview);
+    connect(ui->TIFFDeflateLevel_Slider, &QSlider::sliderReleased, this, &MainWindow::refreshPreview);
+    // Number fields: refresh only on Enter / focus-out (they still mirror the
+    // slider live via the existing quality handlers).
+    connect(ui->JPEGQuality_SpinBox, &QSpinBox::editingFinished, this, &MainWindow::refreshPreview);
+    connect(ui->PNGQuality_SpinBox, &QSpinBox::editingFinished, this, &MainWindow::refreshPreview);
+    connect(ui->PNGOptimizationLevel_SpinBox, &QSpinBox::editingFinished, this, &MainWindow::refreshPreview);
+    connect(ui->WebPQuality_SpinBox, &QSpinBox::editingFinished, this, &MainWindow::refreshPreview);
+    connect(ui->maxOutputSize_SpinBox, &QSpinBox::editingFinished, this, &MainWindow::refreshPreview);
 
     connect(this->previewWatcher, &QFutureWatcher<ImagePreview>::resultReadyAt, this, &MainWindow::showPreview);
     connect(this->previewWatcher, &QFutureWatcher<ImagePreview>::finished, this, &MainWindow::previewFinished);
@@ -521,8 +556,16 @@ void MainWindow::previewImage(const QModelIndex& imageIndex, bool forceRuntimePr
     QList<std::pair<QString, bool>> images;
     images.append(std::pair<QString, bool>(originalPreviewPath, false));
 
+    // Determine the output format shown for the compressed pane (conversion
+    // target, or the original format when "Same as input").
+    int outputFormatIndex = ui->format_ComboBox->currentIndex();
+    QString compressedFormat = outputFormatIndex == 0
+        ? cImage->getFormat().toUpper()
+        : getOutputSupportedFormats().at(outputFormatIndex).toUpper();
+    QString originalFormat = cImage->getFormat().toUpper();
+
     // TODO Manage failure better
-    std::function<ImagePreview(std::pair<QString, bool>)> loadPixmap = [this, forceRuntimePreview, cImage](const std::pair<QString, bool>& pair) {
+    std::function<ImagePreview(std::pair<QString, bool>)> loadPixmap = [this, forceRuntimePreview, cImage, compressedFormat, originalFormat](const std::pair<QString, bool>& pair) {
         QString previewFullPath = pair.first;
         ImagePreview imagePreview;
         bool isOnFlyPreview = false;
@@ -535,12 +578,19 @@ void MainWindow::previewImage(const QModelIndex& imageIndex, bool forceRuntimePr
         }
         auto* imageReader = new QImageReader(previewFullPath);
         imageReader->setAutoTransform(true);
+        // Read the format BEFORE consuming the reader (afterwards it can be empty).
+        QString detectedFormat = QString(imageReader->format()).toUpper();
         QPixmap image = QPixmap::fromImageReader(imageReader);
         imagePreview.image = image;
         imagePreview.fileInfo = QFileInfo(previewFullPath);
         imagePreview.originalSize = cImage->getOriginalSize();
         imagePreview.isOnFlyPreview = isOnFlyPreview;
-        imagePreview.format = QString(imageReader->format()).toUpper();
+        // pair.second == true -> compressed pane; false -> original pane.
+        QString format = pair.second ? compressedFormat : originalFormat;
+        if (format.isEmpty()) {
+            format = detectedFormat;
+        }
+        imagePreview.format = format;
         delete imageReader; // Or the file will be opened forever
         return imagePreview;
     };
@@ -866,6 +916,8 @@ void MainWindow::imageList_selectionChanged()
     this->selectedCount = this->selectedIndexes.count() / CIMAGE_COLUMNS_SIZE;
     ui->originalImageSize_Label->clear();
     ui->compressedImageSize_Label->clear();
+    ui->originalImageInfo_Label->clear();
+    ui->compressedImageInfo_Label->clear();
     ui->actionPreview->setEnabled(this->selectedCount == 1 && !this->previewWatcher->isRunning());
     if (this->isItemRemovalRunning) {
         return;
@@ -1034,7 +1086,7 @@ void MainWindow::on_fitTo_ComboBox_currentIndexChanged(int index) const
 
     QSettings().setValue("compression_options/resize/fit_to", index);
     this->toggleLosslessWarningVisible();
-    this->refreshPreviewForResizeChange();
+    this->refreshPreview();
 }
 
 void MainWindow::on_width_SpinBox_valueChanged(int value) const
@@ -1043,7 +1095,8 @@ void MainWindow::on_width_SpinBox_valueChanged(int value) const
         ui->height_SpinBox->setValue(value);
     }
     QSettings().setValue("compression_options/resize/width", value);
-    this->refreshPreviewForResizeChange();
+    // Preview is refreshed on editingFinished (Enter / focus-out), not on every
+    // keystroke, to avoid lag while typing.
 }
 
 void MainWindow::on_height_SpinBox_valueChanged(int value) const
@@ -1052,13 +1105,11 @@ void MainWindow::on_height_SpinBox_valueChanged(int value) const
         ui->width_SpinBox->setValue(value);
     }
     QSettings().setValue("compression_options/resize/height", value);
-    this->refreshPreviewForResizeChange();
 }
 
 void MainWindow::on_edge_SpinBox_valueChanged(int value) const
 {
     QSettings().setValue("compression_options/resize/size", value);
-    this->refreshPreviewForResizeChange();
 }
 
 void MainWindow::on_keepAspectRatio_CheckBox_toggled(bool checked) const
@@ -1067,7 +1118,7 @@ void MainWindow::on_keepAspectRatio_CheckBox_toggled(bool checked) const
         ui->height_SpinBox->setValue(ui->width_SpinBox->value());
     }
     QSettings().setValue("compression_options/resize/keep_aspect_ratio", checked);
-    this->refreshPreviewForResizeChange();
+    this->refreshPreview();
 }
 
 void MainWindow::on_doNotEnlarge_CheckBox_toggled(bool checked) const
@@ -1081,10 +1132,19 @@ void MainWindow::on_doNotEnlarge_CheckBox_toggled(bool checked) const
         ui->height_SpinBox->setMaximum(maximum);
     }
     QSettings().setValue("compression_options/resize/do_not_enlarge", checked);
-    this->refreshPreviewForResizeChange();
+    this->refreshPreview();
 }
 
-void MainWindow::refreshPreviewForResizeChange() const
+void MainWindow::refreshPreview() const
+{
+    // Debounce: coalesce rapid parameter changes (dragging a slider, typing,
+    // stepping a spinbox) into a single preview regeneration after a short pause.
+    if (this->previewRefreshTimer != nullptr) {
+        this->previewRefreshTimer->start();
+    }
+}
+
+void MainWindow::doRefreshPreview() const
 {
     // Keep the "resize enabled" flag in sync so the preview/compression use the
     // current mode, then force a live runtime preview of the selected image.
@@ -1427,14 +1487,18 @@ void MainWindow::showPreview(int index) const
         ui->preview_GraphicsView->fitInView(ui->preview_GraphicsView->scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
         ui->preview_GraphicsView->show();
         if (imagePreview.fileInfo.exists()) {
-            ui->originalImageSize_Label->setText(QString("%1 %2").arg(toHumanSize(static_cast<double>(imagePreview.fileInfo.size())), imagePreview.format));
+            QString resolution = QString("%1x%2").arg(imagePreview.image.width()).arg(imagePreview.image.height());
+            ui->originalImageInfo_Label->setText(QString("%1 %2").arg(imagePreview.format, resolution));
+            ui->originalImageSize_Label->setText(toHumanSize(static_cast<double>(imagePreview.fileInfo.size())));
         } else {
+            ui->originalImageInfo_Label->clear();
             ui->originalImageSize_Label->setText(tr("File not found"));
         }
     }
 
     if (index == 1) {
-        QString labelTextPrefix = tr("File not found");
+        QString sizeText = tr("File not found");
+        QString infoText;
         if (imagePreview.fileInfo.exists()) {
             auto originalSize = static_cast<double>(imagePreview.originalSize);
             auto currentSize = static_cast<double>(imagePreview.fileInfo.size());
@@ -1448,15 +1512,18 @@ void MainWindow::showPreview(int index) const
                 color = "#ef4444";
             }
             QString ratio = QString::number(round(-100 + (currentSize / originalSize * 100))) + "%";
-            labelTextPrefix = QString("<span style=\" color:%1;\">%2</span> %3 (%4) %5").arg(color, icon, toHumanSize(currentSize), ratio, imagePreview.format);
+            QString resolution = QString("%1x%2").arg(imagePreview.image.width()).arg(imagePreview.image.height());
+            infoText = QString("%1 %2").arg(imagePreview.format, resolution);
             if (imagePreview.isOnFlyPreview) {
-                labelTextPrefix += " (" + tr("Preview") + ")";
+                infoText += " (" + tr("Preview") + ")";
             }
+            sizeText = QString("<span style=\" color:%1;\">%2</span> %3 (%4)").arg(color, icon, toHumanSize(currentSize), ratio);
         }
         ui->previewCompressed_GraphicsView->setLoading(false);
         ui->compressedImageSize_Label->setLoading(false);
         ui->previewCompressed_GraphicsView->showPixmap(imagePreview.image);
-        ui->compressedImageSize_Label->setText(labelTextPrefix);
+        ui->compressedImageInfo_Label->setText(infoText);
+        ui->compressedImageSize_Label->setText(sizeText);
         ui->previewCompressed_GraphicsView->fitInView(ui->previewCompressed_GraphicsView->scene()->itemsBoundingRect(), Qt::KeepAspectRatio);
         ui->previewCompressed_GraphicsView->show();
     }
