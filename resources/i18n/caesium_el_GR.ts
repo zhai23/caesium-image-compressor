@@ -209,19 +209,19 @@ Do you really want to continue?</source>
         <translation>Όχι</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1496"/>
-        <location filename="../../src/MainWindow.cpp" line="1501"/>
+        <location filename="../../src/MainWindow.cpp" line="1502"/>
+        <location filename="../../src/MainWindow.cpp" line="1507"/>
         <source>File not found</source>
         <translation>Το αρχείο δε βρέθηκε</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1536"/>
+        <location filename="../../src/MainWindow.cpp" line="1542"/>
         <source>Finishing...</source>
         <translation>Ολοκληρώνεται...</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="785"/>
-        <location filename="../../src/MainWindow.cpp" line="1624"/>
+        <location filename="../../src/MainWindow.cpp" line="1630"/>
         <source>Compressing...</source>
         <translation>Συμπίεση...</translation>
     </message>
@@ -244,10 +244,10 @@ Do you really want to continue?</source>
     <message>
         <location filename="../../src/MainWindow.cpp" line="717"/>
         <location filename="../../src/MainWindow.cpp" line="752"/>
-        <location filename="../../src/MainWindow.cpp" line="993"/>
-        <location filename="../../src/MainWindow.cpp" line="1293"/>
-        <location filename="../../src/MainWindow.cpp" line="1319"/>
-        <location filename="../../src/MainWindow.cpp" line="1341"/>
+        <location filename="../../src/MainWindow.cpp" line="996"/>
+        <location filename="../../src/MainWindow.cpp" line="1299"/>
+        <location filename="../../src/MainWindow.cpp" line="1325"/>
+        <location filename="../../src/MainWindow.cpp" line="1347"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
@@ -272,12 +272,12 @@ Do you really want to continue?</source>
         <translation>Η συμπίεση ολοκληρώθηκε!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="983"/>
+        <location filename="../../src/MainWindow.cpp" line="986"/>
         <source>You just saved %1!</source>
         <translation>Μόλις έσωσες %1!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="987"/>
+        <location filename="../../src/MainWindow.cpp" line="990"/>
         <source>Total files: %1
 Original size: %2
 Compressed size: %3
@@ -288,43 +288,53 @@ Saved: %4 (%5%)</source>
 Σώθηκαν: %4 (%5%)</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1291"/>
-        <location filename="../../src/MainWindow.cpp" line="1318"/>
+        <location filename="../../src/MainWindow.cpp" line="1257"/>
+        <source>Original:</source>
+        <translation>Αρχικό:</translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="1258"/>
+        <source>Compressed:</source>
+        <translation>Συμπιεσμένο:</translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="1297"/>
+        <location filename="../../src/MainWindow.cpp" line="1324"/>
         <source>Could not check for updates.</source>
         <translation>Δεν ήταν δυνατός ο έλεγχος για ενημερώσεις.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1328"/>
+        <location filename="../../src/MainWindow.cpp" line="1334"/>
         <source>A new version is available!</source>
         <translation>Μια νέα έκδοση είναι διαθέσιμη!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1329"/>
+        <location filename="../../src/MainWindow.cpp" line="1335"/>
         <source>Version %1 is available (you have %2). Do you want to download it?</source>
         <translation>Η έκδοση %1 είναι διαθέσιμη (έχετε %2). Θέλετε να τη λάβετε;</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1331"/>
+        <location filename="../../src/MainWindow.cpp" line="1337"/>
         <source>Download</source>
         <translation>Λήψη</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1332"/>
+        <location filename="../../src/MainWindow.cpp" line="1338"/>
         <source>Not now</source>
         <translation>Όχι τώρα</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1339"/>
+        <location filename="../../src/MainWindow.cpp" line="1345"/>
         <source>You are up to date!</source>
         <translation>Είστε ενημερωμένοι!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1340"/>
+        <location filename="../../src/MainWindow.cpp" line="1346"/>
         <source>Version %1 is the latest available.</source>
         <translation>Η έκδοση %1 είναι η πιο πρόσφατη διαθέσιμη.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1837"/>
+        <location filename="../../src/MainWindow.cpp" line="1843"/>
         <source>Recompress failed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -482,12 +492,12 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1454"/>
-        <location filename="../../src/MainWindow.cpp" line="1027"/>
-        <location filename="../../src/MainWindow.cpp" line="1031"/>
-        <location filename="../../src/MainWindow.cpp" line="1066"/>
-        <location filename="../../src/MainWindow.cpp" line="1070"/>
-        <location filename="../../src/MainWindow.cpp" line="1079"/>
+        <location filename="../../src/MainWindow.cpp" line="1030"/>
+        <location filename="../../src/MainWindow.cpp" line="1034"/>
+        <location filename="../../src/MainWindow.cpp" line="1069"/>
+        <location filename="../../src/MainWindow.cpp" line="1073"/>
         <location filename="../../src/MainWindow.cpp" line="1082"/>
+        <location filename="../../src/MainWindow.cpp" line="1085"/>
         <source>px</source>
         <translation>px</translation>
     </message>
@@ -604,7 +614,7 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1403"/>
-        <location filename="../../src/MainWindow.cpp" line="1519"/>
+        <location filename="../../src/MainWindow.cpp" line="1525"/>
         <source>Preview</source>
         <translation>Προεπισκόπηση</translation>
     </message>
@@ -633,19 +643,19 @@ Saved: %4 (%5%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1813"/>
+        <location filename="../../src/MainWindow.cpp" line="1819"/>
         <source>Best</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1432"/>
-        <location filename="../../src/MainWindow.cpp" line="1815"/>
+        <location filename="../../src/MainWindow.cpp" line="1821"/>
         <source>Balanced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1811"/>
+        <location filename="../../src/MainWindow.cpp" line="1817"/>
         <source>Fast</source>
         <translation type="unfinished"></translation>
     </message>
@@ -847,13 +857,13 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1440"/>
-        <location filename="../../src/MainWindow.cpp" line="1041"/>
-        <location filename="../../src/MainWindow.cpp" line="1045"/>
+        <location filename="../../src/MainWindow.cpp" line="1044"/>
+        <location filename="../../src/MainWindow.cpp" line="1048"/>
         <source>%</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1252"/>
+        <location filename="../../src/MainWindow.cpp" line="1256"/>
         <source>images in list</source>
         <translation>εικόνες στη λίστα</translation>
     </message>

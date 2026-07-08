@@ -209,19 +209,19 @@ Vuoi continuare?</translation>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1496"/>
-        <location filename="../../src/MainWindow.cpp" line="1501"/>
+        <location filename="../../src/MainWindow.cpp" line="1502"/>
+        <location filename="../../src/MainWindow.cpp" line="1507"/>
         <source>File not found</source>
         <translation>File non trovato</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1536"/>
+        <location filename="../../src/MainWindow.cpp" line="1542"/>
         <source>Finishing...</source>
         <translation>Completamento...</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="785"/>
-        <location filename="../../src/MainWindow.cpp" line="1624"/>
+        <location filename="../../src/MainWindow.cpp" line="1630"/>
         <source>Compressing...</source>
         <translation>Compressione...</translation>
     </message>
@@ -244,10 +244,10 @@ Vuoi continuare?</translation>
     <message>
         <location filename="../../src/MainWindow.cpp" line="717"/>
         <location filename="../../src/MainWindow.cpp" line="752"/>
-        <location filename="../../src/MainWindow.cpp" line="993"/>
-        <location filename="../../src/MainWindow.cpp" line="1293"/>
-        <location filename="../../src/MainWindow.cpp" line="1319"/>
-        <location filename="../../src/MainWindow.cpp" line="1341"/>
+        <location filename="../../src/MainWindow.cpp" line="996"/>
+        <location filename="../../src/MainWindow.cpp" line="1299"/>
+        <location filename="../../src/MainWindow.cpp" line="1325"/>
+        <location filename="../../src/MainWindow.cpp" line="1347"/>
         <source>Ok</source>
         <translation>OK</translation>
     </message>
@@ -272,12 +272,12 @@ Vuoi continuare?</translation>
         <translation>Compressione completata!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="983"/>
+        <location filename="../../src/MainWindow.cpp" line="986"/>
         <source>You just saved %1!</source>
         <translation>Hai appena risparmiato %1!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="987"/>
+        <location filename="../../src/MainWindow.cpp" line="990"/>
         <source>Total files: %1
 Original size: %2
 Compressed size: %3
@@ -288,43 +288,53 @@ Dimensione compressa: %3
 Risparmio: %4 (%5%)</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1291"/>
-        <location filename="../../src/MainWindow.cpp" line="1318"/>
+        <location filename="../../src/MainWindow.cpp" line="1257"/>
+        <source>Original:</source>
+        <translation>Originale:</translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="1258"/>
+        <source>Compressed:</source>
+        <translation>Compresso:</translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="1297"/>
+        <location filename="../../src/MainWindow.cpp" line="1324"/>
         <source>Could not check for updates.</source>
         <translation>Impossibile verificare gli aggiornamenti.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1328"/>
+        <location filename="../../src/MainWindow.cpp" line="1334"/>
         <source>A new version is available!</source>
         <translation>È disponibile una nuova versione!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1329"/>
+        <location filename="../../src/MainWindow.cpp" line="1335"/>
         <source>Version %1 is available (you have %2). Do you want to download it?</source>
         <translation>La versione %1 è disponibile (hai la %2). Vuoi scaricarla?</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1331"/>
+        <location filename="../../src/MainWindow.cpp" line="1337"/>
         <source>Download</source>
         <translation>Scarica</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1332"/>
+        <location filename="../../src/MainWindow.cpp" line="1338"/>
         <source>Not now</source>
         <translation>Non ora</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1339"/>
+        <location filename="../../src/MainWindow.cpp" line="1345"/>
         <source>You are up to date!</source>
         <translation>Sei aggiornato!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1340"/>
+        <location filename="../../src/MainWindow.cpp" line="1346"/>
         <source>Version %1 is the latest available.</source>
         <translation>La versione %1 è l&apos;ultima disponibile.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1837"/>
+        <location filename="../../src/MainWindow.cpp" line="1843"/>
         <source>Recompress failed</source>
         <translation>Ricomprimi file con errori</translation>
     </message>
@@ -431,19 +441,19 @@ Risparmio: %4 (%5%)</translation>
         <translation>Metodo</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1813"/>
+        <location filename="../../src/MainWindow.cpp" line="1819"/>
         <source>Best</source>
         <translation>Migliore</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1432"/>
-        <location filename="../../src/MainWindow.cpp" line="1815"/>
+        <location filename="../../src/MainWindow.cpp" line="1821"/>
         <source>Balanced</source>
         <translation>Bilanciato</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1811"/>
+        <location filename="../../src/MainWindow.cpp" line="1817"/>
         <source>Fast</source>
         <translation>Veloce</translation>
     </message>
@@ -535,12 +545,12 @@ Risparmio: %4 (%5%)</translation>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1454"/>
-        <location filename="../../src/MainWindow.cpp" line="1027"/>
-        <location filename="../../src/MainWindow.cpp" line="1031"/>
-        <location filename="../../src/MainWindow.cpp" line="1066"/>
-        <location filename="../../src/MainWindow.cpp" line="1070"/>
-        <location filename="../../src/MainWindow.cpp" line="1079"/>
+        <location filename="../../src/MainWindow.cpp" line="1030"/>
+        <location filename="../../src/MainWindow.cpp" line="1034"/>
+        <location filename="../../src/MainWindow.cpp" line="1069"/>
+        <location filename="../../src/MainWindow.cpp" line="1073"/>
         <location filename="../../src/MainWindow.cpp" line="1082"/>
+        <location filename="../../src/MainWindow.cpp" line="1085"/>
         <source>px</source>
         <translation>px</translation>
     </message>
@@ -669,7 +679,7 @@ Risparmio: %4 (%5%)</translation>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1403"/>
-        <location filename="../../src/MainWindow.cpp" line="1519"/>
+        <location filename="../../src/MainWindow.cpp" line="1525"/>
         <source>Preview</source>
         <translation>Anteprima</translation>
     </message>
@@ -846,13 +856,13 @@ Risparmio: %4 (%5%)</translation>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1440"/>
-        <location filename="../../src/MainWindow.cpp" line="1041"/>
-        <location filename="../../src/MainWindow.cpp" line="1045"/>
+        <location filename="../../src/MainWindow.cpp" line="1044"/>
+        <location filename="../../src/MainWindow.cpp" line="1048"/>
         <source>%</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1252"/>
+        <location filename="../../src/MainWindow.cpp" line="1256"/>
         <source>images in list</source>
         <translation>immagini nell&apos;elenco</translation>
     </message>

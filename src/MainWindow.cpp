@@ -974,6 +974,9 @@ void MainWindow::compressionFinished()
     ui->compressionProgress_Label->hide();
     this->toggleUIEnabled(true);
 
+    // Refresh the status bar so the compressed-size total reflects the results.
+    this->cModelItemsChanged();
+
     PostCompressionAction postCompressionAction = static_cast<PostCompressionAction>(QSettings().value("preferences/general/post_compression_action", 0).toInt());
     if (postCompressionAction != PostCompressionAction::NO_ACTION) {
         PostCompressionActions::runAction(postCompressionAction, ui->outputFolder_LineEdit->text());
@@ -1249,7 +1252,10 @@ void MainWindow::cModelItemsChanged() const
     int itemsCount = this->cImageModel->rowCount();
     QString humanItemsCount = QString::number(itemsCount);
     QString totalSize = toHumanSize(this->cImageModel->originalItemsSize());
-    ui->statusbar->showMessage(humanItemsCount + " " + tr("images in list") + " | " + totalSize);
+    QString totalCompressedSize = toHumanSize(this->cImageModel->compressedItemsSize());
+    ui->statusbar->showMessage(humanItemsCount + " " + tr("images in list")
+        + " | " + tr("Original:") + " " + totalSize
+        + " | " + tr("Compressed:") + " " + totalCompressedSize);
 
     ui->removeFiles_Button->setEnabled(itemsCount > 0 && this->selectedCount > 0);
     ui->actionRemove->setEnabled(itemsCount > 0 && this->selectedCount > 0);
