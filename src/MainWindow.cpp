@@ -18,6 +18,7 @@
 #include <QProgressDialog>
 #include <QRegularExpression>
 #include <QScrollBar>
+#include <QSet>
 #include <QTimer>
 #include <QWheelEvent>
 #include <QWindow>
@@ -248,6 +249,8 @@ void MainWindow::initListContextMenu()
     this->listContextMenu->addSeparator();
     this->listContextMenu->addAction(ui->actionShow_original_in_file_manager);
     this->listContextMenu->addAction(ui->actionShow_compressed_in_file_manager);
+    this->listContextMenu->addSeparator();
+    this->listContextMenu->addAction(ui->actionRestore);
 
     connect(this->listContextMenu, &QMenu::aboutToShow, this, &MainWindow::listContextMenuAboutToShow);
 }
@@ -927,6 +930,7 @@ void MainWindow::imageList_selectionChanged()
     ui->removeFiles_Button->setDisabled(this->selectedCount == 0);
     ui->actionShow_original_in_file_manager->setEnabled(this->selectedCount == 1);
     ui->actionShow_compressed_in_file_manager->setEnabled(this->selectedCount == 1);
+    this->updateRestoreActionState();
 
     if (this->selectedCount == 0) {
         ui->preview_GraphicsView->removePixmap();
@@ -976,6 +980,7 @@ void MainWindow::compressionFinished()
 
     // Refresh the status bar so the compressed-size total reflects the results.
     this->cModelItemsChanged();
+    this->updateRestoreActionState();
 
     PostCompressionAction postCompressionAction = static_cast<PostCompressionAction>(QSettings().value("preferences/general/post_compression_action", 0).toInt());
     if (postCompressionAction != PostCompressionAction::NO_ACTION) {
@@ -1385,6 +1390,9 @@ void MainWindow::on_actionShow_previews_toggled(bool toggled) const
 
 void MainWindow::showListContextMenu(const QPoint& pos) const
 {
+    // Update action states right before showing, so Restore/etc. reflect the
+    // current state immediately (aboutToShow alone can lag in some cases).
+    this->listContextMenuAboutToShow();
     this->listContextMenu->exec(ui->imageList_TreeView->viewport()->mapToGlobal(pos));
 }
 
@@ -1473,6 +1481,46 @@ void MainWindow::on_actionShow_compressed_in_file_manager_triggered() const
     showFileInNativeFileManager(cImage->getCompressedFullPath(), cImage->getCompressedDirectory());
 }
 
+void MainWindow::on_actionRestore_triggered()
+{
+    if (this->selectedCount < 1) {
+        return;
+    }
+
+    // Collect unique source rows (selectedIndexes has one entry per column).
+    QSet<int> rows;
+    for (const QModelIndex& idx : this->selectedIndexes) {
+        rows.insert(this->proxyModel->mapToSource(idx).row());
+    }
+
+    int restoredCount = 0;
+    int failedCount = 0;
+    for (int row : rows) {
+        auto* cImage = this->cImageModel->getRootItem()->children().at(row)->getCImage();
+        if (cImage->restoreFromCache()) {
+            this->cImageModel->emitDataChanged(row);
+            restoredCount++;
+        } else {
+            failedCount++;
+        }
+    }
+
+    // Refresh the status bar totals and the currently shown preview.
+    this->cModelItemsChanged();
+    this->updateRestoreActionState();
+    if (this->selectedCount == 1 && !this->selectedIndexes.isEmpty()) {
+        this->previewImage(this->proxyModel->mapToSource(this->selectedIndexes.at(0)));
+    }
+
+    if (failedCount > 0 && restoredCount == 0) {
+        QCaesiumMessageBox msgBox(this);
+        msgBox.setText(tr("Nothing to restore"));
+        msgBox.setInformativeText(tr("The selected images have no cached original to restore from."));
+        msgBox.addButton(tr("Ok"), QMessageBox::AcceptRole);
+        msgBox.exec();
+    }
+}
+
 void MainWindow::listContextMenuAboutToShow() const
 {
     if (this->selectedCount < 1) {
@@ -1482,6 +1530,31 @@ void MainWindow::listContextMenuAboutToShow() const
     auto currentIndex = this->proxyModel->mapToSource(this->selectedIndexes.at(0));
     auto cImage = this->cImageModel->getRootItem()->children().at(currentIndex.row())->getCImage();
     ui->actionShow_compressed_in_file_manager->setDisabled(cImage->getCompressedFullPath().isEmpty());
+
+    this->updateRestoreActionState();
+}
+
+void MainWindow::updateRestoreActionState() const
+{
+    // Enable Restore only if at least one selected image has a cached original
+    // AND is currently in a compressed/converted state (i.e. there is something
+    // to restore). After a restore the compressed info is cleared, so it disables.
+    bool anyRestorable = false;
+    if (this->selectedCount >= 1) {
+        QSet<int> rows;
+        for (const QModelIndex& idx : this->selectedIndexes) {
+            rows.insert(this->proxyModel->mapToSource(idx).row());
+        }
+        for (int row : rows) {
+            auto* img = this->cImageModel->getRootItem()->children().at(row)->getCImage();
+            if (!img->getCompressedFullPath().isEmpty()
+                && QFileInfo::exists(img->getCachedOriginalPath())) {
+                anyRestorable = true;
+                break;
+            }
+        }
+    }
+    ui->actionRestore->setEnabled(anyRestorable);
 }
 
 void MainWindow::showPreview(int index) const

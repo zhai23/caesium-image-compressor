@@ -1974,11 +1974,12 @@ QScrollArea &gt; QWidget &gt; QScrollBar { background: 1; }</string>
    <addaction name="actionRemove"/>
    <addaction name="actionClear"/>
    <addaction name="separator"/>
-   <addaction name="actionPreview"/>
-   <addaction name="actionCompress"/>
-   <addaction name="separator"/>
-   <addaction name="actionPreferences"/>
-  </widget>
+    <addaction name="actionPreview"/>
+    <addaction name="actionCompress"/>
+    <addaction name="actionRestore"/>
+    <addaction name="separator"/>
+    <addaction name="actionPreferences"/>
+   </widget>
   <action name="actionAbout_Caesium_Image_Compressor">
    <property name="text">
     <string>About Caesium Image Compressor</string>
@@ -2087,6 +2088,18 @@ QScrollArea &gt; QWidget &gt; QScrollBar { background: 1; }</string>
     <string>Show compressed in file manager</string>
    </property>
    </action>
+  <action name="actionRestore">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/icons/ui/restore.svg</normaloff>:/icons/ui/restore.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Restore</string>
+   </property>
+   <property name="toolTip">
+    <string>Restore the original image from cache and remove the converted output.</string>
+   </property>
+  </action>
    <action name="actionCompress">
    <property name="enabled">
     <bool>false</bool>

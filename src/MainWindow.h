@@ -37,6 +37,7 @@ public:
     void checkForUpdates(bool silent) const;
     void refreshPreview() const;
     void doRefreshPreview() const;
+    void updateRestoreActionState() const;
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -79,6 +80,7 @@ private slots:
     static void on_keepDates_CheckBox_stateChanged(int arg1);
     void on_actionShow_original_in_file_manager_triggered() const;
     void on_actionShow_compressed_in_file_manager_triggered() const;
+    void on_actionRestore_triggered();
     void listContextMenuAboutToShow() const;
     void showPreview(int index) const;
     void previewFinished() const;

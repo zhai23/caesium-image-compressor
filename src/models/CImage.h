@@ -43,6 +43,9 @@ public:
     bool ensureCachedOriginal() const;
     QString getCompressionSourcePath(bool cacheOriginals) const;
     void removeCachedOriginal() const;
+    // Restore the image to its uncompressed original by copying the cached
+    // original back to its location and removing the converted output.
+    bool restoreFromCache();
 
 private:
     CImageStatus status;

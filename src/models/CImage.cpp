@@ -584,3 +584,41 @@ void CImage::removeCachedOriginal() const
         QFile::remove(cachedPath);
     }
 }
+
+bool CImage::restoreFromCache()
+{
+    QString cachedPath = this->getCachedOriginalPath();
+    if (!QFile::exists(cachedPath)) {
+        return false; // No cached original -> nothing to restore.
+    }
+
+    // 1) Copy the cached original back to its original location (name + format).
+    if (QFile::exists(this->fullPath)) {
+        QFile::remove(this->fullPath); // QFile::copy does not overwrite.
+    }
+    if (!QFile::copy(cachedPath, this->fullPath)) {
+        qWarning() << "Restore failed: cannot copy" << cachedPath << "to" << this->fullPath;
+        return false;
+    }
+
+    // 2) Remove the converted output produced last time, but ONLY if it differs
+    //    from the restored original (i.e. a format conversion happened). Unrelated
+    //    same-named files of other formats are never touched.
+    if (!this->compressedFullPath.isEmpty()
+        && QFileInfo(this->compressedFullPath).absoluteFilePath() != QFileInfo(this->fullPath).absoluteFilePath()
+        && QFile::exists(this->compressedFullPath)) {
+        if (!QFile::moveToTrash(this->compressedFullPath)) {
+            QFile::remove(this->compressedFullPath);
+        }
+    }
+
+    // 3) Reset compression info back to the uncompressed original state.
+    this->compressedFullPath.clear();
+    this->compressedDirectory.clear();
+    this->compressedSize = this->size;
+    this->compressedWidth = this->width;
+    this->compressedHeight = this->height;
+    this->additionalInfo.clear();
+    this->status = CImageStatus::UNCOMPRESSED;
+    return true;
+}
