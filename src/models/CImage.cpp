@@ -284,25 +284,21 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
             return false;
         }
 
-        // If enabled, keep only the current output in the destination folder:
-        // remove any same-named image file with a DIFFERENT extension (e.g. a
-        // grok.png / grok.jpg / grok.tiff left over from earlier conversions),
-        // regardless of whether this run converted the format.
-        if (compressionOptions.deleteOriginalFormatFile) {
-            QString baseName = inputFileInfo.completeBaseName() + suffix;
-            QFileInfo outputFileInfoForName(outputFullPath);
-            const QStringList imageExtensions = { "png", "jpg", "jpeg", "webp", "tif", "tiff" };
-            for (const QString& ext : imageExtensions) {
-                QString candidate = outputDir.absoluteFilePath(baseName + "." + ext);
-                QFileInfo candidateInfo(candidate);
-                // Skip the file we just wrote (compare by canonical/absolute path).
-                if (candidateInfo.absoluteFilePath() == outputFileInfoForName.absoluteFilePath()) {
-                    continue;
-                }
-                if (candidateInfo.exists()) {
-                    if (!QFile::moveToTrash(candidate)) {
-                        QFile::remove(candidate);
-                    }
+        // If enabled AND the format was actually converted this run, remove the
+        // source file this image was converted FROM (same base name + the source's
+        // ORIGINAL extension) in the output directory. Only that one file is
+        // touched — same-named files of other, unrelated formats are left alone.
+        if (convert && compressionOptions.deleteOriginalFormatFile) {
+            QString sourceExt = this->extension.toLower();
+            // The source file keeps its original name (the output suffix only
+            // applies to the converted output, not to the source we're removing).
+            QString sourceFormatFile = outputDir.absoluteFilePath(inputFileInfo.completeBaseName() + "." + sourceExt);
+            QFileInfo sourceInfo(sourceFormatFile);
+            QFileInfo outputInfoForName(outputFullPath);
+            // Never delete the file we just wrote.
+            if (sourceInfo.absoluteFilePath() != outputInfoForName.absoluteFilePath() && sourceInfo.exists()) {
+                if (!QFile::moveToTrash(sourceFormatFile)) {
+                    QFile::remove(sourceFormatFile);
                 }
             }
         }

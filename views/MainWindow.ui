@@ -1490,6 +1490,9 @@ QScrollArea &gt; QWidget &gt; QScrollBar { background: 1; }</string>
                  <property name="text">
                   <string>Delete original-format file after conversion</string>
                  </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
                <item>

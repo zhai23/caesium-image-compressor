@@ -188,7 +188,7 @@ All rights reserved.</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1484"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1485"/>
         <location filename="../../src/MainWindow.cpp" line="641"/>
         <location filename="../../src/MainWindow.cpp" line="877"/>
         <source>Cancel</source>
@@ -340,103 +340,103 @@ Einsparung: %4 (%5%)</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1370"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1371"/>
         <source>Caesium Image Compressor</source>
         <translation>Caesium Image Compressor</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1408"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1409"/>
         <source>Add...</source>
         <translation>Hinzufügen...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1381"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1409"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1382"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1410"/>
         <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1394"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1396"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1410"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1395"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1397"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1411"/>
         <source>Compress</source>
         <translation>Komprimieren</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1442"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1443"/>
         <source>Compression</source>
         <translation>Komprimierung</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1416"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1417"/>
         <source>JPEG</source>
         <translation>JPEG</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1413"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1417"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1421"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1424"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1414"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1418"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1422"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1425"/>
         <source>Quality</source>
         <translation>Qualität</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1420"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1421"/>
         <source>PNG</source>
         <translation>PNG</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1423"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1424"/>
         <source>WebP</source>
         <translation>WebP</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1433"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1434"/>
         <source>Lossless</source>
         <translation>verlustfrei</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1435"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1436"/>
         <source>Maximum output size</source>
         <translation>Maximale Ausgabegröße</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1437"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1438"/>
         <source>bytes</source>
         <translation>Bytes</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1412"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1413"/>
         <source>Mode</source>
         <translation>Modus</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1422"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1423"/>
         <source>Optimization level</source>
         <translation>Optimierungsstufe</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1425"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1426"/>
         <source>TIFF</source>
         <translation>TIFF</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1426"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1427"/>
         <source>Method</source>
         <translation>Methode</translation>
     </message>
@@ -447,7 +447,7 @@ Einsparung: %4 (%5%)</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1432"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1433"/>
         <location filename="../../src/MainWindow.cpp" line="1821"/>
         <source>Balanced</source>
         <translation>Ausgewogen</translation>
@@ -459,86 +459,86 @@ Einsparung: %4 (%5%)</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1427"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1428"/>
         <source>Uncompressed</source>
         <translation>Unkomprimiert</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1418"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1419"/>
         <source>Chroma subsampling</source>
         <translation>Farbunterabtastung</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1434"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1435"/>
         <source>Keep Metadata</source>
         <translation>Metadaten behalten</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1438"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1439"/>
         <source>KB</source>
         <translation>KB</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1439"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1440"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1458"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1459"/>
         <source>Resize</source>
         <translation>Größe ändern</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1443"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1444"/>
         <source>Resize to fit</source>
         <translation>Größe anpassen über</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1444"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1445"/>
         <source>No resize</source>
         <translation>Keine Größenänderung</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1445"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1446"/>
         <source>Dimensions</source>
         <translation>Abmessungen</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1446"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1447"/>
         <source>Percentage</source>
         <translation>Prozent</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1447"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1448"/>
         <source>Short edge</source>
         <translation>Kurze Kante</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1448"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1449"/>
         <source>Long edge</source>
         <translation>Lange Kante</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1449"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1452"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1450"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1453"/>
         <source>Width</source>
         <translation>Breite</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1454"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1455"/>
         <location filename="../../src/MainWindow.cpp" line="1030"/>
         <location filename="../../src/MainWindow.cpp" line="1034"/>
         <location filename="../../src/MainWindow.cpp" line="1069"/>
@@ -550,312 +550,312 @@ Einsparung: %4 (%5%)</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1414"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1453"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1415"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1454"/>
         <source>Size</source>
         <translation>Größe</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1450"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1455"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1451"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1456"/>
         <source>Height</source>
         <translation>Höhe</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1456"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1457"/>
         <source>Do not enlarge</source>
         <translation>Nicht vergrößern</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1457"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1458"/>
         <source>Keep aspect ratio</source>
         <translation>Seitenverhältnis beibehalten</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1481"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1482"/>
         <source>Output</source>
         <translation>Ausgabe</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1459"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1460"/>
         <source>Folder</source>
         <translation>Ordner</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1460"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1461"/>
         <source>Select...</source>
         <translation>Auswahl...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1461"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1462"/>
         <source>Same folder as input</source>
         <translation>Eingabeordner verwenden</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1462"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1463"/>
         <source>Keep folder structure</source>
         <translation>Ordnerstruktur behalten</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1463"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1464"/>
         <source>Skip if output size is bigger than the original</source>
         <translation>Überspringen, wenn die Ausgabegröße größer als das Original ist</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1472"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1473"/>
         <source>Move the original file</source>
         <translation type="unfinished">Original Daten werden </translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1473"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1474"/>
         <source>To Trash</source>
         <translation>in den Papierkorb verschoben</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1474"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1475"/>
         <source>Delete Permanently</source>
         <translation>dauerhaft gelöscht</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1476"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1477"/>
         <source>Keep file dates</source>
         <translation>Dateidatum behalten</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1477"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1478"/>
         <source>Creation</source>
         <translation>erstellt</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1478"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1479"/>
         <source>Last modified</source>
         <translation>Letzte Änderung</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1479"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1480"/>
         <source>Last access</source>
         <translation>Letzter Zugriff</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1411"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1412"/>
         <source>Format</source>
         <translation>Format</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1480"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1481"/>
         <source>Suffix</source>
         <translation>Suffix</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1483"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1484"/>
         <source>Converting to a new format or resizing can degrade quality even if &quot;lossless&quot; option is selected</source>
         <translation>Eine Konvertierung in ein anderes Format oder eine Größenänderung kann die Qualität reduzieren, selbst wenn die Option &apos;verlustfrei&apos; ausgewählt ist</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1488"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1489"/>
         <source>Compressed</source>
         <translation>Komprimiert</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1485"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1486"/>
         <source>Original</source>
         <translation>Original</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1419"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1420"/>
         <source>Progressive</source>
         <translation>Progressive</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1490"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1491"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1491"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1492"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1492"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1493"/>
         <source>Edit</source>
         <translation>Ändern</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1493"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1494"/>
         <source>View</source>
         <translation>Ansicht</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1494"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1495"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1496"/>
         <source>Toolbar</source>
         <translation>Toolbar</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1371"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1372"/>
         <source>About Caesium Image Compressor</source>
         <translation>Über Caesium Image Compressor</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1372"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1373"/>
         <source>Add files...</source>
         <translation>Dateien hinzufügen...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1374"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1375"/>
         <source>Ctrl+O</source>
         <translation>STRG+O</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1376"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1377"/>
         <source>Add folder...</source>
         <translation>Ordner hinzufügen...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1378"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1379"/>
         <source>Ctrl+Shift+O</source>
         <translation>STRG+Shift+O</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1380"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1381"/>
         <location filename="../../src/MainWindow.cpp" line="257"/>
         <source>Exit</source>
         <translation>Beenden</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1383"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1384"/>
         <source>Del</source>
         <translation>Entf</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1385"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1386"/>
         <source>Select All</source>
         <translation>Alle auswählen</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1387"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1388"/>
         <source>Ctrl+A</source>
         <translation>STRG+A</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1389"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1390"/>
         <source>Clear</source>
         <translation>Quellenliste leeren</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1390"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1391"/>
         <source>Show previews</source>
         <translation>Zeige Vorschau</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1391"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1392"/>
         <source>Preferences...</source>
         <translation>Einstellungen...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1392"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1393"/>
         <source>Show original in file manager</source>
         <translation>Zeige Original im Explorer</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1393"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1394"/>
         <source>Show compressed in file manager</source>
         <translation>Zeige komprimierte Datei im Explorer</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1398"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1399"/>
         <source>Icons</source>
         <translation>Icons</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1399"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1400"/>
         <source>Icons and Text</source>
         <translation>Icons und Text</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1400"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1401"/>
         <source>Hide</source>
         <translation>Verbergen</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1401"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1402"/>
         <source>Show</source>
         <translation>Zeige</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1402"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1403"/>
         <source>Auto preview</source>
         <translation>Auto Vorschau</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1403"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1404"/>
         <location filename="../../src/MainWindow.cpp" line="1525"/>
         <source>Preview</source>
         <translation>Vorschau</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1405"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1406"/>
         <source>Ctrl+P</source>
         <translation>Strg+P</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1407"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1408"/>
         <source>Advanced import...</source>
         <translation>Erweiterter Import...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1440"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1441"/>
         <location filename="../../src/MainWindow.cpp" line="1044"/>
         <location filename="../../src/MainWindow.cpp" line="1048"/>
         <source>%</source>
@@ -868,31 +868,31 @@ Einsparung: %4 (%5%)</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1465"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1466"/>
         <source>Keep a copy of the original images so you can re-compress with different settings even after overwriting them.</source>
         <translation>Behält eine Kopie der Originalbilder, sodass Sie auch nach dem Überschreiben mit anderen Einstellungen erneut komprimieren können.</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1467"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1468"/>
         <source>Cache originals for re-compression</source>
         <translation>Originale für erneute Komprimierung zwischenspeichern</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1469"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1470"/>
         <source>After converting to a new format, delete the same-named file with the original extension in the output folder.</source>
         <translation>Nach der Konvertierung in ein neues Format die gleichnamige Datei mit der ursprünglichen Erweiterung im Ausgabeordner löschen.</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1471"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1472"/>
         <source>Delete original-format file after conversion</source>
         <translation>Datei im Originalformat nach Konvertierung löschen</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1430"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1431"/>
         <source>Current Deflate level (Fast / Balanced / Best)</source>
         <translation>Aktuelle Deflate-Stufe (Schnell / Ausgewogen / Beste)</translation>
     </message>
@@ -1178,22 +1178,22 @@ Einsparung: %4 (%5%)</translation>
         <translation>Kann Ausgabedatei nicht erstellen, prüfen Sie Ihre Berechtigungen</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="312"/>
+        <location filename="../../src/models/CImage.cpp" line="308"/>
         <source>Cannot move original file to trash, check your permissions</source>
         <translation>Kann Originaldatei nicht in den Papierkorb verschieben, prüfen Sie Ihre Berechtigungen</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="315"/>
+        <location filename="../../src/models/CImage.cpp" line="311"/>
         <source>Cannot delete original file, check your permissions</source>
         <translation>Kann Originaldatei nicht dauerhaft löschen, prüfen Sie Ihre Berechtigungen</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="441"/>
+        <location filename="../../src/models/CImage.cpp" line="437"/>
         <source>Compressing...</source>
         <translation>Komprimiere...</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="443"/>
+        <location filename="../../src/models/CImage.cpp" line="439"/>
         <source>Error:</source>
         <translation>Fehler:</translation>
     </message>

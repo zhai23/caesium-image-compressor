@@ -516,7 +516,7 @@ void MainWindow::readSettings()
     ui->sameOutputFolderAsInput_CheckBox->setChecked(QSettings().value("compression_options/output/same_folder_as_input", false).toBool());
     ui->skipIfBigger_CheckBox->setChecked(QSettings().value("compression_options/output/skip_if_bigger", true).toBool());
     ui->cacheOriginals_CheckBox->setChecked(QSettings().value("compression_options/output/cache_originals", false).toBool());
-    ui->deleteOriginalFormatFile_CheckBox->setChecked(QSettings().value("compression_options/output/delete_original_format_file", false).toBool());
+    ui->deleteOriginalFormatFile_CheckBox->setChecked(QSettings().value("compression_options/output/delete_original_format_file", true).toBool());
     ui->keepDates_CheckBox->setCheckState(QSettings().value("compression_options/output/keep_dates", Qt::Unchecked).value<Qt::CheckState>());
     ui->keepCreationDate_CheckBox->setChecked(QSettings().value("compression_options/output/keep_creation_date", false).toBool());
     ui->keepLastModifiedDate_CheckBox->setChecked(QSettings().value("compression_options/output/keep_last_modified_date", false).toBool());
