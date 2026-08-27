@@ -13,10 +13,11 @@ Caesium 在启动后监听一个本机命名管道，命令行（CLI）可以直
   - [`remove`](#remove-移除列表项)
   - [`clear`](#clear-清空列表)
   - [`list`](#list-查看列表)
+  - [`select` / `deselect`](#select--deselect-多选)
   - [`status`](#status-查询状态)
   - [`compress`](#compress-压缩)
   - [`cancel`](#cancel-取消压缩)
-  - [`settings`](#settings-读写压缩选项)
+  - [`settings`](#settings-读写设置压缩选项--偏好)
   - [`path`](#path-管理-path)
   - [`show` / `quit`](#show--quit)
   - [`shell`](#shell-交互式会话)
@@ -116,16 +117,21 @@ caesium-cli add <路径...>
 把文件 / 文件夹中的图片加入列表。返回导入数量。
 
 ```
-Imported 42 image(s).
+已导入 42 张图片。
 ```
 
 ### `remove` 移除列表项
 
 ```bash
-caesium-cli remove <路径...>
+caesium-cli remove <ID 或路径...>
 ```
 
-按完整路径精确匹配移除。
+按 **ID** 或完整路径精确匹配移除：
+
+```bash
+caesium-cli remove 2                  # 按 ID 移除
+caesium-cli remove "C:\a.jpg" 3       # 路径和 ID 混用
+```
 
 ### `clear` 清空列表
 
@@ -140,13 +146,44 @@ caesium-cli list
 caesium-cli list --json
 ```
 
-人类可读表格（文件名过长时以 `...` 结尾表示被截断，格式单独一列，方便看清扩展名）：
+人类可读表格（**ID** 列是会话内的稳定编号，用于 `select`/`deselect`/`remove`；文件名过长以 `...` 结尾；`已选` 列显示多选状态）：
 
 ```
-Name                             Format  Status      Original     Saved
+  ID  名称                            格式    已选  状态        原始大小     节省
 ----------------------------------------------------------------------------
-a1.png                           PNG     waiting          6.29 KB        0%
-spine_xinshouyindao_shou图集(256...  PNG     waiting         20.27 KB        0%
+   1  a1.png                           PNG     是    等待            6.29 KB        0%
+   2  spine_xinshouyindao_shou图集(256...  PNG     否    等待           20.27 KB        0%
+```
+
+### `select` / `deselect` 多选
+
+> 需要先在设置中开启多选（CLI：`caesium-cli settings set enable_multi_selection true`），开启后列表会出现复选框列，**压缩只会处理选中的图片**。
+
+```bash
+# 全选 / 取消全选
+caesium-cli select all
+caesium-cli select none          # 等价于 deselect all
+
+# 选中 / 取消选中指定图片（按完整路径匹配）
+caesium-cli select "C:\a.jpg" "C:\b.png"
+caesium-cli select 3 5 7               # 按 ID 选中（先在 list 里看 ID 列）
+caesium-cli deselect 3 5
+caesium-cli deselect "C:\a.jpg"
+
+# 查看选中情况
+caesium-cli status
+```
+
+示例：只压缩指定的两张图片
+
+```bash
+caesium-cli settings set enable_multi_selection true
+caesium-cli clear
+caesium-cli add ./photos
+caesium-cli select none
+caesium-cli list                       # 记下要保留图片的 ID
+caesium-cli select 2 5
+caesium-cli compress --wait
 ```
 
 ### `status` 查询状态
@@ -157,7 +194,7 @@ caesium-cli status --wait     # 持续刷新直到压缩结束
 caesium-cli status --json
 ```
 
-显示是否在压缩、进度、各项状态（等待 / 压缩中 / 已压缩 / 错误）与汇总。
+显示是否在压缩、进度、各项状态（等待 / 压缩中 / 已压缩 / 错误）与汇总。开启多选时会额外显示 `已选：N / M`。
 
 ### `compress` 压缩
 
@@ -181,11 +218,11 @@ caesium-cli compress
 `--wait` 会阻塞直到压缩完成，显示进度并打印汇总：
 
 ```
-Compression finished.
-  Images:      42
-  Original:    120.5 MB
-  Compressed:  48.2 MB
-  Saved:       72.3 MB (60.0%)
+压缩完成。
+  图片数量：  42
+  原始大小：  120.5 MB
+  压缩大小：  48.2 MB
+  节省：      72.3 MB (60.0%)
 ```
 
 **压缩选项**（与设置界面对应）：
@@ -221,22 +258,24 @@ Compression finished.
 caesium-cli cancel
 ```
 
-### `settings` 读写压缩选项
+### `settings` 读写设置（压缩选项 + 偏好）
 
 ```bash
-# 读取全部选项
+# 读取全部设置
 caesium-cli settings get
 
-# 读取单个选项
+# 读取单个设置
 caesium-cli settings get jpeg_quality
+caesium-cli settings get enable_multi_selection
 
-# 写入选项
+# 写入设置
 caesium-cli settings set jpeg_quality 85
 caesium-cli settings set format png
 caesium-cli settings set output_folder "D:\out"
+caesium-cli settings set enable_multi_selection true
 ```
 
-选项键与取值：
+**压缩选项**键与取值：
 
 | 键 | 取值示例 |
 |---|---|
@@ -257,7 +296,26 @@ caesium-cli settings set output_folder "D:\out"
 | `delete_original_format_file` | `true` / `false` |
 | `keep_dates` `keep_creation_date` `keep_last_modified_date` `keep_last_access_date` | `true` / `false` |
 
-写入选项会同步更新设置界面和持久化配置。
+**偏好设置**键（与设置界面对应）：
+
+| 键 | 取值示例 |
+|---|---|
+| `enable_multi_selection` | `true` / `false`（多选，立即生效） |
+| `import_subfolders` | `true` / `false` |
+| `skip_compression_dialogs` | `true` / `false` |
+| `prompt_before_exit` | `true` / `false` |
+| `send_usage_reports` | `true` / `false` |
+| `check_updates_at_startup` | `true` / `false` |
+| `multithreading` | `true` / `false` |
+| `multithreading_max_threads` | 数值 |
+| `theme` | `0`（原生）/ `1`（Fusion） |
+| `theme_variant` | `0` 自动 / `1` 浅色 / `2` 深色 |
+| `language` | `default` `zh_CN` `en_US` 等 |
+| `args_behaviour` | `0` 仅导入 / `1` 导入并压缩 |
+| `post_compression_action` | `0` 无 / `1` 关闭 / `2` 休眠 / `3` 关机 / `4` 打开输出目录 |
+| `transparency_fill_color` | 十六进制颜色（如 `#FFFFFF`） |
+
+写入压缩选项会同步更新设置界面并持久化；偏好设置写入后即时生效或下次启动生效（主题/语言等）。
 
 ### `path` 管理 PATH
 
@@ -395,6 +453,7 @@ caesium-cli status --json
 
 ### 输出编码说明
 
+- **CLI 的人类可读输出为中文**（状态提示、列表、帮助等），`--json` 的字段名、命令名、选项键保持英文不变（机器契约）。
 - **CLI 的所有输出（包括 `--json`）默认使用系统的本地编码**（中文 Windows 为 GBK），因此在中文字符串路径的控制台里直接查看、包括 `--json`，都能正常显示中文，且不会切换代码页导致闪屏。
 - **AI / 脚本需要严格 UTF-8 时**，在执行命令前设置环境变量 `CAESIUM_CLI_UTF8=1`，输出即改为 UTF-8：
   ```bash

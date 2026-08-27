@@ -671,6 +671,7 @@ void MainWindow::importFiles(const QStringList& fileList, QString baseFolder, bo
             if (this->cImageModel->contains(cImage)) {
                 continue;
             }
+            cImage->setCliId(this->nextCliId++);
             list.append(cImage);
         } catch (ImageNotSupportedException& e) {
             qWarning() << fileList.at(i) << "is not supported. Error:" << e.what();
@@ -2212,6 +2213,7 @@ bool MainWindow::isCompressionRunning() const
 QJsonObject MainWindow::imageToJson(CImage* cImage) const
 {
     QJsonObject obj;
+    obj["id"] = cImage->getCliId();
     obj["path"] = cImage->getFullPath();
     obj["name"] = cImage->getFileName();
     obj["format"] = cImage->getFormat();
@@ -2250,11 +2252,20 @@ CliResponse MainWindow::handleCliRequest(const QString& method, const QJsonObjec
     if (method == "cancel") {
         return this->cliCancel(params);
     }
+    if (method == "select") {
+        return this->cliSelect(params);
+    }
     if (method == "options.get") {
         return this->cliGetOptions(params);
     }
     if (method == "options.set") {
         return this->cliSetOptions(params);
+    }
+    if (method == "settings.get") {
+        return this->cliGetSettings(params);
+    }
+    if (method == "settings.set") {
+        return this->cliSetSettings(params);
     }
     if (method == "show") {
         return this->cliShow(params);
@@ -2295,8 +2306,17 @@ CliResponse MainWindow::cliRemove(const QJsonObject& params)
         return { false, "COMPRESS_IN_PROGRESS", tr("Compression is in progress."), {} };
     }
     const QStringList paths = stringListFromJson(params.value("paths"));
-    if (paths.isEmpty()) {
-        return { false, "NO_PATHS", tr("No paths specified."), {} };
+    QList<int> ids;
+    if (params.value("ids").isArray()) {
+        const QJsonArray idArr = params.value("ids").toArray();
+        for (const QJsonValue& v : idArr) {
+            if (v.isDouble() || v.isString()) {
+                ids << v.toVariant().toInt();
+            }
+        }
+    }
+    if (paths.isEmpty() && ids.isEmpty()) {
+        return { false, "NO_PATHS", tr("No paths or IDs specified."), {} };
     }
     auto* root = this->cImageModel->getRootItem();
     int removed = 0;
@@ -2306,6 +2326,18 @@ CliResponse MainWindow::cliRemove(const QJsonObject& params)
             CImage* img = root->children().at(i)->getCImage();
             if (img->getFullPath() == normalized) {
                 this->updateFolderMap(normalized, -1);
+                img->removeCachedOriginal();
+                this->cImageModel->removeRows(i, 1, QModelIndex());
+                removed++;
+                break;
+            }
+        }
+    }
+    for (int id : ids) {
+        for (int i = root->childCount() - 1; i >= 0; --i) {
+            CImage* img = root->children().at(i)->getCImage();
+            if (img->getCliId() == id) {
+                this->updateFolderMap(img->getFullPath(), -1);
                 img->removeCachedOriginal();
                 this->cImageModel->removeRows(i, 1, QModelIndex());
                 removed++;
@@ -2348,7 +2380,10 @@ CliResponse MainWindow::cliList(const QJsonObject&)
     auto* root = this->cImageModel->getRootItem();
     QJsonArray items;
     for (int i = 0; i < root->childCount(); ++i) {
-        items.append(this->imageToJson(root->children().at(i)->getCImage()));
+        auto* item = root->children().at(i);
+        QJsonObject obj = this->imageToJson(item->getCImage());
+        obj["checked"] = item->isChecked();
+        items.append(obj);
     }
     QJsonObject result;
     result["items"] = items;
@@ -2363,6 +2398,8 @@ CliResponse MainWindow::cliStatus(const QJsonObject&)
     const bool running = this->isCompressionRunning();
     result["compressing"] = running;
     result["images"] = this->cImageModel->rowCount();
+    result["selected"] = this->cImageModel->checkedItemsCount();
+    result["multi_selection"] = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
 
     QJsonObject progress;
     if (running && this->compressionWatcher != nullptr) {
@@ -2381,8 +2418,11 @@ CliResponse MainWindow::cliStatus(const QJsonObject&)
     int compressing = 0;
     int warning = 0;
     for (int i = 0; i < root->childCount(); ++i) {
-        CImage* img = root->children().at(i)->getCImage();
-        items.append(this->imageToJson(img));
+        auto* item = root->children().at(i);
+        CImage* img = item->getCImage();
+        QJsonObject obj = this->imageToJson(img);
+        obj["checked"] = item->isChecked();
+        items.append(obj);
         switch (img->getStatus()) {
         case CImageStatus::COMPRESSED:
             compressed++;
@@ -2452,6 +2492,71 @@ CliResponse MainWindow::cliCancel(const QJsonObject&)
     this->compressionCanceled();
     QJsonObject result;
     result["canceled"] = true;
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliSelect(const QJsonObject& params)
+{
+    if (this->isCompressionRunning()) {
+        return { false, "COMPRESS_IN_PROGRESS", tr("Compression is in progress."), {} };
+    }
+    if (!QSettings().value("preferences/general/enable_multi_selection", false).toBool()) {
+        return { false, "MULTI_SELECTION_DISABLED",
+            tr("Multi-selection is disabled. Enable it with: settings set enable_multi_selection true"), {} };
+    }
+
+    if (params.contains("all")) {
+        const bool all = cliValueToBool(params.value("all"), true);
+        this->cImageModel->setAllChecked(all);
+    } else {
+        const QStringList paths = stringListFromJson(params.value("paths"));
+        QList<int> ids;
+        if (params.value("ids").isArray()) {
+            const QJsonArray idArr = params.value("ids").toArray();
+            for (const QJsonValue& v : idArr) {
+                if (v.isDouble() || v.isString()) {
+                    ids << v.toVariant().toInt();
+                }
+            }
+        }
+        if (paths.isEmpty() && ids.isEmpty()) {
+            return { false, "NO_PATHS", tr("No paths or IDs specified."), {} };
+        }
+        const bool checked = cliValueToBool(params.value("checked"), true);
+        auto* root = this->cImageModel->getRootItem();
+        int matched = 0;
+
+        for (const QString& path : paths) {
+            const QString normalized = QFileInfo(path).absoluteFilePath();
+            for (int i = 0; i < root->childCount(); ++i) {
+                if (root->children().at(i)->getCImage()->getFullPath() == normalized) {
+                    const QModelIndex idx = this->cImageModel->index(i, CImageColumns::CHECKBOX_COLUMN);
+                    this->cImageModel->setData(idx, checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
+                    matched++;
+                    break;
+                }
+            }
+        }
+
+        for (int id : ids) {
+            for (int i = 0; i < root->childCount(); ++i) {
+                if (root->children().at(i)->getCImage()->getCliId() == id) {
+                    const QModelIndex idx = this->cImageModel->index(i, CImageColumns::CHECKBOX_COLUMN);
+                    this->cImageModel->setData(idx, checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
+                    matched++;
+                    break;
+                }
+            }
+        }
+
+        if (matched == 0) {
+            return { false, "NO_MATCH", tr("None of the given paths/IDs are in the list."), {} };
+        }
+    }
+
+    QJsonObject result;
+    result["checked"] = this->cImageModel->checkedItemsCount();
+    result["total"] = this->cImageModel->rowCount();
     return { true, {}, {}, result };
 }
 
@@ -2673,6 +2778,128 @@ CliResponse MainWindow::cliSetOptions(const QJsonObject& params)
     QJsonObject result;
     result["applied"] = true;
     result["unknown_keys"] = QJsonArray::fromStringList(unknown);
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliGetSettings(const QJsonObject& params)
+{
+    QJsonObject settings = this->currentOptionsJson();
+
+    QSettings s;
+    settings["enable_multi_selection"] = s.value("preferences/general/enable_multi_selection", false).toBool();
+    settings["import_subfolders"] = s.value("preferences/general/import_subfolders", true).toBool();
+    settings["skip_compression_dialogs"] = s.value("preferences/general/skip_compression_dialogs", false).toBool();
+    settings["prompt_before_exit"] = s.value("preferences/general/prompt_before_exit", false).toBool();
+    settings["send_usage_reports"] = s.value("preferences/general/send_usage_reports", true).toBool();
+    settings["check_updates_at_startup"] = s.value("preferences/general/check_updates_at_startup", true).toBool();
+    settings["multithreading"] = s.value("preferences/general/multithreading", true).toBool();
+    settings["multithreading_max_threads"] = s.value("preferences/general/multithreading_max_threads", QThread::idealThreadCount()).toInt();
+    settings["theme"] = s.value("preferences/general/theme", 0).toInt();
+    settings["theme_variant"] = s.value("preferences/general/theme_variant", 0).toInt();
+    settings["language"] = s.value("preferences/language/locale", "default").toString();
+    settings["args_behaviour"] = s.value("preferences/general/args_behaviour", 0).toInt();
+    settings["post_compression_action"] = s.value("preferences/general/post_compression_action", 0).toInt();
+    settings["transparency_fill_color"] = s.value("preferences/general/transparency_fill_color", "#FFFFFF").toString();
+
+    if (params.contains("key")) {
+        const QString key = params.value("key").toString();
+        if (!settings.contains(key)) {
+            return { false, "UNKNOWN_KEY", tr("Unknown setting key: %1").arg(key), {} };
+        }
+        QJsonObject result;
+        result["key"] = key;
+        result["value"] = settings.value(key);
+        return { true, {}, {}, result };
+    }
+    QJsonObject result;
+    result["options"] = settings;
+    return { true, {}, {}, result };
+}
+
+bool MainWindow::applyPreferenceSetting(const QString& key, const QJsonValue& value)
+{
+    QSettings s;
+    if (key == QLatin1String("enable_multi_selection")) {
+        s.setValue("preferences/general/enable_multi_selection", cliValueToBool(value));
+        this->applyMultiSelectionVisibility();
+        return true;
+    }
+    if (key == QLatin1String("import_subfolders")) {
+        s.setValue("preferences/general/import_subfolders", cliValueToBool(value));
+        return true;
+    }
+    if (key == QLatin1String("skip_compression_dialogs")) {
+        s.setValue("preferences/general/skip_compression_dialogs", cliValueToBool(value));
+        return true;
+    }
+    if (key == QLatin1String("prompt_before_exit")) {
+        s.setValue("preferences/general/prompt_before_exit", cliValueToBool(value));
+        return true;
+    }
+    if (key == QLatin1String("send_usage_reports")) {
+        s.setValue("preferences/general/send_usage_reports", cliValueToBool(value));
+        return true;
+    }
+    if (key == QLatin1String("check_updates_at_startup")) {
+        s.setValue("preferences/general/check_updates_at_startup", cliValueToBool(value));
+        return true;
+    }
+    if (key == QLatin1String("multithreading")) {
+        s.setValue("preferences/general/multithreading", cliValueToBool(value));
+        return true;
+    }
+    if (key == QLatin1String("multithreading_max_threads")) {
+        s.setValue("preferences/general/multithreading_max_threads", cliValueToInt(value));
+        return true;
+    }
+    if (key == QLatin1String("theme")) {
+        s.setValue("preferences/general/theme", cliValueToInt(value));
+        return true;
+    }
+    if (key == QLatin1String("theme_variant")) {
+        s.setValue("preferences/general/theme_variant", cliValueToInt(value));
+        return true;
+    }
+    if (key == QLatin1String("language")) {
+        s.setValue("preferences/language/locale", value.toString());
+        return true;
+    }
+    if (key == QLatin1String("args_behaviour")) {
+        s.setValue("preferences/general/args_behaviour", cliValueToInt(value));
+        return true;
+    }
+    if (key == QLatin1String("post_compression_action")) {
+        s.setValue("preferences/general/post_compression_action", cliValueToInt(value));
+        return true;
+    }
+    if (key == QLatin1String("transparency_fill_color")) {
+        s.setValue("preferences/general/transparency_fill_color", value.toString());
+        return true;
+    }
+    return false;
+}
+
+CliResponse MainWindow::cliSetSettings(const QJsonObject& params)
+{
+    QJsonObject options = params.value("options").toObject();
+    if (options.isEmpty() && params.contains("key")) {
+        options.insert(params.value("key").toString(), params.value("value"));
+    }
+    if (options.isEmpty()) {
+        return { false, "NO_OPTIONS", tr("No settings to set."), {} };
+    }
+    // Compression options are applied to the UI widgets; anything not handled
+    // there is treated as a general preference.
+    const QStringList unknown = this->applyCliOptions(options);
+    QStringList badKeys;
+    for (const QString& key : unknown) {
+        if (!this->applyPreferenceSetting(key, options.value(key))) {
+            badKeys << key;
+        }
+    }
+    QJsonObject result;
+    result["applied"] = true;
+    result["unknown_keys"] = QJsonArray::fromStringList(badKeys);
     return { true, {}, {}, result };
 }
 

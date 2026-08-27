@@ -161,6 +161,8 @@ private:
     // True while a CLI-initiated compression is running, so the (modal)
     // compression-summary dialog is suppressed instead of blocking the CLI.
     bool suppressSummaryDialog = false;
+    // Session-local counter used to assign each image a numeric CLI ID.
+    int nextCliId = 1;
 
     void initStatusBar() const;
     void initUpdater();
@@ -199,11 +201,15 @@ private:
     CliResponse cliStatus(const QJsonObject& params);
     CliResponse cliCompress(const QJsonObject& params);
     CliResponse cliCancel(const QJsonObject& params);
+    CliResponse cliSelect(const QJsonObject& params);
     CliResponse cliGetOptions(const QJsonObject& params);
     CliResponse cliSetOptions(const QJsonObject& params);
+    CliResponse cliGetSettings(const QJsonObject& params);
+    CliResponse cliSetSettings(const QJsonObject& params);
     CliResponse cliShow(const QJsonObject& params);
     CliResponse cliQuit(const QJsonObject& params);
     static QStringList stringListFromJson(const QJsonValue& value);
+    bool applyPreferenceSetting(const QString& key, const QJsonValue& value);
 };
 
 #endif // MAINWINDOW_H

@@ -37,6 +37,54 @@ bool flagEnabled(QStringList& args, const QString& flag)
     return args.removeAll(flag) > 0;
 }
 
+// ---------------------------------------------------------------------------
+// Output helpers. All human-readable text is written in the console's local
+// 8-bit encoding (GBK on Chinese Windows) so Chinese displays correctly without
+// any codepage switching.
+// ---------------------------------------------------------------------------
+
+void printOut(const QString& text)
+{
+    const QByteArray bytes = text.toLocal8Bit();
+    fwrite(bytes.constData(), 1, static_cast<size_t>(bytes.size()), stdout);
+}
+
+void printOutLn(const QString& text)
+{
+    printOut(text);
+    fputc('\n', stdout);
+}
+
+void printErrLn(const QString& text)
+{
+    const QByteArray bytes = text.toLocal8Bit();
+    fwrite(bytes.constData(), 1, static_cast<size_t>(bytes.size()), stderr);
+    fputc('\n', stderr);
+}
+
+// Progress line on stderr without a trailing newline ("\r" based).
+void printProgress(const QString& text)
+{
+    const QByteArray bytes = text.toLocal8Bit();
+    fwrite(bytes.constData(), 1, static_cast<size_t>(bytes.size()), stderr);
+    fflush(stderr);
+}
+
+// Splits CLI arguments into numeric image IDs and file paths. Anything that
+// parses as a positive integer is treated as an ID; everything else as a path.
+void splitIdsAndPaths(const QStringList& args, QList<int>& ids, QStringList& paths)
+{
+    for (const QString& a : args) {
+        bool ok = false;
+        const int id = a.toInt(&ok);
+        if (ok && id > 0) {
+            ids << id;
+        } else {
+            paths << a;
+        }
+    }
+}
+
 QString jsonValueToString(const QJsonValue& v)
 {
     if (v.isString()) {
@@ -99,11 +147,11 @@ int finishResponse(const CliResponse& resp, bool json)
         return EXIT_OK;
     }
     if (resp.code == QStringLiteral("NOT_RUNNING")) {
-        fprintf(stderr, "Caesium Image Compressor is not running.\n");
-        fprintf(stderr, "Start the application first, then run this command again.\n");
+        printErrLn(QStringLiteral("Caesium Image Compressor 未在运行。"));
+        printErrLn(QStringLiteral("请先启动软件，然后再执行该命令。"));
         return EXIT_NOT_RUNNING;
     }
-    fprintf(stderr, "Error: %s\n", qPrintable(resp.message.isEmpty() ? resp.code : resp.message));
+    printErrLn(QStringLiteral("错误：%1").arg(resp.message.isEmpty() ? resp.code : resp.message));
     return EXIT_OPERATION_ERROR;
 }
 
@@ -117,9 +165,9 @@ CliResponse sendWithAutoLaunch(const QString& method, const QJsonObject& params,
         return response;
     }
 
-    fprintf(stderr, "Caesium is not running. Starting it...\n");
+    printErrLn(QStringLiteral("Caesium 未在运行，正在启动..."));
     if (!CliPathConfig::launchAppDetached()) {
-        fprintf(stderr, "Could not start Caesium.\n");
+        printErrLn(QStringLiteral("无法启动 Caesium。"));
         return response;
     }
 
@@ -132,28 +180,29 @@ CliResponse sendWithAutoLaunch(const QString& method, const QJsonObject& params,
         QThread::msleep(200);
     }
     if (!CliClient::isRunning()) {
-        fprintf(stderr, "Caesium did not become ready in time.\n");
+        printErrLn(QStringLiteral("Caesium 未能及时就绪。"));
         return response;
     }
 
     return CliClient::sendRequest(method, params);
 }
 
-QString friendlyStatus(const QString& status)
+// Chinese labels for the human-readable table / status output.
+QString statusHuman(const QString& status)
 {
     if (status == QLatin1String("compressing")) {
-        return QStringLiteral("compressing");
+        return QStringLiteral("压缩中");
     }
     if (status == QLatin1String("compressed")) {
-        return QStringLiteral("compressed");
+        return QStringLiteral("已压缩");
     }
     if (status == QLatin1String("error")) {
-        return QStringLiteral("error");
+        return QStringLiteral("错误");
     }
     if (status == QLatin1String("warning")) {
-        return QStringLiteral("warning");
+        return QStringLiteral("警告");
     }
-    return QStringLiteral("waiting");
+    return QStringLiteral("等待");
 }
 
 // ---------------------------------------------------------------------------
@@ -196,13 +245,23 @@ void printListHuman(const CliResponse& resp)
 {
     const QJsonArray items = resp.result.value(QStringLiteral("items")).toArray();
     if (items.isEmpty()) {
-        printf("No images in the list.\n");
+        printOutLn(QStringLiteral("列表中没有图片。"));
         return;
     }
-    printf("%-30s  %-6s  %-12s  %10s  %8s\n", "Name", "Format", "Status", "Original", "Saved");
-    printf("%s\n", QString(74, QLatin1Char('-')).toUtf8().constData());
+    // The header cells are converted to the local encoding; the printf layout
+    // string stays ASCII so %-paddings keep working.
+    printf("%4s  %-30s  %-6s  %-4s  %-12s  %10s  %8s\n",
+        qPrintable(QStringLiteral("ID")),
+        qPrintable(QStringLiteral("名称")),
+        qPrintable(QStringLiteral("格式")),
+        qPrintable(QStringLiteral("已选")),
+        qPrintable(QStringLiteral("状态")),
+        qPrintable(QStringLiteral("原始大小")),
+        qPrintable(QStringLiteral("节省")));
+    printf("%s\n", QString(86, QLatin1Char('-')).toUtf8().constData());
     for (const QJsonValue& value : items) {
         const QJsonObject item = value.toObject();
+        const int id = item.value(QStringLiteral("id")).toInt();
         const QString name = item.value(QStringLiteral("name")).toString();
         QString format = item.value(QStringLiteral("format")).toString();
         if (format.isEmpty()) {
@@ -211,15 +270,19 @@ void printListHuman(const CliResponse& resp)
             format = QFileInfo(name).suffix();
         }
         format = format.toUpper();
-        const QString status = friendlyStatus(item.value(QStringLiteral("status")).toString());
+        const bool checked = item.value(QStringLiteral("checked")).toBool(true);
+        const QString selText = checked ? QStringLiteral("是") : QStringLiteral("否");
+        const QString status = statusHuman(item.value(QStringLiteral("status")).toString());
         const double original = item.value(QStringLiteral("original_size")).toDouble();
         const QString saved = item.value(QStringLiteral("saved")).toString();
 
         const QByteArray displayName = fitName(name, 30);
 
-        printf("%-30s  %-6s  %-12s  %10s  %8s\n",
+        printf("%4s  %-30s  %-6s  %-4s  %-12s  %10s  %8s\n",
+            qPrintable(QString::number(id)),
             displayName.constData(),
             qPrintable(format),
+            qPrintable(selText),
             qPrintable(status),
             qPrintable(toHumanSize(original)),
             qPrintable(saved));
@@ -233,17 +296,22 @@ void printStatusHuman(const CliResponse& resp)
     const int images = r.value(QStringLiteral("images")).toInt();
     if (compressing) {
         const QJsonObject progress = r.value(QStringLiteral("progress")).toObject();
-        printf("Compressing... %d/%d\n",
-            progress.value(QStringLiteral("current")).toInt(),
-            progress.value(QStringLiteral("total")).toInt());
+        printOutLn(QStringLiteral("正在压缩... %1/%2")
+            .arg(progress.value(QStringLiteral("current")).toInt())
+            .arg(progress.value(QStringLiteral("total")).toInt()));
     } else {
-        printf("Idle. %d image(s) in the list.\n", images);
+        printOutLn(QStringLiteral("空闲。列表中共 %1 张图片。").arg(images));
     }
     const QJsonObject counts = r.value(QStringLiteral("counts")).toObject();
-    printf("  compressed: %d   errors: %d   waiting: %d\n",
-        counts.value(QStringLiteral("compressed")).toInt(),
-        counts.value(QStringLiteral("error")).toInt(),
-        counts.value(QStringLiteral("uncompressed")).toInt());
+    printOutLn(QStringLiteral("  已压缩：%1   错误：%2   等待：%3")
+        .arg(counts.value(QStringLiteral("compressed")).toInt())
+        .arg(counts.value(QStringLiteral("error")).toInt())
+        .arg(counts.value(QStringLiteral("uncompressed")).toInt()));
+    if (r.value(QStringLiteral("multi_selection")).toBool()) {
+        printOutLn(QStringLiteral("  已选：%1 / %2")
+            .arg(r.value(QStringLiteral("selected")).toInt())
+            .arg(images));
+    }
 }
 
 // Blocks until the running compression finishes, then prints the summary.
@@ -279,22 +347,23 @@ int waitAndPrintSummary(bool json)
             }
             const qint64 saved = original - compressed;
             const double pct = original > 0 ? (saved * 100.0 / static_cast<double>(original)) : 0.0;
-            printf("Compression finished.\n");
-            printf("  Images:      %d\n", items.size());
-            printf("  Original:    %s\n", qPrintable(toHumanSize(static_cast<double>(original))));
-            printf("  Compressed:  %s\n", qPrintable(toHumanSize(static_cast<double>(compressed))));
-            printf("  Saved:       %s (%.1f%%)\n", qPrintable(toHumanSize(static_cast<double>(saved))), pct);
+            printOutLn(QStringLiteral("压缩完成。"));
+            printOutLn(QStringLiteral("  图片数量：  %1").arg(items.size()));
+            printOutLn(QStringLiteral("  原始大小：  %1").arg(toHumanSize(static_cast<double>(original))));
+            printOutLn(QStringLiteral("  压缩大小：  %1").arg(toHumanSize(static_cast<double>(compressed))));
+            printOutLn(QStringLiteral("  节省：      %1 (%2%)")
+                .arg(toHumanSize(static_cast<double>(saved)))
+                .arg(QString::number(pct, 'f', 1)));
             if (errors > 0) {
-                printf("  Errors:      %d\n", errors);
+                printOutLn(QStringLiteral("  错误：      %1").arg(errors));
             }
             return EXIT_OK;
         }
         const QJsonObject progress = status.result.value(QStringLiteral("progress")).toObject();
         if (!json) {
-            fprintf(stderr, "\rCompressing... %d/%d",
-                progress.value(QStringLiteral("current")).toInt(),
-                progress.value(QStringLiteral("total")).toInt());
-            fflush(stderr);
+            printProgress(QStringLiteral("\r正在压缩... %1/%2")
+                .arg(progress.value(QStringLiteral("current")).toInt())
+                .arg(progress.value(QStringLiteral("total")).toInt()));
         }
         QThread::msleep(250);
     }
@@ -363,7 +432,7 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
         }
         if (valueFlags.contains(a)) {
             if (i + 1 >= args.size()) {
-                fprintf(stderr, "Error: missing value for %s\n", qPrintable(a));
+                printErrLn(QStringLiteral("错误：缺少 %1 的值。").arg(a));
                 return EXIT_BAD_USAGE;
             }
             const QString key = valueFlags.value(a);
@@ -372,7 +441,7 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
                 bool okNum = false;
                 const int q = value.toInt(&okNum);
                 if (!okNum) {
-                    fprintf(stderr, "Error: invalid quality value: %s\n", qPrintable(value));
+                    printErrLn(QStringLiteral("错误：无效的质量值：%1").arg(value));
                     return EXIT_BAD_USAGE;
                 }
                 options[QStringLiteral("jpeg_quality")] = q;
@@ -384,7 +453,7 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
             continue;
         }
         if (a.startsWith(QLatin1Char('-'))) {
-            fprintf(stderr, "Error: unknown option: %s\n", qPrintable(a));
+            printErrLn(QStringLiteral("错误：未知选项：%1").arg(a));
             return EXIT_BAD_USAGE;
         }
         paths << a;
@@ -398,10 +467,10 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
         if (json) {
             printJsonIfNeeded({ true, {}, {}, out }, true);
         } else {
-            printf("Dry run: would process %d path(s).\n", paths.size());
-            printf("Options:\n");
+            printOutLn(QStringLiteral("预览：将处理 %1 个路径。").arg(paths.size()));
+            printOutLn(QStringLiteral("选项："));
             for (auto it = options.begin(); it != options.end(); ++it) {
-                printf("  %s = %s\n", qPrintable(it.key()), qPrintable(jsonValueToString(it.value())));
+                printOutLn(QStringLiteral("  %1 = %2").arg(it.key(), jsonValueToString(it.value())));
             }
         }
         return EXIT_OK;
@@ -413,7 +482,7 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
             { { QStringLiteral("paths"), QJsonArray::fromStringList(paths) } }, autoLaunch);
         if (!importResp.ok) {
             if (!json) {
-                fprintf(stderr, "Error importing paths: %s\n", qPrintable(importResp.message));
+                printErrLn(QStringLiteral("导入路径失败：%1").arg(importResp.message));
             }
             return finishResponse(importResp, json);
         }
@@ -423,7 +492,7 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
             { { QStringLiteral("options"), options } }, autoLaunch);
         if (!setResp.ok) {
             if (!json) {
-                fprintf(stderr, "Error setting options: %s\n", qPrintable(setResp.message));
+                printErrLn(QStringLiteral("设置选项失败：%1").arg(setResp.message));
             }
             return finishResponse(setResp, json);
         }
@@ -436,7 +505,7 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
     const CliResponse compressResp = sendWithAutoLaunch(QStringLiteral("compress"), params, autoLaunch);
     if (!compressResp.ok) {
         if (!json) {
-            fprintf(stderr, "Error: %s\n", qPrintable(compressResp.message));
+            printErrLn(QStringLiteral("错误：%1").arg(compressResp.message));
         }
         return finishResponse(compressResp, json);
     }
@@ -447,7 +516,7 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
 
     printJsonIfNeeded(compressResp, json);
     if (!json) {
-        printf("Compression started. Use 'caesium status' to check progress.\n");
+        printOutLn(QStringLiteral("压缩已开始。用 'caesium-cli status' 查看进度。"));
     }
     return EXIT_OK;
 }
@@ -471,10 +540,9 @@ int runStatusWait(bool json, bool autoLaunch)
         }
         const QJsonObject progress = status.result.value(QStringLiteral("progress")).toObject();
         if (!json) {
-            fprintf(stderr, "\rCompressing... %d/%d",
-                progress.value(QStringLiteral("current")).toInt(),
-                progress.value(QStringLiteral("total")).toInt());
-            fflush(stderr);
+            printProgress(QStringLiteral("\r正在压缩... %1/%2")
+                .arg(progress.value(QStringLiteral("current")).toInt())
+                .arg(progress.value(QStringLiteral("total")).toInt()));
         }
         QThread::msleep(250);
         status = CliClient::sendRequest(QStringLiteral("status"), {});
@@ -489,7 +557,7 @@ int runStatusWait(bool json, bool autoLaunch)
 int runPath(QStringList args, bool json)
 {
     if (args.isEmpty()) {
-        fprintf(stderr, "Usage: caesium path status | add | remove\n");
+        printErrLn(QStringLiteral("用法：caesium path status | add | remove"));
         return EXIT_BAD_USAGE;
     }
     const QString sub = args.takeFirst();
@@ -499,7 +567,7 @@ int runPath(QStringList args, bool json)
             if (json) {
                 printf("{\"ok\":true,\"result\":{\"supported\":false}}\n");
             } else {
-                printf("PATH management is only available on Windows.\n");
+                printOutLn(QStringLiteral("PATH 管理仅适用于 Windows。"));
             }
             return EXIT_OK;
         }
@@ -514,11 +582,11 @@ int runPath(QStringList args, bool json)
             out[QStringLiteral("result")] = result;
             writeJsonOutput(out);
         } else {
-            printf("%s\n", qPrintable(CliPathConfig::cliFolder()));
+            printOutLn(CliPathConfig::cliFolder());
             if (configured) {
-                printf("caesium-cli is on your PATH.\n");
+                printOutLn(QStringLiteral("caesium-cli 已在您的 PATH 中。"));
             } else {
-                printf("caesium-cli is NOT on your PATH.\n");
+                printOutLn(QStringLiteral("caesium-cli 不在您的 PATH 中。"));
             }
         }
         return EXIT_OK;
@@ -537,21 +605,23 @@ int runPath(QStringList args, bool json)
             out[QStringLiteral("result")] = result;
             writeJsonOutput(out);
         } else if (ok) {
-            printf("Folder %s your PATH.\n", sub == QLatin1String("add") ? "added to" : "removed from");
-            printf("Restart your terminal (or open a new one) for the change to take effect.\n");
+            printOutLn(sub == QLatin1String("add")
+                ? QStringLiteral("已将文件夹添加到您的 PATH。")
+                : QStringLiteral("已将文件夹从您的 PATH 中移除。"));
+            printOutLn(QStringLiteral("重新打开终端（或开一个新的）后生效。"));
         } else {
-            fprintf(stderr, "Error: could not modify PATH.\n");
+            printErrLn(QStringLiteral("错误：无法修改 PATH。"));
         }
         return ok ? EXIT_OK : EXIT_OPERATION_ERROR;
     }
 
-    fprintf(stderr, "Usage: caesium path status | add | remove\n");
+    printErrLn(QStringLiteral("用法：caesium path status | add | remove"));
     return EXIT_BAD_USAGE;
 }
 
 int runSettings(QStringList args, bool json, bool autoLaunch)
 {    if (args.isEmpty()) {
-        fprintf(stderr, "Usage: caesium settings get [key] | caesium settings set <key> <value>\n");
+        printErrLn(QStringLiteral("用法：caesium settings get [key] | caesium settings set <key> <value>"));
         return EXIT_BAD_USAGE;
     }
     const QString sub = args.takeFirst();
@@ -560,34 +630,34 @@ int runSettings(QStringList args, bool json, bool autoLaunch)
         if (!args.isEmpty()) {
             params[QStringLiteral("key")] = args.first();
         }
-        const CliResponse resp = sendWithAutoLaunch(QStringLiteral("options.get"), params, autoLaunch);
+        const CliResponse resp = sendWithAutoLaunch(QStringLiteral("settings.get"), params, autoLaunch);
         if (!json && resp.ok) {
             if (args.isEmpty()) {
                 const QJsonObject options = resp.result.value(QStringLiteral("options")).toObject();
                 for (auto it = options.begin(); it != options.end(); ++it) {
-                    printf("%s = %s\n", qPrintable(it.key()), qPrintable(jsonValueToString(it.value())));
+                    printOutLn(QStringLiteral("%1 = %2").arg(it.key(), jsonValueToString(it.value())));
                 }
             } else {
-                printf("%s\n", qPrintable(jsonValueToString(resp.result.value(QStringLiteral("value")))));
+                printOutLn(jsonValueToString(resp.result.value(QStringLiteral("value"))));
             }
         }
         return finishResponse(resp, json);
     }
     if (sub == QLatin1String("set")) {
         if (args.size() < 2) {
-            fprintf(stderr, "Usage: caesium settings set <key> <value>\n");
+            printErrLn(QStringLiteral("用法：caesium settings set <key> <value>"));
             return EXIT_BAD_USAGE;
         }
         QJsonObject options;
         options[args.at(0)] = args.at(1);
-        const CliResponse resp = sendWithAutoLaunch(QStringLiteral("options.set"),
+        const CliResponse resp = sendWithAutoLaunch(QStringLiteral("settings.set"),
             { { QStringLiteral("options"), options } }, autoLaunch);
         if (!json && resp.ok) {
-            printf("Option '%s' set.\n", qPrintable(args.at(0)));
+            printOutLn(QStringLiteral("选项 '%1' 已设置。").arg(args.at(0)));
         }
         return finishResponse(resp, json);
     }
-    fprintf(stderr, "Error: unknown settings subcommand: %s\n", qPrintable(sub));
+    printErrLn(QStringLiteral("错误：未知的 settings 子命令：%1").arg(sub));
     return EXIT_BAD_USAGE;
 }
 
@@ -595,13 +665,13 @@ int runShell(bool json, bool autoLaunch)
 {
     const CliResponse ping = sendWithAutoLaunch(QStringLiteral("ping"), {}, autoLaunch);
     if (!ping.ok) {
-        fprintf(stderr, "Caesium Image Compressor is not running. Start it first.\n");
+        printErrLn(QStringLiteral("Caesium Image Compressor 未在运行，请先启动软件。"));
         return EXIT_NOT_RUNNING;
     }
-    printf("Caesium CLI shell. Type 'help' for commands, 'exit' to quit.\n");
+    printOutLn(QStringLiteral("Caesium CLI 交互模式。输入 'help' 查看命令，'exit' 退出。"));
     std::string line;
     while (true) {
-        printf("caesium> ");
+        printOut(QStringLiteral("caesium> "));
         fflush(stdout);
         if (!std::getline(std::cin, line)) {
             break;
@@ -620,47 +690,54 @@ int runShell(bool json, bool autoLaunch)
 
 void printHelp()
 {
-    printf("Caesium Image Compressor - command line control for the running app.\n\n");
-    printf("Usage:\n");
-    printf("  caesium --cli <command> [options]\n\n");
-    printf("Commands:\n");
-    printf("  add <paths...>              Add files/folders to the list\n");
-    printf("  remove <paths...>           Remove matching items from the list\n");
-    printf("  clear                       Clear the whole list\n");
-    printf("  list                        Show the current list\n");
-    printf("  status [--wait]             Show progress and per-image status\n");
-    printf("  compress [paths...] [opts]  Add + configure + start compression\n");
-    printf("  cancel                      Cancel the running compression\n");
-    printf("  settings get [key]          Read compression options\n");
-    printf("  settings set <key> <value>  Write a compression option\n");
-    printf("  path status|add|remove      Manage the CLI folder on your PATH\n");
-    printf("  show                        Bring the main window to the front\n");
-    printf("  quit                        Close the application\n");
-    printf("  shell                       Interactive session connected to the app\n");
-    printf("  help                        Show this help\n\n");
-    printf("Compress options:\n");
-    printf("  -q, --quality <0-100>       JPEG/PNG/WebP quality\n");
-    printf("  --format <jpg|png|webp|tiff|same>\n");
-    printf("  -o, --output <dir>          Output folder\n");
-    printf("  --suffix <text>             Output file suffix\n");
-    printf("  --fit <none|dimensions|percentage|short_edge|long_edge|fixed_width|fixed_height>\n");
-    printf("  --width <px>, --height <px>, --edge <px>\n");
-    printf("  --mode <quality|size>\n");
-    printf("  --lossless, --keep-metadata, --keep-dates, --same-folder-as-input\n");
-    printf("  --skip-if-bigger, --cache-originals, --do-not-enlarge\n");
-    printf("  --only-failed               Recompress only the failed images\n");
-    printf("  --wait                      Wait for compression and print the summary\n");
-    printf("  --dry-run                   Preview what would happen without doing it\n\n");
-    printf("Global options:\n");
-    printf("  --json                      Machine-readable JSON output\n");
-    printf("  --no-launch                 Do not auto-start Caesium if it is not running\n");
-    printf("  --raw <json>                Send a raw command: {\"method\":\"...\",\"params\":{...}}\n\n");
-    printf("By default the application is started automatically (if it is not\n");
-    printf("already running) before the command is executed.\n\n");
-    printf("Examples:\n");
-    printf("  caesium --cli compress ./photos -q 80 -o ./out --wait\n");
-    printf("  caesium --cli status --json\n");
-    printf("  caesium --cli settings set jpeg_quality 85\n");
+    printOutLn(QStringLiteral("Caesium Image Compressor - 命令行控制运行中的软件。"));
+    printOutLn(QStringLiteral(""));
+    printOutLn(QStringLiteral("用法："));
+    printOutLn(QStringLiteral("  caesium --cli <命令> [选项]"));
+    printOutLn(QStringLiteral(""));
+    printOutLn(QStringLiteral("命令："));
+    printOutLn(QStringLiteral("  add <路径...>              添加文件/文件夹到列表"));
+    printOutLn(QStringLiteral("  remove <ID 或路径...>      从列表移除匹配项"));
+    printOutLn(QStringLiteral("  clear                      清空整个列表"));
+    printOutLn(QStringLiteral("  list                       显示当前列表（含 ID 与选中状态）"));
+    printOutLn(QStringLiteral("  select all|none|<ID/路径>  全选 / 取消全选 / 选中指定图片"));
+    printOutLn(QStringLiteral("  deselect <ID 或路径...>    取消选中指定图片"));
+    printOutLn(QStringLiteral("  status [--wait]            显示进度与每张图片的状态"));
+    printOutLn(QStringLiteral("  compress [路径...] [选项]  添加 + 设置选项 + 开始压缩"));
+    printOutLn(QStringLiteral("  cancel                     取消正在进行的压缩"));
+    printOutLn(QStringLiteral("  settings get [key]         读取所有设置（含偏好）"));
+    printOutLn(QStringLiteral("  settings set <key> <val>   写入设置（压缩选项或偏好）"));
+    printOutLn(QStringLiteral("  path status|add|remove     管理应用目录在 PATH 中的状态"));
+    printOutLn(QStringLiteral("  show                       把主窗口带到前台"));
+    printOutLn(QStringLiteral("  quit                       关闭软件"));
+    printOutLn(QStringLiteral("  shell                      与软件交互的会话模式"));
+    printOutLn(QStringLiteral("  help                       显示本帮助"));
+    printOutLn(QStringLiteral(""));
+    printOutLn(QStringLiteral("压缩选项："));
+    printOutLn(QStringLiteral("  -q, --quality <0-100>      JPEG/PNG/WebP 质量"));
+    printOutLn(QStringLiteral("  --format <jpg|png|webp|tiff|same>"));
+    printOutLn(QStringLiteral("  -o, --output <目录>        输出文件夹"));
+    printOutLn(QStringLiteral("  --suffix <文本>            输出文件后缀"));
+    printOutLn(QStringLiteral("  --fit <none|dimensions|percentage|short_edge|long_edge|fixed_width|fixed_height>"));
+    printOutLn(QStringLiteral("  --width <px>, --height <px>, --edge <px>"));
+    printOutLn(QStringLiteral("  --mode <quality|size>"));
+    printOutLn(QStringLiteral("  --lossless, --keep-metadata, --keep-dates, --same-folder-as-input"));
+    printOutLn(QStringLiteral("  --skip-if-bigger, --cache-originals, --do-not-enlarge"));
+    printOutLn(QStringLiteral("  --only-failed              只重新压缩失败的图片"));
+    printOutLn(QStringLiteral("  --wait                     等待压缩完成并打印汇总"));
+    printOutLn(QStringLiteral("  --dry-run                  只预览将要执行的操作，不实际执行"));
+    printOutLn(QStringLiteral(""));
+    printOutLn(QStringLiteral("全局选项："));
+    printOutLn(QStringLiteral("  --json                     机器可读的 JSON 输出"));
+    printOutLn(QStringLiteral("  --no-launch                软件未运行时不要自动启动"));
+    printOutLn(QStringLiteral("  --raw <json>               发送原始命令：{\"method\":\"...\",\"params\":{...}}"));
+    printOutLn(QStringLiteral(""));
+    printOutLn(QStringLiteral("默认情况下，执行命令前会先启动软件（如果它未在运行）。"));
+    printOutLn(QStringLiteral(""));
+    printOutLn(QStringLiteral("示例："));
+    printOutLn(QStringLiteral("  caesium --cli compress ./photos -q 80 -o ./out --wait"));
+    printOutLn(QStringLiteral("  caesium --cli status --json"));
+    printOutLn(QStringLiteral("  caesium --cli settings set jpeg_quality 85"));
 }
 
 } // namespace
@@ -685,20 +762,20 @@ int CliRunner::run(const QStringList& argv)
         args.removeFirst();
         const QString raw = args.join(QLatin1Char(' '));
         if (raw.trimmed().isEmpty()) {
-            fprintf(stderr, "Error: --raw requires a JSON object.\n");
+            printErrLn(QStringLiteral("错误：--raw 需要提供 JSON 对象。"));
             return EXIT_BAD_USAGE;
         }
         QJsonParseError parseError;
         const QJsonDocument doc = QJsonDocument::fromJson(raw.toUtf8(), &parseError);
         if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
-            fprintf(stderr, "Error: invalid JSON for --raw.\n");
+            printErrLn(QStringLiteral("错误：--raw 需要合法的 JSON 对象。"));
             return EXIT_BAD_USAGE;
         }
         const QJsonObject req = doc.object();
         const QString method = req.value(QStringLiteral("method")).toString();
         const QJsonObject params = req.value(QStringLiteral("params")).toObject();
         if (method.isEmpty()) {
-            fprintf(stderr, "Error: --raw requires a 'method' field.\n");
+            printErrLn(QStringLiteral("错误：--raw 需要 'method' 字段。"));
             return EXIT_BAD_USAGE;
         }
         const CliResponse resp = sendWithAutoLaunch(method, params, autoLaunch);
@@ -713,26 +790,39 @@ int CliRunner::run(const QStringList& argv)
 
     if (command == QLatin1String("add")) {
         if (args.isEmpty()) {
-            fprintf(stderr, "Usage: caesium add <paths...>\n");
+            printErrLn(QStringLiteral("用法：caesium add <路径...>"));
             return EXIT_BAD_USAGE;
         }
         const CliResponse resp = sendWithAutoLaunch(QStringLiteral("import"),
             { { QStringLiteral("paths"), QJsonArray::fromStringList(args) } }, autoLaunch);
         if (!json && resp.ok) {
-            printf("Imported %d image(s).\n", resp.result.value(QStringLiteral("added")).toInt());
+            printOutLn(QStringLiteral("已导入 %1 张图片。").arg(resp.result.value(QStringLiteral("added")).toInt()));
         }
         return finishResponse(resp, json);
     }
 
     if (command == QLatin1String("remove")) {
         if (args.isEmpty()) {
-            fprintf(stderr, "Usage: caesium remove <paths...>\n");
+            printErrLn(QStringLiteral("用法：caesium remove <ID 或路径...>"));
             return EXIT_BAD_USAGE;
         }
-        const CliResponse resp = sendWithAutoLaunch(QStringLiteral("remove"),
-            { { QStringLiteral("paths"), QJsonArray::fromStringList(args) } }, autoLaunch);
+        QList<int> ids;
+        QStringList paths;
+        splitIdsAndPaths(args, ids, paths);
+        QJsonObject params;
+        if (!ids.isEmpty()) {
+            QJsonArray idArr;
+            for (int id : ids) {
+                idArr.append(id);
+            }
+            params[QStringLiteral("ids")] = idArr;
+        }
+        if (!paths.isEmpty()) {
+            params[QStringLiteral("paths")] = QJsonArray::fromStringList(paths);
+        }
+        const CliResponse resp = sendWithAutoLaunch(QStringLiteral("remove"), params, autoLaunch);
         if (!json && resp.ok) {
-            printf("Removed %d image(s).\n", resp.result.value(QStringLiteral("removed")).toInt());
+            printOutLn(QStringLiteral("已移除 %1 张图片。").arg(resp.result.value(QStringLiteral("removed")).toInt()));
         }
         return finishResponse(resp, json);
     }
@@ -740,7 +830,45 @@ int CliRunner::run(const QStringList& argv)
     if (command == QLatin1String("clear")) {
         const CliResponse resp = sendWithAutoLaunch(QStringLiteral("clear"), {}, autoLaunch);
         if (!json && resp.ok) {
-            printf("Cleared %d image(s).\n", resp.result.value(QStringLiteral("cleared")).toInt());
+            printOutLn(QStringLiteral("已清空 %1 张图片。").arg(resp.result.value(QStringLiteral("cleared")).toInt()));
+        }
+        return finishResponse(resp, json);
+    }
+
+    if (command == QLatin1String("select") || command == QLatin1String("deselect")) {
+        const bool checked = command == QLatin1String("select");
+        if (args.isEmpty()) {
+            printErrLn(QStringLiteral("用法：caesium %1 all|none|<ID 或路径...>").arg(command));
+            return EXIT_BAD_USAGE;
+        }
+        QJsonObject params;
+        const QString first = args.first();
+        if (first == QLatin1String("all") || first == QLatin1String("none")) {
+            // select all -> all; select none / deselect all -> none;
+            // deselect none -> all.
+            params[QStringLiteral("all")] = (first == QLatin1String("all")) ? checked : !checked;
+            args.removeFirst();
+        } else {
+            QList<int> ids;
+            QStringList paths;
+            splitIdsAndPaths(args, ids, paths);
+            if (!ids.isEmpty()) {
+                QJsonArray idArr;
+                for (int id : ids) {
+                    idArr.append(id);
+                }
+                params[QStringLiteral("ids")] = idArr;
+            }
+            if (!paths.isEmpty()) {
+                params[QStringLiteral("paths")] = QJsonArray::fromStringList(paths);
+            }
+            params[QStringLiteral("checked")] = checked;
+        }
+        const CliResponse resp = sendWithAutoLaunch(QStringLiteral("select"), params, autoLaunch);
+        if (!json && resp.ok) {
+            printOutLn(QStringLiteral("已选 %1 / %2 张。")
+                .arg(resp.result.value(QStringLiteral("checked")).toInt())
+                .arg(resp.result.value(QStringLiteral("total")).toInt()));
         }
         return finishResponse(resp, json);
     }
@@ -772,7 +900,7 @@ int CliRunner::run(const QStringList& argv)
     if (command == QLatin1String("cancel")) {
         const CliResponse resp = sendWithAutoLaunch(QStringLiteral("cancel"), {}, autoLaunch);
         if (!json && resp.ok) {
-            printf("Compression canceled.\n");
+            printOutLn(QStringLiteral("压缩已取消。"));
         }
         return finishResponse(resp, json);
     }
@@ -806,7 +934,7 @@ int CliRunner::run(const QStringList& argv)
         return runShell(json, autoLaunch);
     }
 
-    fprintf(stderr, "Unknown command: %s\n", qPrintable(command));
-    fprintf(stderr, "Try 'caesium --cli help' for a list of commands.\n");
+    printErrLn(QStringLiteral("未知命令：%1").arg(command));
+    printErrLn(QStringLiteral("输入 'caesium --cli help' 查看可用命令。"));
     return EXIT_BAD_USAGE;
 }

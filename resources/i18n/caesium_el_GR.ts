@@ -190,12 +190,12 @@ All rights reserved.</source>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1496"/>
         <location filename="../../src/MainWindow.cpp" line="659"/>
-        <location filename="../../src/MainWindow.cpp" line="914"/>
+        <location filename="../../src/MainWindow.cpp" line="915"/>
         <source>Cancel</source>
         <translation>Ακύρωση</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="758"/>
+        <location filename="../../src/MainWindow.cpp" line="759"/>
         <source>You are about to overwrite your original images and this action can&apos;t be undone.
 
 Do you really want to continue?</source>
@@ -204,88 +204,88 @@ Do you really want to continue?</source>
 Θέλετε πραγματικά να συνεχίσετε;</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="760"/>
+        <location filename="../../src/MainWindow.cpp" line="761"/>
         <source>No</source>
         <translation>Όχι</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1616"/>
-        <location filename="../../src/MainWindow.cpp" line="1621"/>
+        <location filename="../../src/MainWindow.cpp" line="1617"/>
+        <location filename="../../src/MainWindow.cpp" line="1622"/>
         <source>File not found</source>
         <translation>Το αρχείο δε βρέθηκε</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1656"/>
+        <location filename="../../src/MainWindow.cpp" line="1657"/>
         <source>Finishing...</source>
         <translation>Ολοκληρώνεται...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="822"/>
-        <location filename="../../src/MainWindow.cpp" line="1744"/>
+        <location filename="../../src/MainWindow.cpp" line="823"/>
+        <location filename="../../src/MainWindow.cpp" line="1745"/>
         <source>Compressing...</source>
         <translation>Συμπίεση...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="911"/>
+        <location filename="../../src/MainWindow.cpp" line="912"/>
         <source>Do you really want to quit?</source>
         <translation>Θέλετε πραγματικά να σταματήσετε;</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="759"/>
-        <location filename="../../src/MainWindow.cpp" line="913"/>
+        <location filename="../../src/MainWindow.cpp" line="760"/>
+        <location filename="../../src/MainWindow.cpp" line="914"/>
         <source>Yes</source>
         <translation>Ναι</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="740"/>
-        <location filename="../../src/MainWindow.cpp" line="744"/>
+        <location filename="../../src/MainWindow.cpp" line="741"/>
+        <location filename="../../src/MainWindow.cpp" line="745"/>
         <source>Please select an output folder first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="745"/>
-        <location filename="../../src/MainWindow.cpp" line="789"/>
-        <location filename="../../src/MainWindow.cpp" line="1042"/>
-        <location filename="../../src/MainWindow.cpp" line="1345"/>
-        <location filename="../../src/MainWindow.cpp" line="1371"/>
-        <location filename="../../src/MainWindow.cpp" line="1393"/>
-        <location filename="../../src/MainWindow.cpp" line="1560"/>
+        <location filename="../../src/MainWindow.cpp" line="746"/>
+        <location filename="../../src/MainWindow.cpp" line="790"/>
+        <location filename="../../src/MainWindow.cpp" line="1043"/>
+        <location filename="../../src/MainWindow.cpp" line="1346"/>
+        <location filename="../../src/MainWindow.cpp" line="1372"/>
+        <location filename="../../src/MainWindow.cpp" line="1394"/>
+        <location filename="../../src/MainWindow.cpp" line="1561"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="773"/>
+        <location filename="../../src/MainWindow.cpp" line="774"/>
         <source>No images in the list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="783"/>
-        <location filename="../../src/MainWindow.cpp" line="787"/>
+        <location filename="../../src/MainWindow.cpp" line="784"/>
+        <location filename="../../src/MainWindow.cpp" line="788"/>
         <source>No images selected</source>
         <translation>Δεν επιλέχθηκαν εικόνες</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="788"/>
+        <location filename="../../src/MainWindow.cpp" line="789"/>
         <source>Please check at least one image to compress.</source>
         <translation>Επιλέξτε τουλάχιστον μία εικόνα για συμπίεση.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="935"/>
+        <location filename="../../src/MainWindow.cpp" line="936"/>
         <source>Select output folder...</source>
         <translation>Επιλέξτε φάκελο εξόδου...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1006"/>
+        <location filename="../../src/MainWindow.cpp" line="1007"/>
         <source>Compression finished!</source>
         <translation>Η συμπίεση ολοκληρώθηκε!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1032"/>
+        <location filename="../../src/MainWindow.cpp" line="1033"/>
         <source>You just saved %1!</source>
         <translation>Μόλις έσωσες %1!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1036"/>
+        <location filename="../../src/MainWindow.cpp" line="1037"/>
         <source>Total files: %1
 Original size: %2
 Compressed size: %3
@@ -296,126 +296,152 @@ Saved: %4 (%5%)</source>
 Σώθηκαν: %4 (%5%)</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1303"/>
+        <location filename="../../src/MainWindow.cpp" line="1304"/>
         <source>Original:</source>
         <translation>Αρχικό:</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1304"/>
+        <location filename="../../src/MainWindow.cpp" line="1305"/>
         <source>Compressed:</source>
         <translation>Συμπιεσμένο:</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1343"/>
-        <location filename="../../src/MainWindow.cpp" line="1370"/>
+        <location filename="../../src/MainWindow.cpp" line="1344"/>
+        <location filename="../../src/MainWindow.cpp" line="1371"/>
         <source>Could not check for updates.</source>
         <translation>Δεν ήταν δυνατός ο έλεγχος για ενημερώσεις.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1380"/>
+        <location filename="../../src/MainWindow.cpp" line="1381"/>
         <source>A new version is available!</source>
         <translation>Μια νέα έκδοση είναι διαθέσιμη!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1381"/>
+        <location filename="../../src/MainWindow.cpp" line="1382"/>
         <source>Version %1 is available (you have %2). Do you want to download it?</source>
         <translation>Η έκδοση %1 είναι διαθέσιμη (έχετε %2). Θέλετε να τη λάβετε;</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1383"/>
+        <location filename="../../src/MainWindow.cpp" line="1384"/>
         <source>Download</source>
         <translation>Λήψη</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1384"/>
+        <location filename="../../src/MainWindow.cpp" line="1385"/>
         <source>Not now</source>
         <translation>Όχι τώρα</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1391"/>
+        <location filename="../../src/MainWindow.cpp" line="1392"/>
         <source>You are up to date!</source>
         <translation>Είστε ενημερωμένοι!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1392"/>
+        <location filename="../../src/MainWindow.cpp" line="1393"/>
         <source>Version %1 is the latest available.</source>
         <translation>Η έκδοση %1 είναι η πιο πρόσφατη διαθέσιμη.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1558"/>
+        <location filename="../../src/MainWindow.cpp" line="1559"/>
         <source>Nothing to restore</source>
         <translation>Τίποτα προς επαναφορά</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1559"/>
+        <location filename="../../src/MainWindow.cpp" line="1560"/>
         <source>The selected images have no cached original to restore from.</source>
         <translation>Οι επιλεγμένες εικόνες δεν έχουν προσωρινά αποθηκευμένο πρωτότυπο για επαναφορά.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1957"/>
+        <location filename="../../src/MainWindow.cpp" line="1958"/>
         <source>Recompress failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2265"/>
+        <location filename="../../src/MainWindow.cpp" line="2276"/>
         <source>Unknown command: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2271"/>
+        <location filename="../../src/MainWindow.cpp" line="2282"/>
         <source>Compression is in progress. Wait for it to finish or cancel it first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2275"/>
-        <location filename="../../src/MainWindow.cpp" line="2299"/>
+        <location filename="../../src/MainWindow.cpp" line="2286"/>
         <source>No paths specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2280"/>
+        <location filename="../../src/MainWindow.cpp" line="2291"/>
         <source>No supported image files found in the given paths.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2295"/>
-        <location filename="../../src/MainWindow.cpp" line="2327"/>
+        <location filename="../../src/MainWindow.cpp" line="2306"/>
+        <location filename="../../src/MainWindow.cpp" line="2359"/>
+        <location filename="../../src/MainWindow.cpp" line="2501"/>
         <source>Compression is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2418"/>
+        <location filename="../../src/MainWindow.cpp" line="2319"/>
+        <location filename="../../src/MainWindow.cpp" line="2523"/>
+        <source>No paths or IDs specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="2458"/>
         <source>Compression is already running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2421"/>
+        <location filename="../../src/MainWindow.cpp" line="2461"/>
         <source>No images in the list. Add some first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2424"/>
+        <location filename="../../src/MainWindow.cpp" line="2464"/>
         <source>Please select an output folder first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2428"/>
+        <location filename="../../src/MainWindow.cpp" line="2468"/>
         <source>No images selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2450"/>
+        <location filename="../../src/MainWindow.cpp" line="2490"/>
         <source>No compression in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2651"/>
+        <location filename="../../src/MainWindow.cpp" line="2505"/>
+        <source>Multi-selection is disabled. Enable it with: settings set enable_multi_selection true</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="2553"/>
+        <source>None of the given paths/IDs are in the list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="2756"/>
         <source>Unknown option key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2670"/>
+        <location filename="../../src/MainWindow.cpp" line="2775"/>
         <source>No options to set.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="2807"/>
+        <source>Unknown setting key: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="2889"/>
+        <source>No settings to set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -572,12 +598,12 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1466"/>
-        <location filename="../../src/MainWindow.cpp" line="1076"/>
-        <location filename="../../src/MainWindow.cpp" line="1080"/>
-        <location filename="../../src/MainWindow.cpp" line="1115"/>
-        <location filename="../../src/MainWindow.cpp" line="1119"/>
-        <location filename="../../src/MainWindow.cpp" line="1128"/>
-        <location filename="../../src/MainWindow.cpp" line="1131"/>
+        <location filename="../../src/MainWindow.cpp" line="1077"/>
+        <location filename="../../src/MainWindow.cpp" line="1081"/>
+        <location filename="../../src/MainWindow.cpp" line="1116"/>
+        <location filename="../../src/MainWindow.cpp" line="1120"/>
+        <location filename="../../src/MainWindow.cpp" line="1129"/>
+        <location filename="../../src/MainWindow.cpp" line="1132"/>
         <source>px</source>
         <translation>px</translation>
     </message>
@@ -694,7 +720,7 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1415"/>
-        <location filename="../../src/MainWindow.cpp" line="1639"/>
+        <location filename="../../src/MainWindow.cpp" line="1640"/>
         <source>Preview</source>
         <translation>Προεπισκόπηση</translation>
     </message>
@@ -723,19 +749,19 @@ Saved: %4 (%5%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1933"/>
+        <location filename="../../src/MainWindow.cpp" line="1934"/>
         <source>Best</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1444"/>
-        <location filename="../../src/MainWindow.cpp" line="1935"/>
+        <location filename="../../src/MainWindow.cpp" line="1936"/>
         <source>Balanced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1931"/>
+        <location filename="../../src/MainWindow.cpp" line="1932"/>
         <source>Fast</source>
         <translation type="unfinished"></translation>
     </message>
@@ -937,13 +963,13 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1452"/>
-        <location filename="../../src/MainWindow.cpp" line="1090"/>
-        <location filename="../../src/MainWindow.cpp" line="1094"/>
+        <location filename="../../src/MainWindow.cpp" line="1091"/>
+        <location filename="../../src/MainWindow.cpp" line="1095"/>
         <source>%</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1302"/>
+        <location filename="../../src/MainWindow.cpp" line="1303"/>
         <source>images in list</source>
         <translation>εικόνες στη λίστα</translation>
     </message>
@@ -1316,52 +1342,52 @@ Restart your terminal (or open a new one) to use &quot;caesium-cli&quot;.</sourc
         <translation>Αρχεία εικόνας</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="167"/>
+        <location filename="../../src/models/CImage.cpp" line="177"/>
         <source>Input file does not exist</source>
         <translation>Το αρχείο εισαγωγής δεν υπάρχει</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="192"/>
+        <location filename="../../src/models/CImage.cpp" line="202"/>
         <source>Cannot make output path, check your permissions</source>
         <translation>Δεν είναι δυνατή η δημιουργία διαδρομής εξαγωγής, ελέγξτε τα δικαιώματά σας</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="209"/>
+        <location filename="../../src/models/CImage.cpp" line="219"/>
         <source>Temporary file creation failed</source>
         <translation>Η δημιουργία προσωρινού αρχείου απέτυχε</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="221"/>
+        <location filename="../../src/models/CImage.cpp" line="231"/>
         <source>File conversion failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="273"/>
+        <location filename="../../src/models/CImage.cpp" line="283"/>
         <source>Skipped: compressed file is bigger than original</source>
         <translation>Παράλειψη: το συμπιεσμένο αρχείο είναι μεγαλύτερο από το αρχικό</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="283"/>
+        <location filename="../../src/models/CImage.cpp" line="293"/>
         <source>Cannot copy output file, check your permissions</source>
         <translation>Δεν είναι δυνατή η αντιγραφή του αρχείου εξαγωγής, ελέγξτε τα δικαιώματά σας</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="308"/>
+        <location filename="../../src/models/CImage.cpp" line="318"/>
         <source>Cannot move original file to trash, check your permissions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="311"/>
+        <location filename="../../src/models/CImage.cpp" line="321"/>
         <source>Cannot delete original file, check your permissions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="437"/>
+        <location filename="../../src/models/CImage.cpp" line="447"/>
         <source>Compressing...</source>
         <translation>Συμπίεση...</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="439"/>
+        <location filename="../../src/models/CImage.cpp" line="449"/>
         <source>Error:</source>
         <translation>Σφάλμα:</translation>
     </message>

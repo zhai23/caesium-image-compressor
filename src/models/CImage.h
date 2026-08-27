@@ -47,6 +47,11 @@ public:
     // original back to its location and removing the converted output.
     bool restoreFromCache();
 
+    // Session-local numeric ID (1, 2, 3, ...) assigned at import time, so the
+    // CLI can reference images by ID instead of by full path.
+    int getCliId() const;
+    void setCliId(int id);
+
 private:
     CImageStatus status;
     QString fullPath;
@@ -58,6 +63,7 @@ private:
     QString hashedFullPath;
     QString extension;
     QString format;
+    int cliId = 0;
 
     size_t size;
     size_t compressedSize;

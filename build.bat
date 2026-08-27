@@ -143,5 +143,7 @@ echo.
 echo ============================================================
 echo  BUILD FAILED  (see messages above)
 echo ============================================================
+echo.
+pause
 endlocal
 exit /b 1

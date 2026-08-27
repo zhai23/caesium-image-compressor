@@ -108,6 +108,16 @@ QString CImage::getFullPath() const
     return this->fullPath;
 }
 
+int CImage::getCliId() const
+{
+    return this->cliId;
+}
+
+void CImage::setCliId(int id)
+{
+    this->cliId = id;
+}
+
 bool CImage::preview(const CompressionOptions& compressionOptions) const
 {
     QString inputFullPath = this->getCompressionSourcePath(compressionOptions.cacheOriginals);
