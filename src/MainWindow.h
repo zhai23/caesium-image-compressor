@@ -9,8 +9,10 @@
 #include <QSystemTrayIcon>
 #include <climits>
 #include <dialogs/AboutDialog.h>
+#include <ipc/CliProtocol.h>
 
 class QTimer;
+class CliServer;
 
 #include "models/CImageSortFilterProxyModel.h"
 #include "models/CImageTreeModel.h"
@@ -26,7 +28,7 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget* parent = nullptr);
+    explicit MainWindow(CliServer* cliServer = nullptr, QWidget* parent = nullptr);
 
     ~MainWindow() override;
 
@@ -38,6 +40,9 @@ public:
     void refreshPreview() const;
     void doRefreshPreview() const;
     void updateRestoreActionState() const;
+
+    // Entry point for commands coming from the CLI/named-pipe server.
+    CliResponse handleCliRequest(const QString& method, const QJsonObject& params);
 
 protected:
     void closeEvent(QCloseEvent* event) override;
@@ -144,6 +149,18 @@ private:
     bool isItemRemovalRunning = false;
     QSystemTrayIcon* trayIcon;
     QTranslator* translator;
+    CliServer* cliServer = nullptr;
+    // True while a CLI command is executing, so the UI code paths it reuses
+    // skip modal dialogs and report errors through cliErrorCode/message instead.
+    bool cliMode = false;
+    QString cliErrorCode;
+    QString cliErrorMessage;
+    // True while "caesium quit" is closing the window, so closeEvent skips the
+    // "are you sure?" prompt that would block the CLI response.
+    bool cliQuitInProgress = false;
+    // True while a CLI-initiated compression is running, so the (modal)
+    // compression-summary dialog is suppressed instead of blocking the CLI.
+    bool suppressSummaryDialog = false;
 
     void initStatusBar() const;
     void initUpdater();
@@ -156,7 +173,7 @@ private:
     void updateTIFFDeflateLevelLabel(int value) const;
 
     void toggleUIEnabled(bool enabled) const;
-    void importFiles(const QStringList& fileList, QString baseFolder);
+    void importFiles(const QStringList& fileList, QString baseFolder, bool showProgress = true);
     void removeFiles(bool all = false);
     void triggerImportFiles();
     void triggerImportFolder();
@@ -169,6 +186,24 @@ private:
     static void clearCache();
     void changeEvent(QEvent* event) override;
     void setupChromaSubsamplingComboBox() const;    void setupCompressButton();
+
+    // --- CLI command handlers (called on the main thread by the CliServer) ---
+    bool isCompressionRunning() const;
+    QJsonObject imageToJson(CImage* cImage) const;
+    QJsonObject currentOptionsJson() const;
+    QStringList applyCliOptions(const QJsonObject& options);
+    CliResponse cliImport(const QJsonObject& params);
+    CliResponse cliRemove(const QJsonObject& params);
+    CliResponse cliClear(const QJsonObject& params);
+    CliResponse cliList(const QJsonObject& params);
+    CliResponse cliStatus(const QJsonObject& params);
+    CliResponse cliCompress(const QJsonObject& params);
+    CliResponse cliCancel(const QJsonObject& params);
+    CliResponse cliGetOptions(const QJsonObject& params);
+    CliResponse cliSetOptions(const QJsonObject& params);
+    CliResponse cliShow(const QJsonObject& params);
+    CliResponse cliQuit(const QJsonObject& params);
+    static QStringList stringListFromJson(const QJsonValue& value);
 };
 
 #endif // MAINWINDOW_H

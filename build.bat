@@ -94,6 +94,10 @@ if not exist "%OUT_DIR%" mkdir "%OUT_DIR%"
 copy /Y "%BUILD_DIR%\Caesium Image Compressor.exe" "%OUT_DIR%\" >nul
 if errorlevel 1 goto :fail
 
+rem Also ship the CLI wrapper so "caesium-cli" works from the portable package.
+copy /Y "%~dp0caesium-cli.cmd" "%OUT_DIR%\" >nul
+if errorlevel 1 goto :fail
+
 set "CAESIUM_DLL=%BUILD_DIR%\libcaesium-prefix\src\libcaesium\target\x86_64-pc-windows-gnu\release\caesium.dll"
 if exist "%CAESIUM_DLL%" (
     copy /Y "%CAESIUM_DLL%" "%OUT_DIR%\" >nul

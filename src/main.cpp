@@ -1,9 +1,14 @@
 #include "MainWindow.h"
+#include "ipc/CliClient.h"
+#include "ipc/CliRunner.h"
+#include "ipc/CliServer.h"
 #include "utils/Logger.h"
 
 #include <QApplication>
 #include <QCommandLineParser>
+#include <QJsonArray>
 #include <QSettings>
+#include <QSharedMemory>
 #include <QStyle>
 #include <QStyleFactory>
 #include <QStyleHints>
@@ -93,16 +98,43 @@ int main(int argc, char* argv[])
 
     QApplication a(argc, argv);
 
+    // Command-line control mode: "caesium --cli <command> ..." connects to the
+    // running instance and forwards the command. Everything else is handled by
+    // CliRunner, so we bypass the GUI startup entirely.
+    QStringList rawArgs = QApplication::arguments();
+    if (rawArgs.contains("--cli")) {
+        rawArgs.removeFirst(); // program name
+        rawArgs.removeAll("--cli");
+        return CliRunner::run(rawArgs);
+    }
+
     QCommandLineParser parser;
     parser.addVersionOption();
     parser.process(a);
+
+    // Single-instance gate. On Windows, QLocalServer lets several processes
+    // listen on the same named pipe, so QSharedMemory is the authoritative lock:
+    // create() only succeeds for the first instance. Any later invocation
+    // forwards its file arguments to the running instance and exits.
+    QSharedMemory instanceLock("caesium_instance_lock_" + CliProtocol::pipeName());
+    if (!instanceLock.create(1)) {
+        const QStringList positionalArgs = parser.positionalArguments();
+        if (!positionalArgs.isEmpty()) {
+            CliClient::sendRequest("import",
+                { { "paths", QJsonArray::fromStringList(positionalArgs) } });
+        }
+        return 0;
+    }
+
+    auto* cliServer = new CliServer();
+    cliServer->start();
 
     loadTheme(a);
 
     qInfo() << "---- Starting application ----";
     QString uuid = loadInstallationId();
     qInfo() << "UUID:" << uuid;
-    MainWindow w;
+    MainWindow w(cliServer);
 
     QScreen* spawnScreen = w.screen();
     if (!QGuiApplication::screens().contains(spawnScreen)) {

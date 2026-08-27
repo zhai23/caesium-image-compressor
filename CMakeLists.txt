@@ -99,6 +99,7 @@ set(SOURCES
         src/utils/LanguageManager.cpp
         src/utils/Logger.cpp
         src/utils/PostCompressionActions.cpp
+        src/utils/CliPathConfig.cpp
         src/dialogs/AboutDialog.cpp
         src/widgets/QDropTreeView.cpp
         src/widgets/QDropListWidget.cpp
@@ -117,6 +118,9 @@ set(SOURCES
         src/dialogs/AdvancedImportDialog.cpp
         src/services/Importer.cpp
         src/filters/QSliderScrollFilter.cpp
+        src/ipc/CliServer.cpp
+        src/ipc/CliClient.cpp
+        src/ipc/CliRunner.cpp
 )
 
 if (APPLE)

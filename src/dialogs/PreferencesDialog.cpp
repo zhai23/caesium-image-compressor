@@ -3,11 +3,13 @@
 
 #include "MainWindow.h"
 #include "UsageStatsDialog.h"
+#include "utils/CliPathConfig.h"
 #include "utils/LanguageManager.h"
 #include "utils/Utils.h"
 #include <QColor>
 #include <QColorDialog>
 #include <QJsonDocument>
+#include <QMessageBox>
 #include <QProcess>
 #include <QSettings>
 
@@ -27,6 +29,8 @@ PreferencesDialog::PreferencesDialog(QWidget* parent)
     ui->changesAfterRestartTheme_Label->setVisible(false);
     ui->changesAfterRestartTheme_LabelIcon->setVisible(false);
     ui->restart_Button->setVisible(false);
+
+    this->updateCliPathUi();
 
     this->setupConnections();
 }
@@ -56,6 +60,8 @@ void PreferencesDialog::setupConnections()
     connect(ui->postCompressionAction_ComboBox, &QComboBox::currentIndexChanged, this, &PreferencesDialog::onPostCompressionActionChanged);
     connect(ui->restart_Button, &QPushButton::pressed, this, &PreferencesDialog::onRestartButtonPressed);
     connect(ui->threadsPriority_Slider, &QSlider::valueChanged, this, &PreferencesDialog::onThreadsPriorityChanged);
+    connect(ui->cliAddToPath_Button, &QPushButton::clicked, this, &PreferencesDialog::onCliAddToPathClicked);
+    connect(ui->cliRemoveFromPath_Button, &QPushButton::clicked, this, &PreferencesDialog::onCliRemoveFromPathClicked);
 }
 
 void PreferencesDialog::loadLanguages() const
@@ -265,4 +271,47 @@ void PreferencesDialog::onRestartButtonPressed()
 void PreferencesDialog::onThreadsPriorityChanged(int value)
 {
     QSettings().setValue("preferences/general/threads_priority", value);
+}
+
+void PreferencesDialog::updateCliPathUi() const
+{
+    ui->cliPathValue_Label->setText(CliPathConfig::cliFolder());
+
+    if (!CliPathConfig::isSupported()) {
+        ui->cliPathStatus_Label->setText(tr("PATH management is only available on Windows"));
+        ui->cliAddToPath_Button->setEnabled(false);
+        ui->cliRemoveFromPath_Button->setEnabled(false);
+        return;
+    }
+
+    const bool configured = CliPathConfig::isConfigured();
+    if (configured) {
+        ui->cliPathStatus_Label->setText(tr("caesium-cli is on your PATH"));
+    } else {
+        ui->cliPathStatus_Label->setText(tr("caesium-cli is NOT on your PATH"));
+    }
+    ui->cliAddToPath_Button->setEnabled(!configured);
+    ui->cliRemoveFromPath_Button->setEnabled(configured);
+}
+
+void PreferencesDialog::onCliAddToPathClicked()
+{
+    if (CliPathConfig::addToPath()) {
+        this->updateCliPathUi();
+        QMessageBox::information(this, tr("Command line"),
+            tr("Folder added to PATH.\n\nRestart your terminal (or open a new one) to use \"caesium-cli\"."));
+    } else {
+        QMessageBox::warning(this, tr("Command line"),
+            tr("Could not add the folder to PATH."));
+    }
+}
+
+void PreferencesDialog::onCliRemoveFromPathClicked()
+{
+    if (CliPathConfig::removeFromPath()) {
+        this->updateCliPathUi();
+    } else {
+        QMessageBox::warning(this, tr("Command line"),
+            tr("Could not remove the folder from PATH."));
+    }
 }

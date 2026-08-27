@@ -3,13 +3,17 @@
 #include "exceptions/ImageNotSupportedException.h"
 #include "exceptions/ImageTooBigException.h"
 #include "filters/QSliderScrollFilter.h"
+#include "ipc/CliServer.h"
 #include "ui_MainWindow.h"
 #include "utils/LanguageManager.h"
 #include "utils/Logger.h"
 #include "utils/PostCompressionActions.h"
+#include <QApplication>
 #include <QDesktopServices>
+#include <QDialog>
 #include <QFile>
 #include <QFileDialog>
+#include <QJsonArray>
 #include <QMovie>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -23,6 +27,7 @@
 #include <QWheelEvent>
 #include <QWindow>
 #include <QtConcurrent>
+#include <memory>
 #include <dialogs/AdvancedImportDialog.h>
 #include <dialogs/PreferencesDialog.h>
 #include <services/Importer.h>
@@ -35,9 +40,10 @@
 #include "./updater/osx/SparkleAutoUpdater.h"
 #endif
 
-MainWindow::MainWindow(QWidget* parent)
+MainWindow::MainWindow(CliServer* cliServer, QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , cliServer(cliServer)
 {
     qRegisterMetaType<QList<int>>();
     qRegisterMetaType<QWheelEvent*>();
@@ -199,6 +205,13 @@ MainWindow::MainWindow(QWidget* parent)
     commandLineParser.process(QApplication::arguments());
     if (const QStringList args = commandLineParser.positionalArguments(); !args.isEmpty()) {
         this->importFromArgs(args);
+    }
+
+    if (this->cliServer != nullptr) {
+        this->cliServer->setParent(this);
+        this->cliServer->setHandler([this](const QString& method, const QJsonObject& params) {
+            return this->handleCliRequest(method, params);
+        });
     }
 
     QImageReader::setAllocationLimit(1024);
@@ -638,15 +651,18 @@ void MainWindow::updateFolderMap(QString baseFolder, int count)
     }
 }
 
-void MainWindow::importFiles(const QStringList& fileList, QString baseFolder)
+void MainWindow::importFiles(const QStringList& fileList, QString baseFolder, bool showProgress)
 {
     int listLength = static_cast<int>(fileList.count());
-    QProgressDialog progressDialog(tr("Importing files..."), tr("Cancel"), 0, listLength, this);
-    progressDialog.setWindowModality(Qt::WindowModal);
+    std::unique_ptr<QProgressDialog> progressDialog;
+    if (showProgress) {
+        progressDialog = std::make_unique<QProgressDialog>(tr("Importing files..."), tr("Cancel"), 0, listLength, this);
+        progressDialog->setWindowModality(Qt::WindowModal);
+    }
 
     QList<CImage*> list;
     for (int i = 0; i < listLength; i++) {
-        if (progressDialog.wasCanceled()) {
+        if (showProgress && progressDialog->wasCanceled()) {
             break;
         }
 
@@ -662,7 +678,9 @@ void MainWindow::importFiles(const QStringList& fileList, QString baseFolder)
             qWarning() << fileList.at(i) << "is too big. Error:" << e.what();
         }
 
-        progressDialog.setValue(i);
+        if (showProgress) {
+            progressDialog->setValue(i);
+        }
     }
 
     if (!list.isEmpty() && listLength > 0) {
@@ -672,7 +690,9 @@ void MainWindow::importFiles(const QStringList& fileList, QString baseFolder)
         this->importedFilesRootFolder = rootFolder;
     }
 
-    progressDialog.setValue(listLength);
+    if (showProgress) {
+        progressDialog->setValue(listLength);
+    }
 }
 
 void MainWindow::removeFiles(bool all)
@@ -715,6 +735,11 @@ void MainWindow::startCompression(bool onlyFailed)
 {
 
     if (ui->outputFolder_LineEdit->text().isEmpty() && !ui->sameOutputFolderAsInput_CheckBox->isChecked()) {
+        if (this->cliMode) {
+            this->cliErrorCode = "NO_OUTPUT_FOLDER";
+            this->cliErrorMessage = tr("Please select an output folder first");
+            return;
+        }
         QCaesiumMessageBox msgBox;
         msgBox.setText(tr("Please select an output folder first"));
         msgBox.addButton(tr("Ok"), QMessageBox::AcceptRole);
@@ -728,7 +753,7 @@ void MainWindow::startCompression(bool onlyFailed)
     bool overwriteWarningFlag = (ui->sameOutputFolderAsInput_CheckBox->isChecked() && ui->outputSuffix_LineEdit->text().isEmpty())
         || rootFolder == ui->outputFolder_LineEdit->text();
 
-    if (overwriteWarningFlag && !skipDialogs) {
+    if (overwriteWarningFlag && !skipDialogs && !this->cliMode) {
         QCaesiumMessageBox sameFolderPrompt;
         sameFolderPrompt.setText(tr("You are about to overwrite your original images and this action can't be undone.\n\nDo you really want to continue?"));
         sameFolderPrompt.addButton(tr("Yes"), QMessageBox::YesRole);
@@ -743,12 +768,21 @@ void MainWindow::startCompression(bool onlyFailed)
     int totalImages = this->cImageModel->getRootItem()->childCount();
 
     if (totalImages == 0) {
+        if (this->cliMode) {
+            this->cliErrorCode = "NO_IMAGES";
+            this->cliErrorMessage = tr("No images in the list");
+        }
         return;
     }
 
     bool multiSelectionEnabled = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
 
     if (multiSelectionEnabled && this->cImageModel->checkedItemsCount() == 0) {
+        if (this->cliMode) {
+            this->cliErrorCode = "NO_IMAGES_SELECTED";
+            this->cliErrorMessage = tr("No images selected");
+            return;
+        }
         QCaesiumMessageBox msgBox(this);
         msgBox.setText(tr("No images selected"));
         msgBox.setInformativeText(tr("Please check at least one image to compress."));
@@ -872,7 +906,7 @@ void MainWindow::on_removeFiles_Button_clicked()
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-    if (QSettings().value("preferences/general/prompt_before_exit", false).toBool()) {
+    if (QSettings().value("preferences/general/prompt_before_exit", false).toBool() && !this->cliQuitInProgress) {
         QCaesiumMessageBox exitPrompt;
         exitPrompt.setText(tr("Do you really want to quit?"));
 
@@ -985,6 +1019,13 @@ void MainWindow::compressionFinished()
     PostCompressionAction postCompressionAction = static_cast<PostCompressionAction>(QSettings().value("preferences/general/post_compression_action", 0).toInt());
     if (postCompressionAction != PostCompressionAction::NO_ACTION) {
         PostCompressionActions::runAction(postCompressionAction, ui->outputFolder_LineEdit->text());
+        return;
+    }
+
+    if (this->suppressSummaryDialog) {
+        // CLI-initiated compression: no tray popup and no modal summary dialog,
+        // so the process never blocks waiting for user input.
+        this->suppressSummaryDialog = false;
         return;
     }
 
@@ -1961,4 +2002,712 @@ void MainWindow::installCompressionOptionsEventFilter() const
 
     ui->TIFFDeflateLevel_Slider->installEventFilter(new QSliderScrollFilter());
     ui->TIFFCompressionMethod_ComboBox->installEventFilter(new QSliderScrollFilter());
+}
+
+// ---------------------------------------------------------------------------
+// CLI command handlers. These run on the main thread and reuse the same code
+// paths as the UI, so any change is reflected in the interface immediately.
+// ---------------------------------------------------------------------------
+
+namespace {
+
+QString cliStatusToString(CImageStatus status)
+{
+    switch (status) {
+    case CImageStatus::UNCOMPRESSED:
+        return "uncompressed";
+    case CImageStatus::COMPRESSING:
+        return "compressing";
+    case CImageStatus::COMPRESSED:
+        return "compressed";
+    case CImageStatus::ERROR:
+        return "error";
+    case CImageStatus::WARNING:
+        return "warning";
+    }
+    return "unknown";
+}
+
+QString cliFormatIndexToString(int index)
+{
+    switch (index) {
+    case 1:
+        return "jpg";
+    case 2:
+        return "png";
+    case 3:
+        return "webp";
+    case 4:
+        return "tiff";
+    default:
+        return "same";
+    }
+}
+
+int cliFormatStringToIndex(const QString& value)
+{
+    if (value.compare("jpg", Qt::CaseInsensitive) == 0 || value.compare("jpeg", Qt::CaseInsensitive) == 0) {
+        return 1;
+    }
+    if (value.compare("png", Qt::CaseInsensitive) == 0) {
+        return 2;
+    }
+    if (value.compare("webp", Qt::CaseInsensitive) == 0) {
+        return 3;
+    }
+    if (value.compare("tiff", Qt::CaseInsensitive) == 0) {
+        return 4;
+    }
+    return 0; // same as input
+}
+
+QString cliTiffMethodIndexToString(int index)
+{
+    switch (index) {
+    case 1:
+        return "lzw";
+    case 2:
+        return "deflate";
+    case 3:
+        return "packbits";
+    default:
+        return "uncompressed";
+    }
+}
+
+int cliTiffMethodStringToIndex(const QString& value)
+{
+    if (value.compare("lzw", Qt::CaseInsensitive) == 0) {
+        return 1;
+    }
+    if (value.compare("deflate", Qt::CaseInsensitive) == 0) {
+        return 2;
+    }
+    if (value.compare("packbits", Qt::CaseInsensitive) == 0) {
+        return 3;
+    }
+    return 0;
+}
+
+QString cliUnitIndexToString(int index)
+{
+    switch (index) {
+    case 1:
+        return "kb";
+    case 2:
+        return "mb";
+    case 3:
+        return "percentage";
+    default:
+        return "bytes";
+    }
+}
+
+int cliUnitStringToIndex(const QString& value)
+{
+    if (value.compare("kb", Qt::CaseInsensitive) == 0) {
+        return 1;
+    }
+    if (value.compare("mb", Qt::CaseInsensitive) == 0) {
+        return 2;
+    }
+    if (value.compare("percentage", Qt::CaseInsensitive) == 0 || value.compare("percent", Qt::CaseInsensitive) == 0) {
+        return 3;
+    }
+    return 0;
+}
+
+QString cliFitIndexToString(int index)
+{
+    switch (index) {
+    case ResizeMode::DIMENSIONS:
+        return "dimensions";
+    case ResizeMode::PERCENTAGE:
+        return "percentage";
+    case ResizeMode::SHORT_EDGE:
+        return "short_edge";
+    case ResizeMode::LONG_EDGE:
+        return "long_edge";
+    case ResizeMode::FIXED_WIDTH:
+        return "fixed_width";
+    case ResizeMode::FIXED_HEIGHT:
+        return "fixed_height";
+    default:
+        return "none";
+    }
+}
+
+int cliFitStringToIndex(const QString& value)
+{
+    if (value.compare("dimensions", Qt::CaseInsensitive) == 0) {
+        return ResizeMode::DIMENSIONS;
+    }
+    if (value.compare("percentage", Qt::CaseInsensitive) == 0) {
+        return ResizeMode::PERCENTAGE;
+    }
+    if (value.compare("short_edge", Qt::CaseInsensitive) == 0) {
+        return ResizeMode::SHORT_EDGE;
+    }
+    if (value.compare("long_edge", Qt::CaseInsensitive) == 0) {
+        return ResizeMode::LONG_EDGE;
+    }
+    if (value.compare("fixed_width", Qt::CaseInsensitive) == 0) {
+        return ResizeMode::FIXED_WIDTH;
+    }
+    if (value.compare("fixed_height", Qt::CaseInsensitive) == 0) {
+        return ResizeMode::FIXED_HEIGHT;
+    }
+    return ResizeMode::NO_RESIZE;
+}
+
+int cliValueToInt(const QJsonValue& value, int fallback = 0)
+{
+    if (value.isDouble()) {
+        return value.toInt();
+    }
+    if (value.isString()) {
+        return value.toString().toInt();
+    }
+    return fallback;
+}
+
+bool cliValueToBool(const QJsonValue& value, bool fallback = false)
+{
+    if (value.isBool()) {
+        return value.toBool();
+    }
+    if (value.isString()) {
+        const QString s = value.toString().trimmed().toLower();
+        return s == "true" || s == "1" || s == "yes" || s == "on";
+    }
+    if (value.isDouble()) {
+        return value.toInt() != 0;
+    }
+    return fallback;
+}
+
+} // namespace
+
+QStringList MainWindow::stringListFromJson(const QJsonValue& value)
+{
+    QStringList list;
+    if (value.isArray()) {
+        const QJsonArray array = value.toArray();
+        for (const QJsonValue& v : array) {
+            if (v.isString()) {
+                list << v.toString();
+            }
+        }
+    } else if (value.isString()) {
+        list << value.toString();
+    }
+    return list;
+}
+
+bool MainWindow::isCompressionRunning() const
+{
+    return this->compressionWatcher != nullptr && this->compressionWatcher->isRunning();
+}
+
+QJsonObject MainWindow::imageToJson(CImage* cImage) const
+{
+    QJsonObject obj;
+    obj["path"] = cImage->getFullPath();
+    obj["name"] = cImage->getFileName();
+    obj["format"] = cImage->getFormat();
+    obj["status"] = cliStatusToString(cImage->getStatus());
+    obj["original_size"] = static_cast<double>(cImage->getOriginalSize());
+    obj["compressed_size"] = static_cast<double>(cImage->getCompressedSize());
+    obj["ratio"] = cImage->getRatio();
+    obj["saved"] = cImage->getFormattedSavedRatio();
+    obj["compressed_path"] = cImage->getCompressedFullPath();
+    return obj;
+}
+
+CliResponse MainWindow::handleCliRequest(const QString& method, const QJsonObject& params)
+{
+    if (method == "ping") {
+        return { true, {}, {}, {} };
+    }
+    if (method == "import") {
+        return this->cliImport(params);
+    }
+    if (method == "remove") {
+        return this->cliRemove(params);
+    }
+    if (method == "clear") {
+        return this->cliClear(params);
+    }
+    if (method == "list") {
+        return this->cliList(params);
+    }
+    if (method == "status") {
+        return this->cliStatus(params);
+    }
+    if (method == "compress") {
+        return this->cliCompress(params);
+    }
+    if (method == "cancel") {
+        return this->cliCancel(params);
+    }
+    if (method == "options.get") {
+        return this->cliGetOptions(params);
+    }
+    if (method == "options.set") {
+        return this->cliSetOptions(params);
+    }
+    if (method == "show") {
+        return this->cliShow(params);
+    }
+    if (method == "quit") {
+        return this->cliQuit(params);
+    }
+    return { false, "UNKNOWN_METHOD", tr("Unknown command: %1").arg(method), {} };
+}
+
+CliResponse MainWindow::cliImport(const QJsonObject& params)
+{
+    if (this->isCompressionRunning()) {
+        return { false, "COMPRESS_IN_PROGRESS", tr("Compression is in progress. Wait for it to finish or cancel it first."), {} };
+    }
+    const QStringList paths = stringListFromJson(params.value("paths"));
+    if (paths.isEmpty()) {
+        return { false, "NO_PATHS", tr("No paths specified."), {} };
+    }
+    const bool scanSubfolders = QSettings().value("preferences/general/import_subfolders", true).toBool();
+    const QStringList filesList = Importer::scanList(paths, scanSubfolders);
+    if (filesList.isEmpty()) {
+        return { false, "NO_FILES", tr("No supported image files found in the given paths."), {} };
+    }
+    const int before = this->cImageModel->rowCount();
+    const QString baseFolder = Importer::getRootFolder(paths);
+    this->importFiles(filesList, baseFolder, false);
+    const int added = this->cImageModel->rowCount() - before;
+    QJsonObject result;
+    result["added"] = added;
+    result["scanned"] = filesList.count();
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliRemove(const QJsonObject& params)
+{
+    if (this->isCompressionRunning()) {
+        return { false, "COMPRESS_IN_PROGRESS", tr("Compression is in progress."), {} };
+    }
+    const QStringList paths = stringListFromJson(params.value("paths"));
+    if (paths.isEmpty()) {
+        return { false, "NO_PATHS", tr("No paths specified."), {} };
+    }
+    auto* root = this->cImageModel->getRootItem();
+    int removed = 0;
+    for (const QString& path : paths) {
+        const QString normalized = QFileInfo(path).absoluteFilePath();
+        for (int i = root->childCount() - 1; i >= 0; --i) {
+            CImage* img = root->children().at(i)->getCImage();
+            if (img->getFullPath() == normalized) {
+                this->updateFolderMap(normalized, -1);
+                img->removeCachedOriginal();
+                this->cImageModel->removeRows(i, 1, QModelIndex());
+                removed++;
+                break;
+            }
+        }
+    }
+    this->previewWatcher->cancel();
+    this->cModelItemsChanged();
+    this->updateRestoreActionState();
+    QJsonObject result;
+    result["removed"] = removed;
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliClear(const QJsonObject&)
+{
+    if (this->isCompressionRunning()) {
+        return { false, "COMPRESS_IN_PROGRESS", tr("Compression is in progress."), {} };
+    }
+    auto* root = this->cImageModel->getRootItem();
+    const int count = root->childCount();
+    for (int i = count - 1; i >= 0; --i) {
+        CImage* img = root->children().at(i)->getCImage();
+        this->updateFolderMap(img->getFullPath(), -1);
+        img->removeCachedOriginal();
+    }
+    if (count > 0) {
+        this->cImageModel->removeRows(0, count, QModelIndex());
+    }
+    this->previewWatcher->cancel();
+    this->cModelItemsChanged();
+    QJsonObject result;
+    result["cleared"] = count;
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliList(const QJsonObject&)
+{
+    auto* root = this->cImageModel->getRootItem();
+    QJsonArray items;
+    for (int i = 0; i < root->childCount(); ++i) {
+        items.append(this->imageToJson(root->children().at(i)->getCImage()));
+    }
+    QJsonObject result;
+    result["items"] = items;
+    result["count"] = items.size();
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliStatus(const QJsonObject&)
+{
+    auto* root = this->cImageModel->getRootItem();
+    QJsonObject result;
+    const bool running = this->isCompressionRunning();
+    result["compressing"] = running;
+    result["images"] = this->cImageModel->rowCount();
+
+    QJsonObject progress;
+    if (running && this->compressionWatcher != nullptr) {
+        progress["current"] = this->compressionWatcher->progressValue();
+        progress["total"] = this->compressionWatcher->progressMaximum();
+    } else {
+        progress["current"] = 0;
+        progress["total"] = 0;
+    }
+    result["progress"] = progress;
+
+    QJsonArray items;
+    int compressed = 0;
+    int error = 0;
+    int uncompressed = 0;
+    int compressing = 0;
+    int warning = 0;
+    for (int i = 0; i < root->childCount(); ++i) {
+        CImage* img = root->children().at(i)->getCImage();
+        items.append(this->imageToJson(img));
+        switch (img->getStatus()) {
+        case CImageStatus::COMPRESSED:
+            compressed++;
+            break;
+        case CImageStatus::ERROR:
+            error++;
+            break;
+        case CImageStatus::COMPRESSING:
+            compressing++;
+            break;
+        case CImageStatus::WARNING:
+            warning++;
+            break;
+        default:
+            uncompressed++;
+            break;
+        }
+    }
+    result["items"] = items;
+    QJsonObject counts;
+    counts["compressed"] = compressed;
+    counts["error"] = error;
+    counts["uncompressed"] = uncompressed;
+    counts["compressing"] = compressing;
+    counts["warning"] = warning;
+    result["counts"] = counts;
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliCompress(const QJsonObject& params)
+{
+    if (this->isCompressionRunning()) {
+        return { false, "COMPRESS_IN_PROGRESS", tr("Compression is already running."), {} };
+    }
+    if (this->cImageModel->rowCount() == 0) {
+        return { false, "NO_IMAGES", tr("No images in the list. Add some first."), {} };
+    }
+    if (ui->outputFolder_LineEdit->text().isEmpty() && !ui->sameOutputFolderAsInput_CheckBox->isChecked()) {
+        return { false, "NO_OUTPUT_FOLDER", tr("Please select an output folder first."), {} };
+    }
+    if (QSettings().value("preferences/general/enable_multi_selection", false).toBool()
+        && this->cImageModel->checkedItemsCount() == 0) {
+        return { false, "NO_IMAGES_SELECTED", tr("No images selected."), {} };
+    }
+    const bool onlyFailed = params.value("only_failed").toBool(false);
+    this->cliMode = true;
+    this->cliErrorCode.clear();
+    this->cliErrorMessage.clear();
+    this->suppressSummaryDialog = true;
+    this->startCompression(onlyFailed);
+    this->cliMode = false;
+    if (!this->cliErrorCode.isEmpty()) {
+        return { false, this->cliErrorCode, this->cliErrorMessage, {} };
+    }
+    QJsonObject result;
+    result["started"] = true;
+    const bool multiSelectionEnabled = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
+    result["total"] = multiSelectionEnabled ? this->cImageModel->checkedItemsCount() : this->cImageModel->rowCount();
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliCancel(const QJsonObject&)
+{
+    if (!this->isCompressionRunning()) {
+        return { false, "NOT_COMPRESSING", tr("No compression in progress."), {} };
+    }
+    this->compressionCanceled();
+    QJsonObject result;
+    result["canceled"] = true;
+    return { true, {}, {}, result };
+}
+
+QJsonObject MainWindow::currentOptionsJson() const
+{
+    QJsonObject o;
+    o["format"] = cliFormatIndexToString(ui->format_ComboBox->currentIndex());
+    o["mode"] = ui->compressionMode_ComboBox->currentIndex() == QUALITY ? "quality" : "size";
+    o["lossless"] = ui->lossless_CheckBox->isChecked();
+    o["keep_metadata"] = ui->keepMetadata_CheckBox->isChecked();
+    o["keep_structure"] = ui->keepStructure_CheckBox->isChecked();
+    o["jpeg_quality"] = ui->JPEGQuality_Slider->value();
+    o["jpeg_chroma_subsampling"] = QString::number(ui->JPEGChromaSubsampling_ComboBox->currentData(Qt::UserRole).toInt());
+    o["jpeg_progressive"] = ui->JPEGProgressive_CheckBox->isChecked();
+    o["png_quality"] = ui->PNGQuality_Slider->value();
+    o["png_optimization_level"] = ui->PNGOptimizationLevel_Slider->value();
+    o["webp_quality"] = ui->WebPQuality_Slider->value();
+    o["tiff_method"] = cliTiffMethodIndexToString(ui->TIFFCompressionMethod_ComboBox->currentIndex());
+    o["tiff_deflate_level"] = ui->TIFFDeflateLevel_Slider->value();
+    o["max_output_size"] = ui->maxOutputSize_SpinBox->value();
+    o["max_output_size_unit"] = cliUnitIndexToString(ui->maxOutputSizeUnit_ComboBox->currentIndex());
+    o["fit_to"] = cliFitIndexToString(ui->fitTo_ComboBox->currentIndex());
+    o["width"] = ui->width_SpinBox->value();
+    o["height"] = ui->height_SpinBox->value();
+    o["edge"] = ui->edge_SpinBox->value();
+    o["keep_aspect_ratio"] = ui->keepAspectRatio_CheckBox->isChecked();
+    o["do_not_enlarge"] = ui->doNotEnlarge_CheckBox->isChecked();
+    o["output_folder"] = ui->outputFolder_LineEdit->text();
+    o["output_suffix"] = ui->outputSuffix_LineEdit->text();
+    o["same_folder_as_input"] = ui->sameOutputFolderAsInput_CheckBox->isChecked();
+    o["skip_if_bigger"] = ui->skipIfBigger_CheckBox->isChecked();
+    o["cache_originals"] = ui->cacheOriginals_CheckBox->isChecked();
+    o["delete_original_format_file"] = ui->deleteOriginalFormatFile_CheckBox->isChecked();
+    o["keep_dates"] = ui->keepDates_CheckBox->checkState() == Qt::Checked;
+    o["keep_creation_date"] = ui->keepCreationDate_CheckBox->isChecked();
+    o["keep_last_modified_date"] = ui->keepLastModifiedDate_CheckBox->isChecked();
+    o["keep_last_access_date"] = ui->keepLastAccessDate_CheckBox->isChecked();
+    return o;
+}
+
+QStringList MainWindow::applyCliOptions(const QJsonObject& options)
+{
+    QStringList unknown;
+
+    if (options.contains("format")) {
+        const int idx = cliFormatStringToIndex(options.value("format").toString());
+        if (idx >= 0) {
+            ui->format_ComboBox->setCurrentIndex(idx);
+        } else {
+            unknown << "format";
+        }
+    }
+    if (options.contains("mode")) {
+        const QString m = options.value("mode").toString().toLower();
+        if (m == "size") {
+            ui->compressionMode_ComboBox->setCurrentIndex(SIZE);
+        } else if (m == "quality") {
+            ui->compressionMode_ComboBox->setCurrentIndex(QUALITY);
+        } else {
+            unknown << "mode";
+        }
+    }
+    if (options.contains("lossless")) {
+        ui->lossless_CheckBox->setChecked(cliValueToBool(options.value("lossless")));
+    }
+    if (options.contains("keep_metadata")) {
+        ui->keepMetadata_CheckBox->setChecked(cliValueToBool(options.value("keep_metadata")));
+    }
+    if (options.contains("keep_structure")) {
+        ui->keepStructure_CheckBox->setChecked(cliValueToBool(options.value("keep_structure")));
+    }
+    if (options.contains("jpeg_quality")) {
+        ui->JPEGQuality_Slider->setValue(cliValueToInt(options.value("jpeg_quality"), ui->JPEGQuality_Slider->value()));
+    }
+    if (options.contains("jpeg_chroma_subsampling")) {
+        const int chroma = options.value("jpeg_chroma_subsampling").toVariant().toInt();
+        const int idx = ui->JPEGChromaSubsampling_ComboBox->findData(chroma);
+        if (idx != -1) {
+            ui->JPEGChromaSubsampling_ComboBox->setCurrentIndex(idx);
+        } else {
+            unknown << "jpeg_chroma_subsampling";
+        }
+    }
+    if (options.contains("jpeg_progressive")) {
+        ui->JPEGProgressive_CheckBox->setChecked(cliValueToBool(options.value("jpeg_progressive")));
+    }
+    if (options.contains("png_quality")) {
+        ui->PNGQuality_Slider->setValue(cliValueToInt(options.value("png_quality"), ui->PNGQuality_Slider->value()));
+    }
+    if (options.contains("png_optimization_level")) {
+        ui->PNGOptimizationLevel_Slider->setValue(cliValueToInt(options.value("png_optimization_level"), ui->PNGOptimizationLevel_Slider->value()));
+    }
+    if (options.contains("webp_quality")) {
+        ui->WebPQuality_Slider->setValue(cliValueToInt(options.value("webp_quality"), ui->WebPQuality_Slider->value()));
+    }
+    if (options.contains("tiff_method")) {
+        const int idx = cliTiffMethodStringToIndex(options.value("tiff_method").toString());
+        if (idx >= 0) {
+            ui->TIFFCompressionMethod_ComboBox->setCurrentIndex(idx);
+        } else {
+            unknown << "tiff_method";
+        }
+    }
+    if (options.contains("tiff_deflate_level")) {
+        ui->TIFFDeflateLevel_Slider->setValue(cliValueToInt(options.value("tiff_deflate_level"), ui->TIFFDeflateLevel_Slider->value()));
+    }
+    if (options.contains("max_output_size")) {
+        ui->maxOutputSize_SpinBox->setValue(cliValueToInt(options.value("max_output_size"), ui->maxOutputSize_SpinBox->value()));
+    }
+    if (options.contains("max_output_size_unit")) {
+        const int idx = cliUnitStringToIndex(options.value("max_output_size_unit").toString());
+        if (idx >= 0) {
+            ui->maxOutputSizeUnit_ComboBox->setCurrentIndex(idx);
+        } else {
+            unknown << "max_output_size_unit";
+        }
+    }
+    if (options.contains("fit_to")) {
+        const int idx = cliFitStringToIndex(options.value("fit_to").toString());
+        if (idx >= 0) {
+            ui->fitTo_ComboBox->setCurrentIndex(idx);
+        } else {
+            unknown << "fit_to";
+        }
+    }
+    if (options.contains("width")) {
+        ui->width_SpinBox->setValue(cliValueToInt(options.value("width"), ui->width_SpinBox->value()));
+    }
+    if (options.contains("height")) {
+        ui->height_SpinBox->setValue(cliValueToInt(options.value("height"), ui->height_SpinBox->value()));
+    }
+    if (options.contains("edge")) {
+        ui->edge_SpinBox->setValue(cliValueToInt(options.value("edge"), ui->edge_SpinBox->value()));
+    }
+    if (options.contains("keep_aspect_ratio")) {
+        ui->keepAspectRatio_CheckBox->setChecked(cliValueToBool(options.value("keep_aspect_ratio")));
+    }
+    if (options.contains("do_not_enlarge")) {
+        ui->doNotEnlarge_CheckBox->setChecked(cliValueToBool(options.value("do_not_enlarge")));
+    }
+    if (options.contains("output_folder")) {
+        const QString folder = options.value("output_folder").toString();
+        ui->outputFolder_LineEdit->setText(folder);
+        QSettings().setValue("compression_options/output/output_folder", folder);
+    }
+    if (options.contains("output_suffix")) {
+        ui->outputSuffix_LineEdit->setText(options.value("output_suffix").toString());
+    }
+    if (options.contains("same_folder_as_input")) {
+        ui->sameOutputFolderAsInput_CheckBox->setChecked(cliValueToBool(options.value("same_folder_as_input")));
+    }
+    if (options.contains("skip_if_bigger")) {
+        ui->skipIfBigger_CheckBox->setChecked(cliValueToBool(options.value("skip_if_bigger")));
+    }
+    if (options.contains("cache_originals")) {
+        ui->cacheOriginals_CheckBox->setChecked(cliValueToBool(options.value("cache_originals")));
+    }
+    if (options.contains("delete_original_format_file")) {
+        ui->deleteOriginalFormatFile_CheckBox->setChecked(cliValueToBool(options.value("delete_original_format_file")));
+    }
+    if (options.contains("keep_dates")) {
+        const bool keep = cliValueToBool(options.value("keep_dates"));
+        ui->keepCreationDate_CheckBox->setChecked(keep);
+        ui->keepLastModifiedDate_CheckBox->setChecked(keep);
+        ui->keepLastAccessDate_CheckBox->setChecked(keep);
+        ui->keepDates_CheckBox->setCheckState(keep ? Qt::Checked : Qt::Unchecked);
+        QSettings().setValue("compression_options/output/keep_dates", keep ? Qt::Checked : Qt::Unchecked);
+        QSettings().setValue("compression_options/output/keep_creation_date", keep);
+        QSettings().setValue("compression_options/output/keep_last_modified_date", keep);
+        QSettings().setValue("compression_options/output/keep_last_access_date", keep);
+    }
+    if (options.contains("keep_creation_date")) {
+        const bool v = cliValueToBool(options.value("keep_creation_date"));
+        ui->keepCreationDate_CheckBox->setChecked(v);
+        QSettings().setValue("compression_options/output/keep_creation_date", v);
+    }
+    if (options.contains("keep_last_modified_date")) {
+        const bool v = cliValueToBool(options.value("keep_last_modified_date"));
+        ui->keepLastModifiedDate_CheckBox->setChecked(v);
+        QSettings().setValue("compression_options/output/keep_last_modified_date", v);
+    }
+    if (options.contains("keep_last_access_date")) {
+        const bool v = cliValueToBool(options.value("keep_last_access_date"));
+        ui->keepLastAccessDate_CheckBox->setChecked(v);
+        QSettings().setValue("compression_options/output/keep_last_access_date", v);
+    }
+
+    return unknown;
+}
+
+CliResponse MainWindow::cliGetOptions(const QJsonObject& params)
+{
+    const QJsonObject options = this->currentOptionsJson();
+    if (params.contains("key")) {
+        const QString key = params.value("key").toString();
+        if (!options.contains(key)) {
+            return { false, "UNKNOWN_KEY", tr("Unknown option key: %1").arg(key), {} };
+        }
+        QJsonObject result;
+        result["key"] = key;
+        result["value"] = options.value(key);
+        return { true, {}, {}, result };
+    }
+    QJsonObject result;
+    result["options"] = options;
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliSetOptions(const QJsonObject& params)
+{
+    QJsonObject options = params.value("options").toObject();
+    if (options.isEmpty() && params.contains("key")) {
+        options.insert(params.value("key").toString(), params.value("value"));
+    }
+    if (options.isEmpty()) {
+        return { false, "NO_OPTIONS", tr("No options to set."), {} };
+    }
+    const QStringList unknown = this->applyCliOptions(options);
+    QJsonObject result;
+    result["applied"] = true;
+    result["unknown_keys"] = QJsonArray::fromStringList(unknown);
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliShow(const QJsonObject&)
+{
+    this->show();
+    this->setWindowState((this->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+    this->raise();
+    this->activateWindow();
+    QJsonObject result;
+    result["shown"] = true;
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliQuit(const QJsonObject&)
+{
+    this->cliQuitInProgress = true;
+
+    // End any visible modal dialogs (e.g. the compression summary shown after a
+    // user-initiated run) so their nested event loops unwind and the app can
+    // actually exit.
+    const QWidgetList topLevels = QApplication::topLevelWidgets();
+    for (QWidget* widget : topLevels) {
+        auto* dialog = qobject_cast<QDialog*>(widget);
+        if (dialog != nullptr && dialog->isVisible()) {
+            dialog->done(QDialog::Rejected);
+        }
+    }
+
+    this->close();
+
+    // Ensure the event loop exits even if something else kept a loop alive.
+    QTimer::singleShot(0, qApp, &QCoreApplication::quit);
+
+    QJsonObject result;
+    result["quitting"] = true;
+    return { true, {}, {}, result };
 }

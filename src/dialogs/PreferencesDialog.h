@@ -34,6 +34,8 @@ private slots:
     static void onPostCompressionActionChanged(int value);
     static void onRestartButtonPressed();
     static void onThreadsPriorityChanged(int value);
+    void onCliAddToPathClicked();
+    void onCliRemoveFromPathClicked();
 
 private:
     Ui::PreferencesDialog* ui;
@@ -42,6 +44,7 @@ private:
     void loadPreferences() const;
     void loadLanguages() const;
     void loadThemes() const;
+    void updateCliPathUi() const;
     void updateTransparencyFillColorButton(const QString& hex) const;
     void changeEvent(QEvent* event) override;
 };
