@@ -302,6 +302,11 @@ void printStatusHuman(const CliResponse& resp)
     } else {
         printOutLn(QStringLiteral("空闲。列表中共 %1 张图片。").arg(images));
     }
+    const double origTotal = r.value(QStringLiteral("total_original_size")).toDouble();
+    const double compTotal = r.value(QStringLiteral("total_compressed_size")).toDouble();
+    printOutLn(QStringLiteral("  原始大小：%1   压缩后：%2")
+        .arg(toHumanSize(origTotal))
+        .arg(toHumanSize(compTotal)));
     const QJsonObject counts = r.value(QStringLiteral("counts")).toObject();
     printOutLn(QStringLiteral("  已压缩：%1   错误：%2   等待：%3")
         .arg(counts.value(QStringLiteral("compressed")).toInt())

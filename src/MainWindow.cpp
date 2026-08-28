@@ -2405,6 +2405,9 @@ CliResponse MainWindow::cliStatus(const QJsonObject&)
     result["images"] = this->cImageModel->rowCount();
     result["selected"] = this->cImageModel->checkedItemsCount();
     result["multi_selection"] = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
+    // Total sizes for the whole list, matching the GUI status bar.
+    result["total_original_size"] = this->cImageModel->originalItemsSize();
+    result["total_compressed_size"] = this->cImageModel->compressedItemsSize();
 
     QJsonObject progress;
     if (running && this->compressionWatcher != nullptr) {

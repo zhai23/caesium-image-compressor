@@ -333,68 +333,68 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../src/MainWindow.cpp" line="2311"/>
         <location filename="../../src/MainWindow.cpp" line="2364"/>
-        <location filename="../../src/MainWindow.cpp" line="2506"/>
+        <location filename="../../src/MainWindow.cpp" line="2509"/>
         <source>Compression is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="2324"/>
-        <location filename="../../src/MainWindow.cpp" line="2528"/>
+        <location filename="../../src/MainWindow.cpp" line="2531"/>
         <source>No paths or IDs specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2463"/>
+        <location filename="../../src/MainWindow.cpp" line="2466"/>
         <source>Compression is already running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2466"/>
+        <location filename="../../src/MainWindow.cpp" line="2469"/>
         <source>No images in the list. Add some first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2469"/>
+        <location filename="../../src/MainWindow.cpp" line="2472"/>
         <source>Please select an output folder first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2473"/>
+        <location filename="../../src/MainWindow.cpp" line="2476"/>
         <source>No images selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2495"/>
+        <location filename="../../src/MainWindow.cpp" line="2498"/>
         <source>No compression in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2510"/>
+        <location filename="../../src/MainWindow.cpp" line="2513"/>
         <source>Multi-selection is disabled. Enable it with: settings set enable_multi_selection true</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2558"/>
+        <location filename="../../src/MainWindow.cpp" line="2561"/>
         <source>None of the given paths/IDs are in the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2761"/>
+        <location filename="../../src/MainWindow.cpp" line="2764"/>
         <source>Unknown option key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2780"/>
+        <location filename="../../src/MainWindow.cpp" line="2783"/>
         <source>No options to set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2812"/>
+        <location filename="../../src/MainWindow.cpp" line="2815"/>
         <source>Unknown setting key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2894"/>
+        <location filename="../../src/MainWindow.cpp" line="2897"/>
         <source>No settings to set.</source>
         <translation type="unfinished"></translation>
     </message>
