@@ -451,7 +451,7 @@ Risparmio: %4 (%5%)</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2974"/>
+        <location filename="../../src/MainWindow.cpp" line="2997"/>
         <source>No settings to set.</source>
         <translation type="unfinished"></translation>
     </message>

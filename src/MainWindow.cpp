@@ -2959,9 +2959,32 @@ bool MainWindow::applyPreferenceSetting(const QString& key, const QJsonValue& va
     }
     if (key == QLatin1String("transparency_fill_color")) {
         s.setValue("preferences/general/transparency_fill_color", value.toString());
+        // Regenerate the preview with the new fill colour, like the GUI colour
+        // picker does.
+        this->refreshPreview();
         return true;
     }
     return false;
+}
+
+bool MainWindow::isCompressionOptionKey(const QString& key) const
+{
+    static const QSet<QString> keys = {
+        QStringLiteral("format"), QStringLiteral("mode"), QStringLiteral("lossless"),
+        QStringLiteral("keep_metadata"), QStringLiteral("keep_structure"),
+        QStringLiteral("jpeg_quality"), QStringLiteral("jpeg_chroma_subsampling"), QStringLiteral("jpeg_progressive"),
+        QStringLiteral("png_quality"), QStringLiteral("png_optimization_level"), QStringLiteral("webp_quality"),
+        QStringLiteral("tiff_method"), QStringLiteral("tiff_deflate_level"),
+        QStringLiteral("max_output_size"), QStringLiteral("max_output_size_unit"),
+        QStringLiteral("fit_to"), QStringLiteral("width"), QStringLiteral("height"), QStringLiteral("edge"),
+        QStringLiteral("keep_aspect_ratio"), QStringLiteral("do_not_enlarge"),
+        QStringLiteral("output_folder"), QStringLiteral("output_suffix"),
+        QStringLiteral("same_folder_as_input"), QStringLiteral("skip_if_bigger"), QStringLiteral("cache_originals"),
+        QStringLiteral("delete_original_format_file"),
+        QStringLiteral("keep_dates"), QStringLiteral("keep_creation_date"),
+        QStringLiteral("keep_last_modified_date"), QStringLiteral("keep_last_access_date"),
+    };
+    return keys.contains(key);
 }
 
 CliResponse MainWindow::cliSetSettings(const QJsonObject& params)
@@ -2973,15 +2996,24 @@ CliResponse MainWindow::cliSetSettings(const QJsonObject& params)
     if (options.isEmpty()) {
         return { false, "NO_OPTIONS", tr("No settings to set."), {} };
     }
-    // Compression options are applied to the UI widgets; anything not handled
-    // there is treated as a general preference.
-    const QStringList unknown = this->applyCliOptions(options);
+
+    // Split the keys: compression options are applied to the UI widgets; all
+    // other known keys are general preferences. We cannot rely on
+    // applyCliOptions' return value, because it only reports recognized keys
+    // with invalid values, not unrecognized keys.
+    QJsonObject compressionOpts;
     QStringList badKeys;
-    for (const QString& key : unknown) {
-        if (!this->applyPreferenceSetting(key, options.value(key))) {
+    for (auto it = options.begin(); it != options.end(); ++it) {
+        const QString& key = it.key();
+        if (this->isCompressionOptionKey(key)) {
+            compressionOpts.insert(key, it.value());
+        } else if (!this->applyPreferenceSetting(key, it.value())) {
             badKeys << key;
         }
     }
+    const QStringList invalid = this->applyCliOptions(compressionOpts);
+    badKeys += invalid;
+
     QJsonObject result;
     result["applied"] = true;
     result["unknown_keys"] = QJsonArray::fromStringList(badKeys);

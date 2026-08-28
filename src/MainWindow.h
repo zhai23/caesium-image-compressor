@@ -211,6 +211,7 @@ private:
     CliResponse cliQuit(const QJsonObject& params);
     static QStringList stringListFromJson(const QJsonValue& value);
     bool applyPreferenceSetting(const QString& key, const QJsonValue& value);
+    bool isCompressionOptionKey(const QString& key) const;
 };
 
 #endif // MAINWINDOW_H
