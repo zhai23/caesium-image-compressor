@@ -708,6 +708,7 @@ void printHelp()
     printOutLn(QStringLiteral("  select all|none|<ID/路径>  全选 / 取消全选 / 选中指定图片"));
     printOutLn(QStringLiteral("  deselect <ID 或路径...>    取消选中指定图片"));
     printOutLn(QStringLiteral("  status [--wait]            显示进度与每张图片的状态"));
+    printOutLn(QStringLiteral("  preview <ID 或路径>        预览某张图压缩后的体积（用当前选项）"));
     printOutLn(QStringLiteral("  compress [路径...] [选项]  添加 + 设置选项 + 开始压缩"));
     printOutLn(QStringLiteral("  cancel                     取消正在进行的压缩"));
     printOutLn(QStringLiteral("  settings get [key]         读取所有设置（含偏好）"));
@@ -874,6 +875,35 @@ int CliRunner::run(const QStringList& argv)
             printOutLn(QStringLiteral("已选 %1 / %2 张。")
                 .arg(resp.result.value(QStringLiteral("checked")).toInt())
                 .arg(resp.result.value(QStringLiteral("total")).toInt()));
+        }
+        return finishResponse(resp, json);
+    }
+
+    if (command == QLatin1String("preview")) {
+        if (args.isEmpty()) {
+            printErrLn(QStringLiteral("用法：caesium preview <ID 或路径>"));
+            return EXIT_BAD_USAGE;
+        }
+        QJsonObject params;
+        bool okNum = false;
+        const int id = args.first().toInt(&okNum);
+        if (okNum && id > 0) {
+            params[QStringLiteral("id")] = id;
+        } else {
+            params[QStringLiteral("path")] = args.first();
+        }
+        const CliResponse resp = sendWithAutoLaunch(QStringLiteral("preview"), params, autoLaunch);
+        if (!json && resp.ok) {
+            printOutLn(QStringLiteral("原始：%1 %2，%3")
+                .arg(resp.result.value(QStringLiteral("original_format")).toString(),
+                     resp.result.value(QStringLiteral("original_resolution")).toString(),
+                     toHumanSize(resp.result.value(QStringLiteral("original_size")).toDouble())));
+            printOutLn(QStringLiteral("压缩后：%1 %2，%3（节省 %4 / %5%）")
+                .arg(resp.result.value(QStringLiteral("preview_format")).toString(),
+                     resp.result.value(QStringLiteral("preview_resolution")).toString(),
+                     toHumanSize(resp.result.value(QStringLiteral("preview_size")).toDouble()),
+                     toHumanSize(resp.result.value(QStringLiteral("saved")).toDouble()),
+                     QString::number(resp.result.value(QStringLiteral("saved_percent")).toDouble(), 'f', 1)));
         }
         return finishResponse(resp, json);
     }

@@ -357,90 +357,101 @@ Ahorrado: %4 (%5%)</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2281"/>
+        <location filename="../../src/MainWindow.cpp" line="2284"/>
         <source>Unknown command: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2287"/>
+        <location filename="../../src/MainWindow.cpp" line="2290"/>
         <source>Compression is in progress. Wait for it to finish or cancel it first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2291"/>
+        <location filename="../../src/MainWindow.cpp" line="2294"/>
         <source>No paths specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2296"/>
+        <location filename="../../src/MainWindow.cpp" line="2299"/>
         <source>No supported image files found in the given paths.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2311"/>
-        <location filename="../../src/MainWindow.cpp" line="2364"/>
-        <location filename="../../src/MainWindow.cpp" line="2509"/>
+        <location filename="../../src/MainWindow.cpp" line="2314"/>
+        <location filename="../../src/MainWindow.cpp" line="2367"/>
+        <location filename="../../src/MainWindow.cpp" line="2512"/>
+        <location filename="../../src/MainWindow.cpp" line="2577"/>
         <source>Compression is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2324"/>
-        <location filename="../../src/MainWindow.cpp" line="2531"/>
+        <location filename="../../src/MainWindow.cpp" line="2327"/>
+        <location filename="../../src/MainWindow.cpp" line="2534"/>
         <source>No paths or IDs specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2466"/>
+        <location filename="../../src/MainWindow.cpp" line="2469"/>
         <source>Compression is already running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2469"/>
+        <location filename="../../src/MainWindow.cpp" line="2472"/>
         <source>No images in the list. Add some first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2472"/>
+        <location filename="../../src/MainWindow.cpp" line="2475"/>
         <source>Please select an output folder first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2476"/>
+        <location filename="../../src/MainWindow.cpp" line="2479"/>
         <source>No images selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2498"/>
+        <location filename="../../src/MainWindow.cpp" line="2501"/>
         <source>No compression in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2513"/>
+        <location filename="../../src/MainWindow.cpp" line="2516"/>
         <source>Multi-selection is disabled. Enable it with: settings set enable_multi_selection true</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2561"/>
+        <location filename="../../src/MainWindow.cpp" line="2564"/>
         <source>None of the given paths/IDs are in the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2764"/>
+        <location filename="../../src/MainWindow.cpp" line="2602"/>
+        <source>No image with the given ID/path is in the list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="2610"/>
+        <source>Could not generate the preview.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="2841"/>
         <source>Unknown option key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2783"/>
+        <location filename="../../src/MainWindow.cpp" line="2860"/>
         <source>No options to set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2815"/>
+        <location filename="../../src/MainWindow.cpp" line="2892"/>
         <source>Unknown setting key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2897"/>
+        <location filename="../../src/MainWindow.cpp" line="2974"/>
         <source>No settings to set.</source>
         <translation type="unfinished"></translation>
     </message>

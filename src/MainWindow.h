@@ -202,6 +202,7 @@ private:
     CliResponse cliCompress(const QJsonObject& params);
     CliResponse cliCancel(const QJsonObject& params);
     CliResponse cliSelect(const QJsonObject& params);
+    CliResponse cliPreview(const QJsonObject& params);
     CliResponse cliGetOptions(const QJsonObject& params);
     CliResponse cliSetOptions(const QJsonObject& params);
     CliResponse cliGetSettings(const QJsonObject& params);

@@ -15,6 +15,7 @@ Caesium 在启动后监听一个本机命名管道，命令行（CLI）可以直
   - [`list`](#list-查看列表)
   - [`select` / `deselect`](#select--deselect-多选)
   - [`status`](#status-查询状态)
+  - [`preview`](#preview-预览单图压缩体积)
   - [`compress`](#compress-压缩)
   - [`cancel`](#cancel-取消压缩)
   - [`settings`](#settings-读写设置压缩选项--偏好)
@@ -195,6 +196,27 @@ caesium-cli status --json
 ```
 
 显示是否在压缩、进度、各项状态（等待 / 压缩中 / 已压缩 / 错误）、**列表总原始大小与总压缩后大小**（同 GUI 左下角）与汇总。开启多选时会额外显示 `已选：N / M`。
+
+### `preview` 预览单图压缩体积
+
+用**当前压缩选项**对某张图生成一次真实临时预览，返回压缩后的体积与节省比例（数值和真实压缩一致，因为走同一套预览代码）：
+
+```bash
+caesium-cli preview 3                 # 按 ID 预览
+caesium-cli preview "C:\a.jpg"        # 按路径预览
+caesium-cli preview 3 --json          # 机器可读
+```
+
+输出示例（含格式与尺寸，与 GUI 预览一致）：
+
+```
+原始：PNG 1024x768，1.20 MB
+压缩后：JPG 800x600，480.5 KB（节省 736.5 KB / 60.0%）
+```
+
+`preview --json` 返回 `original_format` / `original_resolution` / `preview_format` / `preview_resolution` / `original_size` / `preview_size` / `saved` / `saved_percent` / `preview_path` 等字段，AI 可直接用。
+
+> 与 `compress --dry-run` 的区别：`--dry-run` 只列出"要处理哪些路径、用什么选项"，不执行；`preview` 会实际生成一次预览，告诉你"压完多大"。
 
 ### `compress` 压缩
 

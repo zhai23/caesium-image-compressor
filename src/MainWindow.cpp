@@ -2260,6 +2260,9 @@ CliResponse MainWindow::handleCliRequest(const QString& method, const QJsonObjec
     if (method == "select") {
         return this->cliSelect(params);
     }
+    if (method == "preview") {
+        return this->cliPreview(params);
+    }
     if (method == "options.get") {
         return this->cliGetOptions(params);
     }
@@ -2565,6 +2568,80 @@ CliResponse MainWindow::cliSelect(const QJsonObject& params)
     QJsonObject result;
     result["checked"] = this->cImageModel->checkedItemsCount();
     result["total"] = this->cImageModel->rowCount();
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliPreview(const QJsonObject& params)
+{
+    if (this->isCompressionRunning()) {
+        return { false, "COMPRESS_IN_PROGRESS", tr("Compression is in progress."), {} };
+    }
+
+    // Resolve the image by ID or full path.
+    CImage* target = nullptr;
+    auto* root = this->cImageModel->getRootItem();
+    if (params.contains("id")) {
+        const int id = params.value("id").toVariant().toInt();
+        for (int i = 0; i < root->childCount(); ++i) {
+            if (root->children().at(i)->getCImage()->getCliId() == id) {
+                target = root->children().at(i)->getCImage();
+                break;
+            }
+        }
+    } else {
+        const QString path = params.value("path").toString();
+        const QString normalized = QFileInfo(path).absoluteFilePath();
+        for (int i = 0; i < root->childCount(); ++i) {
+            if (root->children().at(i)->getCImage()->getFullPath() == normalized) {
+                target = root->children().at(i)->getCImage();
+                break;
+            }
+        }
+    }
+    if (target == nullptr) {
+        return { false, "NO_MATCH", tr("No image with the given ID/path is in the list."), {} };
+    }
+
+    // Generate a real temporary preview using the current compression options,
+    // exactly like the GUI preview pane.
+    const QString rootFolder = Importer::getRootFolder(this->folderMap.keys());
+    const CompressionOptions opts = this->getCompressionOptions(rootFolder);
+    if (!target->preview(opts)) {
+        return { false, "PREVIEW_FAILED", tr("Could not generate the preview."), {} };
+    }
+
+    const QString previewPath = target->getTemporaryPreviewFullPath();
+    const double originalSize = static_cast<double>(target->getOriginalSize());
+    const double previewSize = static_cast<double>(QFileInfo(previewPath).size());
+    const double saved = originalSize - previewSize;
+    const double savedPercent = originalSize > 0 ? (saved * 100.0 / originalSize) : 0.0;
+
+    // Format + resolution for the source and the preview, like the GUI panes.
+    const QString sourcePath = target->getCompressionSourcePath(opts.cacheOriginals);
+    const QSize origRes = QImageReader(sourcePath).size();
+    const QSize prevRes = QImageReader(previewPath).size();
+    const QString origFormat = target->getFormat().toUpper();
+    // The preview temp file is a hash-named file with no useful extension, so
+    // derive the output format from the chosen compression format ("same as
+    // input" keeps the original format).
+    QString prevFormat = target->getFormat().toUpper();
+    if (opts.format != 0) {
+        prevFormat = cliFormatIndexToString(opts.format).toUpper();
+    }
+
+    QJsonObject result;
+    result["id"] = target->getCliId();
+    result["name"] = target->getFileName();
+    result["path"] = target->getFullPath();
+    result["original_format"] = origFormat;
+    result["original_resolution"] = QStringLiteral("%1x%2").arg(origRes.width()).arg(origRes.height());
+    result["preview_format"] = prevFormat;
+    result["preview_resolution"] = QStringLiteral("%1x%2").arg(prevRes.width()).arg(prevRes.height());
+    result["original_size"] = originalSize;
+    result["preview_size"] = previewSize;
+    result["saved"] = saved;
+    result["saved_percent"] = savedPercent;
+    result["preview_path"] = previewPath;
     return { true, {}, {}, result };
 }
 
