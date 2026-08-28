@@ -237,12 +237,26 @@ void CImageTreeModel::setAllChecked(bool checked)
     if (items.isEmpty()) {
         return;
     }
-    for (CImageTreeItem* item : items) {
-        item->setChecked(checked);
+    // Only touch rows whose state actually changes, so repeated clicks with no
+    // effective change (e.g. "select all" when everything is already checked)
+    // cost nothing.
+    QList<int> changedRows;
+    for (int i = 0; i < items.count(); ++i) {
+        if (items.at(i)->isChecked() != checked) {
+            items[i]->setChecked(checked);
+            changedRows << i;
+        }
     }
-    QModelIndex topLeft = this->index(0, CImageColumns::CHECKBOX_COLUMN);
-    QModelIndex bottomRight = this->index(items.count() - 1, CImageColumns::CHECKBOX_COLUMN);
-    emit dataChanged(topLeft, bottomRight, { Qt::CheckStateRole });
+    // Emit one dataChanged per changed row instead of a single big range:
+    // through the sorted proxy model a big source range can map to an INVERTED
+    // proxy range (topLeft.row > bottomRight.row), which QAbstractItemView
+    // ignores, leaving the checkboxes stale until the view repaints for another
+    // reason (e.g. a scroll). A per-row signal always maps to a valid
+    // single-row range.
+    for (int i : changedRows) {
+        const QModelIndex idx = this->index(i, CImageColumns::CHECKBOX_COLUMN);
+        emit dataChanged(idx, idx, { Qt::CheckStateRole });
+    }
     emit checkedItemsChanged();
 }
 

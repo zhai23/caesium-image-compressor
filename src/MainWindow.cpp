@@ -282,6 +282,11 @@ void MainWindow::initListWidget() const
     this->proxyModel->setSourceModel(this->cImageModel);
     ui->imageList_TreeView->setModel(this->proxyModel);
     ui->imageList_TreeView->setIconSize(QSize(10, 10));
+    // Every row is the same height (the HTML delegate returns a fixed height),
+    // so enable the uniform-row-height optimization. Without it, locating a row
+    // (visualRect) is O(row), making batch updates like select/deselect-all
+    // O(n^2) and feel laggy.
+    ui->imageList_TreeView->setUniformRowHeights(true);
 
     auto* checkBoxHeader = new QCheckBoxHeaderView(CImageColumns::CHECKBOX_COLUMN, Qt::Horizontal, ui->imageList_TreeView);
     checkBoxHeader->setStretchLastSection(false);

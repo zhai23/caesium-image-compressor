@@ -172,30 +172,30 @@ All rights reserved.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="392"/>
+        <location filename="../../src/MainWindow.cpp" line="397"/>
         <source>Import files...</source>
         <translation>Impor berkas...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="408"/>
+        <location filename="../../src/MainWindow.cpp" line="413"/>
         <source>Import folder...</source>
         <translation>Impor folder...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="659"/>
+        <location filename="../../src/MainWindow.cpp" line="664"/>
         <source>Importing files...</source>
         <translation>Mengimport berkas...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1496"/>
-        <location filename="../../src/MainWindow.cpp" line="659"/>
-        <location filename="../../src/MainWindow.cpp" line="915"/>
+        <location filename="../../src/MainWindow.cpp" line="664"/>
+        <location filename="../../src/MainWindow.cpp" line="920"/>
         <source>Cancel</source>
         <translation>Batal</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="759"/>
+        <location filename="../../src/MainWindow.cpp" line="764"/>
         <source>You are about to overwrite your original images and this action can&apos;t be undone.
 
 Do you really want to continue?</source>
@@ -204,88 +204,88 @@ Do you really want to continue?</source>
 Apakah Anda benar-benar ingin melanjutkannya?</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="761"/>
+        <location filename="../../src/MainWindow.cpp" line="766"/>
         <source>No</source>
         <translation>Tidak</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1617"/>
         <location filename="../../src/MainWindow.cpp" line="1622"/>
+        <location filename="../../src/MainWindow.cpp" line="1627"/>
         <source>File not found</source>
         <translation>File tidak ditemukan</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1657"/>
+        <location filename="../../src/MainWindow.cpp" line="1662"/>
         <source>Finishing...</source>
         <translation>Finishing...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="823"/>
-        <location filename="../../src/MainWindow.cpp" line="1745"/>
+        <location filename="../../src/MainWindow.cpp" line="828"/>
+        <location filename="../../src/MainWindow.cpp" line="1750"/>
         <source>Compressing...</source>
         <translation>Mengompres...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="912"/>
+        <location filename="../../src/MainWindow.cpp" line="917"/>
         <source>Do you really want to quit?</source>
         <translation>Apakah Anda benar-benar ingin keluar?</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="760"/>
-        <location filename="../../src/MainWindow.cpp" line="914"/>
+        <location filename="../../src/MainWindow.cpp" line="765"/>
+        <location filename="../../src/MainWindow.cpp" line="919"/>
         <source>Yes</source>
         <translation>Ya</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="741"/>
-        <location filename="../../src/MainWindow.cpp" line="745"/>
+        <location filename="../../src/MainWindow.cpp" line="746"/>
+        <location filename="../../src/MainWindow.cpp" line="750"/>
         <source>Please select an output folder first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="746"/>
-        <location filename="../../src/MainWindow.cpp" line="790"/>
-        <location filename="../../src/MainWindow.cpp" line="1043"/>
-        <location filename="../../src/MainWindow.cpp" line="1346"/>
-        <location filename="../../src/MainWindow.cpp" line="1372"/>
-        <location filename="../../src/MainWindow.cpp" line="1394"/>
-        <location filename="../../src/MainWindow.cpp" line="1561"/>
+        <location filename="../../src/MainWindow.cpp" line="751"/>
+        <location filename="../../src/MainWindow.cpp" line="795"/>
+        <location filename="../../src/MainWindow.cpp" line="1048"/>
+        <location filename="../../src/MainWindow.cpp" line="1351"/>
+        <location filename="../../src/MainWindow.cpp" line="1377"/>
+        <location filename="../../src/MainWindow.cpp" line="1399"/>
+        <location filename="../../src/MainWindow.cpp" line="1566"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="774"/>
+        <location filename="../../src/MainWindow.cpp" line="779"/>
         <source>No images in the list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="784"/>
-        <location filename="../../src/MainWindow.cpp" line="788"/>
+        <location filename="../../src/MainWindow.cpp" line="789"/>
+        <location filename="../../src/MainWindow.cpp" line="793"/>
         <source>No images selected</source>
         <translation>Tidak ada gambar yang dipilih</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="789"/>
+        <location filename="../../src/MainWindow.cpp" line="794"/>
         <source>Please check at least one image to compress.</source>
         <translation>Silakan centang setidaknya satu gambar untuk dikompresi.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="936"/>
+        <location filename="../../src/MainWindow.cpp" line="941"/>
         <source>Select output folder...</source>
         <translation>Pilih folder output...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1007"/>
+        <location filename="../../src/MainWindow.cpp" line="1012"/>
         <source>Compression finished!</source>
         <translation>Kompresi selesai!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1033"/>
+        <location filename="../../src/MainWindow.cpp" line="1038"/>
         <source>You just saved %1!</source>
         <translation>Kamu telah menghemat %1!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1037"/>
+        <location filename="../../src/MainWindow.cpp" line="1042"/>
         <source>Total files: %1
 Original size: %2
 Compressed size: %3
@@ -296,151 +296,151 @@ Compressed size: %3
 Saved: %4 (%5%)</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1304"/>
+        <location filename="../../src/MainWindow.cpp" line="1309"/>
         <source>Original:</source>
         <translation>Asli:</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1305"/>
+        <location filename="../../src/MainWindow.cpp" line="1310"/>
         <source>Compressed:</source>
         <translation>Terkompresi:</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1344"/>
-        <location filename="../../src/MainWindow.cpp" line="1371"/>
+        <location filename="../../src/MainWindow.cpp" line="1349"/>
+        <location filename="../../src/MainWindow.cpp" line="1376"/>
         <source>Could not check for updates.</source>
         <translation>Tidak dapat memeriksa pembaruan.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1381"/>
+        <location filename="../../src/MainWindow.cpp" line="1386"/>
         <source>A new version is available!</source>
         <translation>Versi baru tersedia!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1382"/>
+        <location filename="../../src/MainWindow.cpp" line="1387"/>
         <source>Version %1 is available (you have %2). Do you want to download it?</source>
         <translation>Versi %1 tersedia (Anda memiliki %2). Ingin mengunduhnya?</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1384"/>
+        <location filename="../../src/MainWindow.cpp" line="1389"/>
         <source>Download</source>
         <translation>Unduh</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1385"/>
+        <location filename="../../src/MainWindow.cpp" line="1390"/>
         <source>Not now</source>
         <translation>Nanti saja</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1392"/>
+        <location filename="../../src/MainWindow.cpp" line="1397"/>
         <source>You are up to date!</source>
         <translation>Anda sudah versi terbaru!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1393"/>
+        <location filename="../../src/MainWindow.cpp" line="1398"/>
         <source>Version %1 is the latest available.</source>
         <translation>Versi %1 adalah yang terbaru tersedia.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1559"/>
+        <location filename="../../src/MainWindow.cpp" line="1564"/>
         <source>Nothing to restore</source>
         <translation>Tidak ada yang bisa dipulihkan</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1560"/>
+        <location filename="../../src/MainWindow.cpp" line="1565"/>
         <source>The selected images have no cached original to restore from.</source>
         <translation>Gambar yang dipilih tidak memiliki cache asli untuk dipulihkan.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1958"/>
+        <location filename="../../src/MainWindow.cpp" line="1963"/>
         <source>Recompress failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2276"/>
+        <location filename="../../src/MainWindow.cpp" line="2281"/>
         <source>Unknown command: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2282"/>
+        <location filename="../../src/MainWindow.cpp" line="2287"/>
         <source>Compression is in progress. Wait for it to finish or cancel it first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2286"/>
+        <location filename="../../src/MainWindow.cpp" line="2291"/>
         <source>No paths specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2291"/>
+        <location filename="../../src/MainWindow.cpp" line="2296"/>
         <source>No supported image files found in the given paths.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2306"/>
-        <location filename="../../src/MainWindow.cpp" line="2359"/>
-        <location filename="../../src/MainWindow.cpp" line="2501"/>
+        <location filename="../../src/MainWindow.cpp" line="2311"/>
+        <location filename="../../src/MainWindow.cpp" line="2364"/>
+        <location filename="../../src/MainWindow.cpp" line="2506"/>
         <source>Compression is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2319"/>
-        <location filename="../../src/MainWindow.cpp" line="2523"/>
+        <location filename="../../src/MainWindow.cpp" line="2324"/>
+        <location filename="../../src/MainWindow.cpp" line="2528"/>
         <source>No paths or IDs specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2458"/>
+        <location filename="../../src/MainWindow.cpp" line="2463"/>
         <source>Compression is already running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2461"/>
+        <location filename="../../src/MainWindow.cpp" line="2466"/>
         <source>No images in the list. Add some first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2464"/>
+        <location filename="../../src/MainWindow.cpp" line="2469"/>
         <source>Please select an output folder first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2468"/>
+        <location filename="../../src/MainWindow.cpp" line="2473"/>
         <source>No images selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2490"/>
+        <location filename="../../src/MainWindow.cpp" line="2495"/>
         <source>No compression in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2505"/>
+        <location filename="../../src/MainWindow.cpp" line="2510"/>
         <source>Multi-selection is disabled. Enable it with: settings set enable_multi_selection true</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2553"/>
+        <location filename="../../src/MainWindow.cpp" line="2558"/>
         <source>None of the given paths/IDs are in the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2756"/>
+        <location filename="../../src/MainWindow.cpp" line="2761"/>
         <source>Unknown option key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2775"/>
+        <location filename="../../src/MainWindow.cpp" line="2780"/>
         <source>No options to set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2807"/>
+        <location filename="../../src/MainWindow.cpp" line="2812"/>
         <source>Unknown setting key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2889"/>
+        <location filename="../../src/MainWindow.cpp" line="2894"/>
         <source>No settings to set.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -598,12 +598,12 @@ Saved: %4 (%5%)</translation>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1466"/>
-        <location filename="../../src/MainWindow.cpp" line="1077"/>
-        <location filename="../../src/MainWindow.cpp" line="1081"/>
-        <location filename="../../src/MainWindow.cpp" line="1116"/>
-        <location filename="../../src/MainWindow.cpp" line="1120"/>
-        <location filename="../../src/MainWindow.cpp" line="1129"/>
-        <location filename="../../src/MainWindow.cpp" line="1132"/>
+        <location filename="../../src/MainWindow.cpp" line="1082"/>
+        <location filename="../../src/MainWindow.cpp" line="1086"/>
+        <location filename="../../src/MainWindow.cpp" line="1121"/>
+        <location filename="../../src/MainWindow.cpp" line="1125"/>
+        <location filename="../../src/MainWindow.cpp" line="1134"/>
+        <location filename="../../src/MainWindow.cpp" line="1137"/>
         <source>px</source>
         <translation>px</translation>
     </message>
@@ -720,7 +720,7 @@ Saved: %4 (%5%)</translation>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1415"/>
-        <location filename="../../src/MainWindow.cpp" line="1640"/>
+        <location filename="../../src/MainWindow.cpp" line="1645"/>
         <source>Preview</source>
         <translation>Preview</translation>
     </message>
@@ -749,19 +749,19 @@ Saved: %4 (%5%)</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1934"/>
+        <location filename="../../src/MainWindow.cpp" line="1939"/>
         <source>Best</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1444"/>
-        <location filename="../../src/MainWindow.cpp" line="1936"/>
+        <location filename="../../src/MainWindow.cpp" line="1941"/>
         <source>Balanced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1932"/>
+        <location filename="../../src/MainWindow.cpp" line="1937"/>
         <source>Fast</source>
         <translation type="unfinished"></translation>
     </message>
@@ -963,13 +963,13 @@ Saved: %4 (%5%)</translation>
     <message>
         <location filename="../../views/MainWindow.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1452"/>
-        <location filename="../../src/MainWindow.cpp" line="1091"/>
-        <location filename="../../src/MainWindow.cpp" line="1095"/>
+        <location filename="../../src/MainWindow.cpp" line="1096"/>
+        <location filename="../../src/MainWindow.cpp" line="1100"/>
         <source>%</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1303"/>
+        <location filename="../../src/MainWindow.cpp" line="1308"/>
         <source>images in list</source>
         <translation>gambar dalam daftar</translation>
     </message>
@@ -1337,7 +1337,7 @@ Restart your terminal (or open a new one) to use &quot;caesium-cli&quot;.</sourc
     <name>QIODevice</name>
     <message>
         <location filename="../../src/dialogs/AdvancedImportDialog.cpp" line="131"/>
-        <location filename="../../src/MainWindow.cpp" line="394"/>
+        <location filename="../../src/MainWindow.cpp" line="399"/>
         <source>Image Files</source>
         <translation>Berkas gambar</translation>
     </message>
