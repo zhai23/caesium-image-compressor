@@ -346,6 +346,18 @@ void MainWindow::applyMultiSelectionVisibility() const
     }
 }
 
+void MainWindow::setMultiSelectionEnabled(bool enabled)
+{
+    QSettings().setValue("preferences/general/enable_multi_selection", enabled);
+    if (!enabled) {
+        // Disabling multi-selection means "process everything": force-select
+        // all images so none stays deselected and unselectable (the checkbox
+        // column is hidden).
+        this->cImageModel->setAllChecked(true);
+    }
+    this->applyMultiSelectionVisibility();
+}
+
 void MainWindow::applyPreviewBackground() const
 {
     int mode = QSettings().value("preferences/general/preview_background", 0).toInt();
@@ -2905,8 +2917,7 @@ bool MainWindow::applyPreferenceSetting(const QString& key, const QJsonValue& va
 {
     QSettings s;
     if (key == QLatin1String("enable_multi_selection")) {
-        s.setValue("preferences/general/enable_multi_selection", cliValueToBool(value));
-        this->applyMultiSelectionVisibility();
+        this->setMultiSelectionEnabled(cliValueToBool(value));
         return true;
     }
     if (key == QLatin1String("import_subfolders")) {

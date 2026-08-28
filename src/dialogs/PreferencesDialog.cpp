@@ -190,11 +190,12 @@ void PreferencesDialog::onSkipCompressionDialogsToggled(bool checked)
 
 void PreferencesDialog::onEnableMultiSelectionToggled(bool checked) const
 {
-    QSettings().setValue("preferences/general/enable_multi_selection", checked);
-
-    // Apply live to the open main window so the column appears/disappears immediately.
+    // Write + apply live (and force-select all when disabling) through the main
+    // window, so the checkbox column and the selected state stay consistent.
     if (auto* mainWindow = qobject_cast<MainWindow*>(parent())) {
-        mainWindow->applyMultiSelectionVisibility();
+        mainWindow->setMultiSelectionEnabled(checked);
+    } else {
+        QSettings().setValue("preferences/general/enable_multi_selection", checked);
     }
 }
 

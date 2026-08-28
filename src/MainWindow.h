@@ -36,6 +36,7 @@ public:
 
     void applyMultiSelectionVisibility() const;
     void applyPreviewBackground() const;
+    void setMultiSelectionEnabled(bool enabled);
     void checkForUpdates(bool silent) const;
     void refreshPreview() const;
     void doRefreshPreview() const;
