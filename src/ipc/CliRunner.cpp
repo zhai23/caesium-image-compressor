@@ -707,6 +707,7 @@ void printHelp()
     printOutLn(QStringLiteral("  list                       显示当前列表（含 ID 与选中状态）"));
     printOutLn(QStringLiteral("  select all|none|<ID/路径>  全选 / 取消全选 / 选中指定图片"));
     printOutLn(QStringLiteral("  deselect <ID 或路径...>    取消选中指定图片"));
+    printOutLn(QStringLiteral("  restore [ID 或路径...]     还原所有选中 / 指定图片（需缓存原始文件）"));
     printOutLn(QStringLiteral("  status [--wait]            显示进度与每张图片的状态"));
     printOutLn(QStringLiteral("  preview <ID 或路径>        预览某张图压缩后的体积（用当前选项）"));
     printOutLn(QStringLiteral("  compress [路径...] [选项]  添加 + 设置选项 + 开始压缩"));
@@ -904,6 +905,38 @@ int CliRunner::run(const QStringList& argv)
                      toHumanSize(resp.result.value(QStringLiteral("preview_size")).toDouble()),
                      toHumanSize(resp.result.value(QStringLiteral("saved")).toDouble()),
                      QString::number(resp.result.value(QStringLiteral("saved_percent")).toDouble(), 'f', 1)));
+        }
+        return finishResponse(resp, json);
+    }
+
+    if (command == QLatin1String("restore")) {
+        QJsonObject params;
+        if (!args.isEmpty()) {
+            QList<int> ids;
+            QStringList paths;
+            splitIdsAndPaths(args, ids, paths);
+            if (!ids.isEmpty()) {
+                QJsonArray idArr;
+                for (int id : ids) {
+                    idArr.append(id);
+                }
+                params[QStringLiteral("ids")] = idArr;
+            }
+            if (!paths.isEmpty()) {
+                params[QStringLiteral("paths")] = QJsonArray::fromStringList(paths);
+            }
+        }
+        const CliResponse resp = sendWithAutoLaunch(QStringLiteral("restore"), params, autoLaunch);
+        if (!json && resp.ok) {
+            const int restored = resp.result.value(QStringLiteral("restored")).toInt();
+            const int failed = resp.result.value(QStringLiteral("failed")).toInt();
+            if (restored > 0 && failed > 0) {
+                printOutLn(QStringLiteral("已还原 %1 张，失败 %2 张。").arg(restored).arg(failed));
+            } else if (restored > 0) {
+                printOutLn(QStringLiteral("已还原 %1 张图片。").arg(restored));
+            } else {
+                printOutLn(QStringLiteral("没有可还原的图片（需要压缩时开启\"缓存原始文件\"才能还原）。"));
+            }
         }
         return finishResponse(resp, json);
     }

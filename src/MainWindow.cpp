@@ -2272,6 +2272,9 @@ CliResponse MainWindow::handleCliRequest(const QString& method, const QJsonObjec
     if (method == "select") {
         return this->cliSelect(params);
     }
+    if (method == "restore") {
+        return this->cliRestore(params);
+    }
     if (method == "preview") {
         return this->cliPreview(params);
     }
@@ -2527,22 +2530,6 @@ CliResponse MainWindow::cliSelect(const QJsonObject& params)
     const bool multiSelection = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
     auto* root = this->cImageModel->getRootItem();
 
-    // Highlights a single image in the GUI (row selection), so it is located
-    // and its preview is shown. Works whether or not multi-selection is on.
-    auto highlightInGui = [this](CImage* img) {
-        for (int i = 0; i < this->cImageModel->getRootItem()->childCount(); ++i) {
-            if (this->cImageModel->getRootItem()->children().at(i)->getCImage() == img) {
-                const QModelIndex srcIdx = this->cImageModel->index(i, 0);
-                const QModelIndex proxyIdx = this->proxyModel->mapFromSource(srcIdx);
-                if (proxyIdx.isValid() && ui->imageList_TreeView->selectionModel() != nullptr) {
-                    ui->imageList_TreeView->selectionModel()->setCurrentIndex(
-                        proxyIdx, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
-                }
-                return;
-            }
-        }
-    };
-
     // Bulk select-all / select-none only makes sense with multi-selection.
     if (params.contains("all")) {
         if (multiSelection) {
@@ -2604,7 +2591,7 @@ CliResponse MainWindow::cliSelect(const QJsonObject& params)
     }
 
     // Locate the first matched image in the GUI so its preview shows.
-    highlightInGui(targets.first());
+    this->highlightImageInGui(targets.first());
 
     QJsonObject result;
     result["checked"] = this->cImageModel->checkedItemsCount();
@@ -2613,12 +2600,29 @@ CliResponse MainWindow::cliSelect(const QJsonObject& params)
     return { true, {}, {}, result };
 }
 
+// Highlights a single image in the GUI (row selection), so it is located and
+// its preview is shown. Works whether or not multi-selection is on.
+void MainWindow::highlightImageInGui(CImage* img)
+{
+    auto* root = this->cImageModel->getRootItem();
+    for (int i = 0; i < root->childCount(); ++i) {
+        if (root->children().at(i)->getCImage() == img) {
+            const QModelIndex srcIdx = this->cImageModel->index(i, 0);
+            const QModelIndex proxyIdx = this->proxyModel->mapFromSource(srcIdx);
+            if (proxyIdx.isValid() && ui->imageList_TreeView->selectionModel() != nullptr) {
+                ui->imageList_TreeView->selectionModel()->setCurrentIndex(
+                    proxyIdx, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+            }
+            return;
+        }
+    }
+}
+
 CliResponse MainWindow::cliPreview(const QJsonObject& params)
 {
     if (this->isCompressionRunning()) {
         return { false, "COMPRESS_IN_PROGRESS", tr("Compression is in progress."), {} };
     }
-
     // Resolve the image by ID or full path.
     CImage* target = nullptr;
     auto* root = this->cImageModel->getRootItem();
@@ -2684,6 +2688,101 @@ CliResponse MainWindow::cliPreview(const QJsonObject& params)
     result["saved"] = saved;
     result["saved_percent"] = savedPercent;
     result["preview_path"] = previewPath;
+    return { true, {}, {}, result };
+}
+
+CliResponse MainWindow::cliRestore(const QJsonObject& params)
+{
+    if (this->isCompressionRunning()) {
+        return { false, "COMPRESS_IN_PROGRESS", tr("Compression is in progress."), {} };
+    }
+
+    auto* root = this->cImageModel->getRootItem();
+    QList<CImage*> targets;
+    QList<int> rows;
+
+    const QStringList paths = stringListFromJson(params.value("paths"));
+    QList<int> ids;
+    if (params.value("ids").isArray()) {
+        const QJsonArray idArr = params.value("ids").toArray();
+        for (const QJsonValue& v : idArr) {
+            if (v.isDouble() || v.isString()) {
+                ids << v.toVariant().toInt();
+            }
+        }
+    }
+
+    if (paths.isEmpty() && ids.isEmpty()) {
+        // No explicit targets: restore all currently selected (checked) images.
+        // When multi-selection is off, every image is checked, so this is "all".
+        for (int i = 0; i < root->childCount(); ++i) {
+            auto* item = root->children().at(i);
+            if (item->isChecked()) {
+                targets << item->getCImage();
+                rows << i;
+            }
+        }
+    } else {
+        for (const QString& path : paths) {
+            const QString normalized = QFileInfo(path).absoluteFilePath();
+            for (int i = 0; i < root->childCount(); ++i) {
+                CImage* img = root->children().at(i)->getCImage();
+                if (img->getFullPath() == normalized) {
+                    targets << img;
+                    rows << i;
+                    break;
+                }
+            }
+        }
+        for (int id : ids) {
+            for (int i = 0; i < root->childCount(); ++i) {
+                CImage* img = root->children().at(i)->getCImage();
+                if (img->getCliId() == id) {
+                    targets << img;
+                    rows << i;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (targets.isEmpty()) {
+        return { false, "NO_MATCH", tr("No matching images to restore."), {} };
+    }
+
+    // Deduplicate (an image may be matched by both a path and an ID).
+    QList<CImage*> unique;
+    QList<int> uniqueRows;
+    QSet<CImage*> seen;
+    for (int k = 0; k < targets.size(); ++k) {
+        if (seen.contains(targets.at(k))) {
+            continue;
+        }
+        seen.insert(targets.at(k));
+        unique << targets.at(k);
+        uniqueRows << rows.at(k);
+    }
+
+    int restored = 0;
+    int failed = 0;
+    for (int k = 0; k < unique.size(); ++k) {
+        if (unique.at(k)->restoreFromCache()) {
+            this->cImageModel->emitDataChanged(uniqueRows.at(k));
+            restored++;
+        } else {
+            failed++;
+        }
+    }
+
+    this->cModelItemsChanged();
+    this->updateRestoreActionState();
+
+    // Locate the first targeted image in the GUI so its preview shows.
+    this->highlightImageInGui(unique.first());
+
+    QJsonObject result;
+    result["restored"] = restored;
+    result["failed"] = failed;
     return { true, {}, {}, result };
 }
 

@@ -13,8 +13,9 @@ Caesium 在启动后监听一个本机命名管道，命令行（CLI）可以直
   - [`remove`](#remove-移除列表项)
   - [`clear`](#clear-清空列表)
   - [`list`](#list-查看列表)
-  - [`select` / `deselect`](#select--deselect-多选)
+  - [`select` / `deselect`](#select--deselect-多选--定位)
   - [`status`](#status-查询状态)
+  - [`restore`](#restore-还原图片)
   - [`preview`](#preview-预览单图压缩体积)
   - [`compress`](#compress-压缩)
   - [`cancel`](#cancel-取消压缩)
@@ -211,6 +212,24 @@ caesium-cli status --json
 ```
 
 显示是否在压缩、进度、各项状态（等待 / 压缩中 / 已压缩 / 错误）、**列表总原始大小与总压缩后大小**（同 GUI 左下角）与汇总。开启多选时会额外显示 `已选：N / M`。
+
+### `restore` 还原图片
+
+把已压缩（或已转换格式）的图片恢复为原始文件。**需要压缩时开启了"缓存原始文件"（`settings set cache_originals true`）才能还原**，否则会提示没有可还原的图片。还原后会在 GUI 中**高亮定位**该图。
+
+```bash
+caesium-cli restore                    # 还原所有选中的图片（未开多选时=全部）
+caesium-cli restore 2 5                # 按 ID 还原指定图片
+caesium-cli restore "C:\a.jpg"         # 按路径还原
+```
+
+输出示例：
+
+```
+已还原 3 张图片。
+```
+
+`restore --json` 返回 `restored` / `failed` 计数。
 
 ### `preview` 预览单图压缩体积
 
