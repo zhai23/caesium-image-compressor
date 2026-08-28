@@ -156,9 +156,24 @@ caesium-cli list --json
    2  spine_xinshouyindao_shou图集(256...  PNG     否    等待           20.27 KB        0%
 ```
 
-### `select` / `deselect` 多选
+### `select` / `deselect` 多选 / 定位
 
-> 需要先在设置中开启多选（CLI：`caesium-cli settings set enable_multi_selection true`），开启后列表会出现复选框列，**压缩只会处理选中的图片**。
+- **开启多选**（`settings set enable_multi_selection true`）：切换复选框状态，压缩只处理选中的图片；同时会在 GUI 中**高亮定位**该图。
+- **未开启多选**：不切换复选框（此时始终处理全部），只在 GUI 中**高亮定位**该图并显示其预览。
+
+```bash
+# 全选 / 取消全选（仅开启多选时有意义）
+caesium-cli select all
+caesium-cli select none          # 等价于 deselect all
+
+# 选中 / 取消选中指定图片（按 ID 或路径；会高亮定位到 GUI）
+caesium-cli select 3 5 7
+caesium-cli deselect 3 5
+caesium-cli select "C:\a.jpg"
+
+# 只看某张图 / 让 GUI 定位并预览它
+caesium-cli select 4
+```
 
 ```bash
 # 全选 / 取消全选

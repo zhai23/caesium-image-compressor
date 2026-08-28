@@ -380,13 +380,13 @@ Risparmio: %4 (%5%)</translation>
         <location filename="../../src/MainWindow.cpp" line="2326"/>
         <location filename="../../src/MainWindow.cpp" line="2379"/>
         <location filename="../../src/MainWindow.cpp" line="2524"/>
-        <location filename="../../src/MainWindow.cpp" line="2589"/>
+        <location filename="../../src/MainWindow.cpp" line="2619"/>
         <source>Compression is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="2339"/>
-        <location filename="../../src/MainWindow.cpp" line="2546"/>
+        <location filename="../../src/MainWindow.cpp" line="2568"/>
         <source>No paths or IDs specified.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -416,42 +416,37 @@ Risparmio: %4 (%5%)</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2528"/>
-        <source>Multi-selection is disabled. Enable it with: settings set enable_multi_selection true</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/MainWindow.cpp" line="2576"/>
+        <location filename="../../src/MainWindow.cpp" line="2603"/>
         <source>None of the given paths/IDs are in the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2614"/>
+        <location filename="../../src/MainWindow.cpp" line="2644"/>
         <source>No image with the given ID/path is in the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2622"/>
+        <location filename="../../src/MainWindow.cpp" line="2652"/>
         <source>Could not generate the preview.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2853"/>
+        <location filename="../../src/MainWindow.cpp" line="2883"/>
         <source>Unknown option key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2872"/>
+        <location filename="../../src/MainWindow.cpp" line="2902"/>
         <source>No options to set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2904"/>
+        <location filename="../../src/MainWindow.cpp" line="2934"/>
         <source>Unknown setting key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="3008"/>
+        <location filename="../../src/MainWindow.cpp" line="3038"/>
         <source>No settings to set.</source>
         <translation type="unfinished"></translation>
     </message>

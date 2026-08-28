@@ -2523,63 +2523,93 @@ CliResponse MainWindow::cliSelect(const QJsonObject& params)
     if (this->isCompressionRunning()) {
         return { false, "COMPRESS_IN_PROGRESS", tr("Compression is in progress."), {} };
     }
-    if (!QSettings().value("preferences/general/enable_multi_selection", false).toBool()) {
-        return { false, "MULTI_SELECTION_DISABLED",
-            tr("Multi-selection is disabled. Enable it with: settings set enable_multi_selection true"), {} };
-    }
 
+    const bool multiSelection = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
+    auto* root = this->cImageModel->getRootItem();
+
+    // Highlights a single image in the GUI (row selection), so it is located
+    // and its preview is shown. Works whether or not multi-selection is on.
+    auto highlightInGui = [this](CImage* img) {
+        for (int i = 0; i < this->cImageModel->getRootItem()->childCount(); ++i) {
+            if (this->cImageModel->getRootItem()->children().at(i)->getCImage() == img) {
+                const QModelIndex srcIdx = this->cImageModel->index(i, 0);
+                const QModelIndex proxyIdx = this->proxyModel->mapFromSource(srcIdx);
+                if (proxyIdx.isValid() && ui->imageList_TreeView->selectionModel() != nullptr) {
+                    ui->imageList_TreeView->selectionModel()->setCurrentIndex(
+                        proxyIdx, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+                }
+                return;
+            }
+        }
+    };
+
+    // Bulk select-all / select-none only makes sense with multi-selection.
     if (params.contains("all")) {
-        const bool all = cliValueToBool(params.value("all"), true);
-        this->cImageModel->setAllChecked(all);
-    } else {
-        const QStringList paths = stringListFromJson(params.value("paths"));
-        QList<int> ids;
-        if (params.value("ids").isArray()) {
-            const QJsonArray idArr = params.value("ids").toArray();
-            for (const QJsonValue& v : idArr) {
-                if (v.isDouble() || v.isString()) {
-                    ids << v.toVariant().toInt();
-                }
-            }
+        if (multiSelection) {
+            this->cImageModel->setAllChecked(cliValueToBool(params.value("all"), true));
         }
-        if (paths.isEmpty() && ids.isEmpty()) {
-            return { false, "NO_PATHS", tr("No paths or IDs specified."), {} };
-        }
-        const bool checked = cliValueToBool(params.value("checked"), true);
-        auto* root = this->cImageModel->getRootItem();
-        int matched = 0;
+        QJsonObject result;
+        result["checked"] = this->cImageModel->checkedItemsCount();
+        result["total"] = this->cImageModel->rowCount();
+        return { true, {}, {}, result };
+    }
 
-        for (const QString& path : paths) {
-            const QString normalized = QFileInfo(path).absoluteFilePath();
-            for (int i = 0; i < root->childCount(); ++i) {
-                if (root->children().at(i)->getCImage()->getFullPath() == normalized) {
-                    const QModelIndex idx = this->cImageModel->index(i, CImageColumns::CHECKBOX_COLUMN);
-                    this->cImageModel->setData(idx, checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
-                    matched++;
-                    break;
-                }
+    const QStringList paths = stringListFromJson(params.value("paths"));
+    QList<int> ids;
+    if (params.value("ids").isArray()) {
+        const QJsonArray idArr = params.value("ids").toArray();
+        for (const QJsonValue& v : idArr) {
+            if (v.isDouble() || v.isString()) {
+                ids << v.toVariant().toInt();
             }
-        }
-
-        for (int id : ids) {
-            for (int i = 0; i < root->childCount(); ++i) {
-                if (root->children().at(i)->getCImage()->getCliId() == id) {
-                    const QModelIndex idx = this->cImageModel->index(i, CImageColumns::CHECKBOX_COLUMN);
-                    this->cImageModel->setData(idx, checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
-                    matched++;
-                    break;
-                }
-            }
-        }
-
-        if (matched == 0) {
-            return { false, "NO_MATCH", tr("None of the given paths/IDs are in the list."), {} };
         }
     }
+    if (paths.isEmpty() && ids.isEmpty()) {
+        return { false, "NO_PATHS", tr("No paths or IDs specified."), {} };
+    }
+    const bool checked = cliValueToBool(params.value("checked"), true);
+
+    QList<CImage*> targets;
+    auto applyCheck = [&](CImage* img, int row) {
+        if (multiSelection) {
+            const QModelIndex idx = this->cImageModel->index(row, CImageColumns::CHECKBOX_COLUMN);
+            this->cImageModel->setData(idx, checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
+        }
+    };
+
+    for (const QString& path : paths) {
+        const QString normalized = QFileInfo(path).absoluteFilePath();
+        for (int i = 0; i < root->childCount(); ++i) {
+            CImage* img = root->children().at(i)->getCImage();
+            if (img->getFullPath() == normalized) {
+                applyCheck(img, i);
+                targets << img;
+                break;
+            }
+        }
+    }
+    for (int id : ids) {
+        for (int i = 0; i < root->childCount(); ++i) {
+            CImage* img = root->children().at(i)->getCImage();
+            if (img->getCliId() == id) {
+                applyCheck(img, i);
+                targets << img;
+                break;
+            }
+        }
+    }
+
+    if (targets.isEmpty()) {
+        return { false, "NO_MATCH", tr("None of the given paths/IDs are in the list."), {} };
+    }
+
+    // Locate the first matched image in the GUI so its preview shows.
+    highlightInGui(targets.first());
 
     QJsonObject result;
     result["checked"] = this->cImageModel->checkedItemsCount();
     result["total"] = this->cImageModel->rowCount();
+    result["highlighted"] = targets.first()->getCliId();
     return { true, {}, {}, result };
 }
 
