@@ -378,7 +378,15 @@ caesium-cli settings set format png
 caesium-cli settings set output_folder "D:\out"
 caesium-cli settings set enable_multi_selection true
 caesium-cli settings set fit_to long_edge edge 1920
+
+# 清空文本类设置（把值设为空字符串）
+caesium-cli settings set output_suffix ""
+caesium-cli settings set output_folder ""
 ```
+
+> 空字符串值：在 PowerShell 里 `settings set output_suffix ""` 中的 `""` 会被 shell 吞掉，
+> 软件会把「键后没有值」的情况自动当作空字符串处理，因此也能清空文本类设置。
+> 清空后会回显 `选项 'output_suffix' 已设置为空。`。
 
 `settings set` 调整的是**单个选项本身，不需要提供文件路径**。改完后压缩时再指定图片即可：
 
@@ -467,6 +475,10 @@ caesium-cli --raw '{"method":"ping","params":{}}'
 ```
 
 任意内部方法，供脚本 / AI 扩展使用。
+
+> 引号安全：JSON 里带引号的值（如 `"output_suffix":""`）在 Windows 上经 `.cmd` 包装
+> 转发时可能被 shell 拆掉引号，软件会自动从原始命令行恢复完整 JSON，因此
+> PowerShell / cmd 下都能直接写带引号的 JSON，无需额外转义。
 
 ---
 

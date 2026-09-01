@@ -18,6 +18,19 @@
 #include <cstdio>
 #include <iostream>
 
+#ifdef _WIN32
+#include <conio.h>
+#include <cwchar>
+#include <io.h>
+
+// windows.h cannot be included here: the project's own enum CompressionMode
+// defines a SIZE enumerator which clashes with the Windows SIZE typedef.
+// Declare just the one function we need.
+extern "C" {
+__declspec(dllimport) wchar_t* __stdcall GetCommandLineW(void);
+}
+#endif
+
 namespace {
 
 constexpr int EXIT_OK = 0;
@@ -83,6 +96,43 @@ void splitIdsAndPaths(const QStringList& args, QList<int>& ids, QStringList& pat
             paths << a;
         }
     }
+}
+
+// Rebuilds the "--raw" payload from the process's raw command line. cmd's %*
+// expansion inside the .cmd wrapper strips the embedded quotes from a JSON
+// argument before the executable sees it, so QApplication::arguments() gets a
+// mangled JSON object (e.g. {method:...} instead of {"method":...}). On
+// Windows the raw command line still contains the original quotes, so we can
+// recover the exact payload from there.
+QString recoverRawPayload()
+{
+#ifdef _WIN32
+    const wchar_t* cmdLine = ::GetCommandLineW();
+    if (cmdLine == nullptr) {
+        return QString();
+    }
+    const QString full = QString::fromWCharArray(cmdLine);
+    // The command line looks like:
+    //   "C:\...\Caesium Image Compressor.exe" --cli [global flags] --raw {"method":...}
+    // Locate the "--raw" token that belongs to this invocation (after "--cli").
+    const int cliPos = full.indexOf(QLatin1String("--cli"));
+    const int rawPos = full.indexOf(QLatin1String("--raw"), cliPos < 0 ? 0 : cliPos);
+    if (rawPos < 0) {
+        return QString();
+    }
+    QString payload = full.mid(rawPos + qstrlen("--raw")).trimmed();
+    // Drop any trailing global options that may follow the JSON (e.g. --json).
+    while (payload.endsWith(QLatin1String(" --json"))
+        || payload.endsWith(QLatin1String(" --no-launch"))
+        || payload == QLatin1String("--json")
+        || payload == QLatin1String("--no-launch")) {
+        const int sp = payload.lastIndexOf(QLatin1Char(' '));
+        payload = (sp < 0) ? QString() : payload.left(sp).trimmed();
+    }
+    return payload;
+#else
+    return QString();
+#endif
 }
 
 QString jsonValueToString(const QJsonValue& v)
@@ -203,6 +253,117 @@ QString statusHuman(const QString& status)
         return QStringLiteral("警告");
     }
     return QStringLiteral("等待");
+}
+
+// ---------------------------------------------------------------------------
+// Chinese annotations for option listings (so the CLI reads like the GUI's
+// option panel: a Chinese label in front of every English parameter name).
+// ---------------------------------------------------------------------------
+
+// Returns the Chinese description for a CLI option key, or an empty string.
+QString cliOptionZh(const QString& key)
+{
+    static const QHash<QString, QString> zh = {
+        { QStringLiteral("format"), QStringLiteral("输出格式") },
+        { QStringLiteral("mode"), QStringLiteral("压缩模式") },
+        { QStringLiteral("lossless"), QStringLiteral("无损压缩") },
+        { QStringLiteral("keep_metadata"), QStringLiteral("保留元数据") },
+        { QStringLiteral("jpeg_quality"), QStringLiteral("JPEG 质量") },
+        { QStringLiteral("jpeg_chroma_subsampling"), QStringLiteral("JPEG 色度采样") },
+        { QStringLiteral("jpeg_progressive"), QStringLiteral("渐进式 JPEG") },
+        { QStringLiteral("png_quality"), QStringLiteral("PNG 质量") },
+        { QStringLiteral("png_optimization_level"), QStringLiteral("PNG 优化级别") },
+        { QStringLiteral("webp_quality"), QStringLiteral("WebP 质量") },
+        { QStringLiteral("tiff_method"), QStringLiteral("TIFF 压缩方式") },
+        { QStringLiteral("tiff_deflate_level"), QStringLiteral("TIFF Deflate 级别") },
+        { QStringLiteral("max_output_size"), QStringLiteral("目标输出大小") },
+        { QStringLiteral("max_output_size_unit"), QStringLiteral("大小单位") },
+        { QStringLiteral("fit_to"), QStringLiteral("缩放方式") },
+        { QStringLiteral("width"), QStringLiteral("宽度") },
+        { QStringLiteral("height"), QStringLiteral("高度") },
+        { QStringLiteral("edge"), QStringLiteral("边长") },
+        { QStringLiteral("keep_aspect_ratio"), QStringLiteral("保持宽高比") },
+        { QStringLiteral("do_not_enlarge"), QStringLiteral("不放大") },
+        { QStringLiteral("output_folder"), QStringLiteral("输出文件夹") },
+        { QStringLiteral("output_suffix"), QStringLiteral("输出后缀") },
+        { QStringLiteral("same_folder_as_input"), QStringLiteral("输出到输入目录") },
+        { QStringLiteral("skip_if_bigger"), QStringLiteral("变大则跳过") },
+        { QStringLiteral("cache_originals"), QStringLiteral("缓存原始文件") },
+        { QStringLiteral("delete_original_format_file"), QStringLiteral("转换后删除原文件") },
+        { QStringLiteral("keep_dates"), QStringLiteral("保留日期") },
+        { QStringLiteral("keep_creation_date"), QStringLiteral("保留创建日期") },
+        { QStringLiteral("keep_last_modified_date"), QStringLiteral("保留修改日期") },
+        { QStringLiteral("keep_last_access_date"), QStringLiteral("保留访问日期") },
+    };
+    return zh.value(key);
+}
+
+// Returns the Chinese category of an option key (mirrors the GUI's
+// Compression / Resize / Output tabs), or an empty string for unknown keys.
+QString cliOptionCategory(const QString& key)
+{
+    static const QSet<QString> compression = {
+        QStringLiteral("mode"), QStringLiteral("lossless"), QStringLiteral("keep_metadata"),
+        QStringLiteral("jpeg_quality"), QStringLiteral("jpeg_chroma_subsampling"),
+        QStringLiteral("jpeg_progressive"), QStringLiteral("png_quality"),
+        QStringLiteral("png_optimization_level"), QStringLiteral("webp_quality"),
+        QStringLiteral("tiff_method"), QStringLiteral("tiff_deflate_level"),
+        QStringLiteral("max_output_size"), QStringLiteral("max_output_size_unit"),
+    };
+    static const QSet<QString> resize = {
+        QStringLiteral("fit_to"), QStringLiteral("width"), QStringLiteral("height"),
+        QStringLiteral("edge"), QStringLiteral("keep_aspect_ratio"), QStringLiteral("do_not_enlarge"),
+    };
+    static const QSet<QString> output = {
+        QStringLiteral("format"), QStringLiteral("output_folder"), QStringLiteral("output_suffix"),
+        QStringLiteral("same_folder_as_input"), QStringLiteral("skip_if_bigger"),
+        QStringLiteral("cache_originals"), QStringLiteral("delete_original_format_file"),
+        QStringLiteral("keep_dates"), QStringLiteral("keep_creation_date"),
+        QStringLiteral("keep_last_modified_date"), QStringLiteral("keep_last_access_date"),
+    };
+    if (compression.contains(key)) {
+        return QStringLiteral("压缩");
+    }
+    if (resize.contains(key)) {
+        return QStringLiteral("缩放");
+    }
+    if (output.contains(key)) {
+        return QStringLiteral("输出");
+    }
+    return QString();
+}
+
+// Prints a set of options grouped by category. Each line is
+// `    中文说明：key = value`, so every English parameter name keeps a Chinese
+// comment in front of it, like the labels in the GUI option panel.
+void printOptionsGrouped(const QJsonObject& options)
+{
+    static const QStringList categories = {
+        QStringLiteral("压缩"), QStringLiteral("缩放"), QStringLiteral("输出"),
+    };
+    QSet<QString> printed;
+    for (const QString& cat : categories) {
+        bool first = true;
+        for (auto it = options.begin(); it != options.end(); ++it) {
+            if (cliOptionCategory(it.key()) != cat) {
+                continue;
+            }
+            if (first) {
+                printOutLn(QStringLiteral("  %1：").arg(cat));
+                first = false;
+            }
+            printed.insert(it.key());
+            printOutLn(QStringLiteral("    %1：%2 = %3")
+                .arg(cliOptionZh(it.key()), it.key(), jsonValueToString(it.value())));
+        }
+    }
+    // Options without a known category are still shown so nothing is hidden.
+    for (auto it = options.begin(); it != options.end(); ++it) {
+        if (printed.contains(it.key())) {
+            continue;
+        }
+        printOutLn(QStringLiteral("    %1 = %2").arg(it.key(), jsonValueToString(it.value())));
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -500,15 +661,19 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
                 for (int id : ids) {
                     idStrs << QString::number(id);
                 }
-                printOutLn(QStringLiteral("预览：将压缩 ID：%1 的图片。").arg(idStrs.join(QLatin1String(", "))));
+                printOutLn(QStringLiteral("预览：将压缩 ID：%1（共 %2 张）。")
+                    .arg(idStrs.join(QLatin1String(", ")))
+                    .arg(ids.size()));
             } else if (!paths.isEmpty()) {
                 printOutLn(QStringLiteral("预览：将处理 %1 个路径。").arg(paths.size()));
             } else {
                 printOutLn(QStringLiteral("预览：将压缩当前选中的图片。"));
             }
-            printOutLn(QStringLiteral("选项："));
-            for (auto it = options.begin(); it != options.end(); ++it) {
-                printOutLn(QStringLiteral("  %1 = %2").arg(it.key(), jsonValueToString(it.value())));
+            printOutLn(QStringLiteral("使用选项："));
+            if (options.isEmpty()) {
+                printOutLn(QStringLiteral("  使用界面当前选项。"));
+            } else {
+                printOptionsGrouped(options);
             }
         }
         return EXIT_OK;
@@ -570,7 +735,12 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
 
     printJsonIfNeeded(compressResp, json);
     if (!json) {
-        printOutLn(QStringLiteral("压缩已开始。用 'caesium-cli status' 查看进度。"));
+        const int total = compressResp.result.value(QStringLiteral("total")).toInt();
+        if (total > 0) {
+            printOutLn(QStringLiteral("压缩已开始：%1 张图片。用 'caesium-cli status' 查看进度。").arg(total));
+        } else {
+            printOutLn(QStringLiteral("压缩已开始。用 'caesium-cli status' 查看进度。"));
+        }
     }
     return EXIT_OK;
 }
@@ -698,6 +868,13 @@ int runSettings(QStringList args, bool json, bool autoLaunch)
         return finishResponse(resp, json);
     }
     if (sub == QLatin1String("set")) {
+        // PowerShell drops an empty "" argument when calling the .cmd
+        // wrapper, so `settings set output_suffix ""` arrives here as a lone
+        // trailing key without a value. Interpret a trailing key with no value
+        // as "set to empty string" so the intended command still works.
+        if (args.size() >= 1 && (args.size() % 2) != 0) {
+            args << QString();
+        }
         if (args.size() < 2 || (args.size() % 2) != 0) {
             printErrLn(QStringLiteral("用法：caesium settings set <key> <value> [<key> <value> ...]"));
             return EXIT_BAD_USAGE;
@@ -718,7 +895,11 @@ int runSettings(QStringList args, bool json, bool autoLaunch)
                 if (badKeys.contains(it.key())) {
                     continue;
                 }
-                printOutLn(QStringLiteral("选项 '%1' 已设置（%2）。").arg(it.key(), it.value().toString()));
+                if (it.value().toString().isEmpty()) {
+                    printOutLn(QStringLiteral("选项 '%1' 已设置为空。").arg(it.key()));
+                } else {
+                    printOutLn(QStringLiteral("选项 '%1' 已设置（%2）。").arg(it.key(), it.value().toString()));
+                }
             }
             for (const QJsonValue& k : unknown) {
                 printErrLn(QStringLiteral("警告：忽略无效设置 '%1'（键不存在或值非法）。").arg(k.toString()));
@@ -733,6 +914,188 @@ int runSettings(QStringList args, bool json, bool autoLaunch)
     return EXIT_BAD_USAGE;
 }
 
+#ifdef _WIN32
+
+// Command names that can be tab-completed in the interactive shell.
+QStringList shellCommandNames()
+{
+    return {
+        QStringLiteral("add"), QStringLiteral("remove"), QStringLiteral("clear"),
+        QStringLiteral("list"), QStringLiteral("select"), QStringLiteral("deselect"),
+        QStringLiteral("restore"), QStringLiteral("status"), QStringLiteral("preview"),
+        QStringLiteral("compress"), QStringLiteral("cancel"), QStringLiteral("settings"),
+        QStringLiteral("path"), QStringLiteral("show"), QStringLiteral("quit"),
+        QStringLiteral("shell"), QStringLiteral("help"), QStringLiteral("exit"),
+    };
+}
+
+// Options that can be tab-completed in the interactive shell.
+QStringList shellOptionNames()
+{
+    return {
+        QStringLiteral("--json"), QStringLiteral("--no-launch"), QStringLiteral("--wait"),
+        QStringLiteral("--only-failed"), QStringLiteral("--dry-run"),
+        QStringLiteral("--format"), QStringLiteral("-f"), QStringLiteral("--quality"),
+        QStringLiteral("-q"), QStringLiteral("--jpeg-quality"), QStringLiteral("--png-quality"),
+        QStringLiteral("--webp-quality"), QStringLiteral("--output"), QStringLiteral("-o"),
+        QStringLiteral("--suffix"), QStringLiteral("--fit"), QStringLiteral("--mode"),
+        QStringLiteral("--width"), QStringLiteral("--height"), QStringLiteral("--edge"),
+        QStringLiteral("--max-output-size"), QStringLiteral("--max-output-size-unit"),
+        QStringLiteral("--lossless"), QStringLiteral("--keep-metadata"),
+        QStringLiteral("--keep-structure"), QStringLiteral("--keep-dates"),
+        QStringLiteral("--same-folder-as-input"), QStringLiteral("--skip-if-bigger"),
+        QStringLiteral("--cache-originals"), QStringLiteral("--delete-original-format-file"),
+        QStringLiteral("--keep-aspect-ratio"), QStringLiteral("--do-not-enlarge"),
+        QStringLiteral("--jpeg-progressive"),
+    };
+}
+
+// Reads one interactive line with _getwch(). Supports:
+//  - Up / Down          history navigation
+//  - Left / Right       cursor movement
+//  - Home / End         jump to start / end of the line
+//  - Backspace / Delete
+//  - Tab                completes command names / option names
+// The prompt and the whole line are redrawn after every change.
+QString readLineInteractive(const QString& prompt, QStringList& history, int& historyPos)
+{
+    QString line;
+    int cursor = 0;
+
+    auto redraw = [&]() {
+        // \r -> column 0, print prompt + line, clear to end of line, then
+        // re-print the prefix to restore the cursor position.
+        printOut(QStringLiteral("\r%1%2\x1b[K").arg(prompt, line));
+        if (cursor > 0) {
+            printOut(line.left(cursor));
+        }
+        fflush(stdout);
+    };
+
+    auto complete = [&](const QString& prefix, const QStringList& candidates) -> QString {
+        QStringList matches;
+        for (const QString& c : candidates) {
+            if (prefix.isEmpty() || c.startsWith(prefix, Qt::CaseInsensitive)) {
+                matches << c;
+            }
+        }
+        if (matches.size() == 1) {
+            return matches.first();
+        }
+        if (matches.size() > 1) {
+            printOut(QStringLiteral("\n"));
+            for (const QString& m : matches) {
+                printOutLn(QStringLiteral("  %1").arg(m));
+            }
+            redraw();
+        }
+        return QString();
+    };
+
+    redraw();
+    for (;;) {
+        const wint_t key = _getwch();
+        // Extended keys (arrows, Home/End/Delete, F-keys) arrive as 0x00 or
+        // 0xE0 followed by a second scan code.
+        if (key == 0 || key == 0xE0) {
+            const wint_t key2 = _getwch();
+            switch (key2) {
+            case 0x48: // Up
+                if (!history.isEmpty() && historyPos > 0) {
+                    --historyPos;
+                    line = history.at(historyPos);
+                    cursor = line.size();
+                    redraw();
+                }
+                break;
+            case 0x50: // Down
+                if (historyPos < history.size()) {
+                    ++historyPos;
+                    line = historyPos == history.size() ? QString() : history.at(historyPos);
+                    cursor = line.size();
+                    redraw();
+                }
+                break;
+            case 0x4B: // Left
+                if (cursor > 0) {
+                    --cursor;
+                    redraw();
+                }
+                break;
+            case 0x4D: // Right
+                if (cursor < line.size()) {
+                    ++cursor;
+                    redraw();
+                }
+                break;
+            case 0x47: // Home
+                cursor = 0;
+                redraw();
+                break;
+            case 0x4F: // End
+                cursor = line.size();
+                redraw();
+                break;
+            case 0x53: // Delete
+                if (cursor < line.size()) {
+                    line.remove(cursor, 1);
+                    redraw();
+                }
+                break;
+            default:
+                break;
+            }
+            continue;
+        }
+
+        if (key == L'\r' || key == L'\n') {
+            printOut(QStringLiteral("\n"));
+            if (!line.trimmed().isEmpty()) {
+                history << line;
+            }
+            historyPos = history.size();
+            return line;
+        }
+
+        if (key == L'\b') {
+            if (cursor > 0) {
+                line.remove(cursor - 1, 1);
+                --cursor;
+                redraw();
+            }
+            continue;
+        }
+
+        if (key == L'\t') {
+            const bool completingCommand = !line.contains(QLatin1Char(' ')) && !line.contains(QLatin1Char('\t'));
+            if (completingCommand) {
+                const QString done = complete(line, shellCommandNames());
+                if (!done.isEmpty()) {
+                    line = done;
+                    cursor = line.size();
+                    redraw();
+                }
+            } else {
+                const int lastSpace = qMax(line.lastIndexOf(QLatin1Char(' ')), line.lastIndexOf(QLatin1Char('\t')));
+                const QString prefix = line.mid(lastSpace + 1);
+                const QString done = complete(prefix, shellOptionNames());
+                if (!done.isEmpty()) {
+                    line = line.left(lastSpace + 1) + done;
+                    cursor = line.size();
+                    redraw();
+                }
+            }
+            continue;
+        }
+
+        line.insert(cursor, QChar(key));
+        ++cursor;
+        redraw();
+    }
+}
+
+#endif // _WIN32
+
 int runShell(bool json, bool autoLaunch)
 {
     const CliResponse ping = sendWithAutoLaunch(QStringLiteral("ping"), {}, autoLaunch);
@@ -741,14 +1104,32 @@ int runShell(bool json, bool autoLaunch)
         return EXIT_NOT_RUNNING;
     }
     printOutLn(QStringLiteral("Caesium CLI 交互模式。输入 'help' 查看命令，'exit' 退出。"));
-    std::string line;
+#ifdef _WIN32
+    printOutLn(QStringLiteral("支持 Tab 补全与上下键历史。"));
+#endif
+
+    QStringList history;
+    int historyPos = 0;
+
     while (true) {
-        printOut(QStringLiteral("caesium> "));
-        fflush(stdout);
-        if (!std::getline(std::cin, line)) {
-            break;
+#ifdef _WIN32
+        const bool interactive = _isatty(_fileno(stdin)) != 0;
+#else
+        const bool interactive = false;
+#endif
+        QString line;
+        if (interactive) {
+            line = readLineInteractive(QStringLiteral("caesium> "), history, historyPos);
+        } else {
+            printOut(QStringLiteral("caesium> "));
+            fflush(stdout);
+            std::string stdLine;
+            if (!std::getline(std::cin, stdLine)) {
+                break;
+            }
+            line = QString::fromStdString(stdLine);
         }
-        const QStringList args = QProcess::splitCommand(QString::fromStdString(line));
+        const QStringList args = QProcess::splitCommand(line);
         if (args.isEmpty()) {
             continue;
         }
@@ -787,25 +1168,47 @@ void printHelp()
     printOutLn(QStringLiteral("  shell                      与软件交互的会话模式"));
     printOutLn(QStringLiteral("  help                       显示本帮助"));
     printOutLn(QStringLiteral(""));
-    printOutLn(QStringLiteral("压缩选项："));
-    printOutLn(QStringLiteral("  -q, --quality <0-100>      JPEG/PNG/WebP 质量"));
-    printOutLn(QStringLiteral("  --format <jpg|png|webp|tiff|same>"));
-    printOutLn(QStringLiteral("  -o, --output <目录>        输出文件夹"));
-    printOutLn(QStringLiteral("  --suffix <文本>            输出文件后缀"));
-    printOutLn(QStringLiteral("  --fit <none|dimensions|percentage|short_edge|long_edge|fixed_width|fixed_height>"));
-    printOutLn(QStringLiteral("  --width <px>, --height <px>, --edge <px>"));
+    printOutLn(QStringLiteral("压缩选项（中文为参数说明，分类与界面一致）："));
+    printOutLn(QStringLiteral("  压缩："));
+    printOutLn(QStringLiteral("    质量：-q, --quality <0-100>（JPEG/PNG/WebP 同时设置）"));
+    printOutLn(QStringLiteral("    JPEG 质量：--jpeg-quality <0-100>"));
+    printOutLn(QStringLiteral("    PNG 质量：--png-quality <0-100>"));
+    printOutLn(QStringLiteral("    WebP 质量：--webp-quality <0-100>"));
+    printOutLn(QStringLiteral("    压缩模式：--mode <quality|size>"));
+    printOutLn(QStringLiteral("    无损压缩：--lossless"));
+    printOutLn(QStringLiteral("    保留元数据：--keep-metadata"));
+    printOutLn(QStringLiteral("    渐进式 JPEG：--jpeg-progressive"));
+    printOutLn(QStringLiteral("    PNG 优化级别：--png-optimization-level <1-6>"));
+    printOutLn(QStringLiteral("    TIFF 压缩方式：--tiff-method <uncompressed|lzw|deflate|packbits>"));
+    printOutLn(QStringLiteral("    TIFF Deflate 级别：--tiff-deflate-level <1-3>"));
+    printOutLn(QStringLiteral("    目标输出大小：--max-output-size <n>"));
+    printOutLn(QStringLiteral("    大小单位：--max-output-size-unit <bytes|kb|mb|percentage>"));
+    printOutLn(QStringLiteral("  缩放："));
+    printOutLn(QStringLiteral("    缩放方式：--fit <none|dimensions|percentage|short_edge|long_edge|fixed_width|fixed_height>"));
+    printOutLn(QStringLiteral("    宽度 / 高度 / 边长：--width <px> --height <px> --edge <px>"));
+    printOutLn(QStringLiteral("    保持宽高比：--keep-aspect-ratio"));
+    printOutLn(QStringLiteral("    不放大：--do-not-enlarge"));
+    printOutLn(QStringLiteral("  输出："));
+    printOutLn(QStringLiteral("    输出格式：--format <jpg|png|webp|tiff|same>"));
+    printOutLn(QStringLiteral("    输出文件夹：-o, --output <目录>"));
+    printOutLn(QStringLiteral("    输出后缀：--suffix <文本>"));
+    printOutLn(QStringLiteral("    输出到输入目录：--same-folder-as-input"));
+    printOutLn(QStringLiteral("    保留目录结构：--keep-structure"));
+    printOutLn(QStringLiteral("    变大则跳过：--skip-if-bigger"));
+    printOutLn(QStringLiteral("    缓存原始文件：--cache-originals（用于还原）"));
+    printOutLn(QStringLiteral("    转换后删除原文件：--delete-original-format-file"));
+    printOutLn(QStringLiteral("    保留文件日期：--keep-dates"));
+    printOutLn(QStringLiteral("  行为："));
+    printOutLn(QStringLiteral("    只重试失败项：--only-failed"));
+    printOutLn(QStringLiteral("    等待完成并打印汇总：--wait"));
+    printOutLn(QStringLiteral("    仅预览不执行：--dry-run"));
     printOutLn(QStringLiteral("  （位置参数是纯数字时视为图片 ID，如 compress 4 5 6）"));
-    printOutLn(QStringLiteral("  --mode <quality|size>"));
-    printOutLn(QStringLiteral("  --lossless, --keep-metadata, --keep-dates, --same-folder-as-input"));
-    printOutLn(QStringLiteral("  --skip-if-bigger, --cache-originals, --do-not-enlarge"));
-    printOutLn(QStringLiteral("  --only-failed              只重新压缩失败的图片"));
-    printOutLn(QStringLiteral("  --wait                     等待压缩完成并打印汇总"));
-    printOutLn(QStringLiteral("  --dry-run                  只预览将要执行的操作，不实际执行"));
     printOutLn(QStringLiteral(""));
     printOutLn(QStringLiteral("全局选项："));
     printOutLn(QStringLiteral("  --json                     机器可读的 JSON 输出"));
     printOutLn(QStringLiteral("  --no-launch                软件未运行时不要自动启动"));
     printOutLn(QStringLiteral("  --raw <json>               发送原始命令：{\"method\":\"...\",\"params\":{...}}"));
+    printOutLn(QStringLiteral("  --version                  显示版本号"));
     printOutLn(QStringLiteral(""));
     printOutLn(QStringLiteral("默认情况下，执行命令前会先启动软件（如果它未在运行）。"));
     printOutLn(QStringLiteral(""));
@@ -836,13 +1239,23 @@ int CliRunner::run(const QStringList& argv)
 
     if (args.first() == QLatin1String("--raw")) {
         args.removeFirst();
-        const QString raw = args.join(QLatin1Char(' '));
-        if (raw.trimmed().isEmpty()) {
-            printErrLn(QStringLiteral("错误：--raw 需要提供 JSON 对象。"));
-            return EXIT_BAD_USAGE;
-        }
+        QString raw = args.join(QLatin1Char(' '));
         QJsonParseError parseError;
-        const QJsonDocument doc = QJsonDocument::fromJson(raw.toUtf8(), &parseError);
+        QJsonDocument doc = QJsonDocument::fromJson(raw.toUtf8(), &parseError);
+        if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
+            // The .cmd wrapper's %* expansion may have stripped the quotes
+            // inside the JSON payload; recover it from the raw command line.
+            const QString recovered = recoverRawPayload();
+            if (!recovered.isEmpty()) {
+                QJsonParseError recoveredError;
+                const QJsonDocument recoveredDoc = QJsonDocument::fromJson(recovered.toUtf8(), &recoveredError);
+                if (recoveredError.error == QJsonParseError::NoError && recoveredDoc.isObject()) {
+                    raw = recovered;
+                    doc = recoveredDoc;
+                    parseError.error = QJsonParseError::NoError;
+                }
+            }
+        }
         if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
             printErrLn(QStringLiteral("错误：--raw 需要合法的 JSON 对象。"));
             return EXIT_BAD_USAGE;
