@@ -30,6 +30,9 @@ public:
     CImage* getCImage() const;
     QFuture<void> compress(const CompressionOptions& compressionOptions);
     QFuture<void> compressOnlyFailed(const CompressionOptions& compressionOptions);
+    // Compress an explicit list of images (used by the CLI to target specific
+    // images by ID or path). The multi-selection checkbox state is ignored.
+    QFuture<void> compressTargets(QList<CImage*> targets, const CompressionOptions& compressionOptions, bool onlyFailed = false);
     void setCompressionCanceled(bool canceled);
 
     bool isChecked() const;

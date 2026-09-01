@@ -749,7 +749,7 @@ void MainWindow::on_compress_Button_clicked()
     this->startCompression();
 }
 
-void MainWindow::startCompression(bool onlyFailed)
+void MainWindow::startCompression(bool onlyFailed, const QList<CImage*>& targets)
 {
 
     if (ui->outputFolder_LineEdit->text().isEmpty() && !ui->sameOutputFolderAsInput_CheckBox->isChecked()) {
@@ -795,7 +795,9 @@ void MainWindow::startCompression(bool onlyFailed)
 
     bool multiSelectionEnabled = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
 
-    if (multiSelectionEnabled && this->cImageModel->checkedItemsCount() == 0) {
+    // When an explicit target list is given (CLI by ID/path), the multi-selection
+    // checkbox state is irrelevant: we compress exactly the requested images.
+    if (targets.isEmpty() && multiSelectionEnabled && this->cImageModel->checkedItemsCount() == 0) {
         if (this->cliMode) {
             this->cliErrorCode = "NO_IMAGES_SELECTED";
             this->cliErrorMessage = tr("No images selected");
@@ -837,22 +839,34 @@ void MainWindow::startCompression(bool onlyFailed)
     ui->compressionProgress_Label->show();
 
     ui->cancelCompression_Button->setEnabled(true);
-    ui->compressionProgress_Label->setText(tr("Compressing...") + QString(" (%1/%2)").arg("0", QString::number(totalImages)));
+    const int progressMax = targets.isEmpty() ? totalImages : static_cast<int>(targets.size());
+    ui->compressionProgress_Label->setText(tr("Compressing...") + QString(" (%1/%2)").arg("0", QString::number(progressMax)));
     ui->compression_ProgressBar->setMinimum(0);
-    ui->compression_ProgressBar->setMaximum(totalImages);
+    ui->compression_ProgressBar->setMaximum(progressMax);
     connect(this->compressionWatcher, &QFutureWatcherBase::progressValueChanged, ui->compression_ProgressBar, &QProgressBar::setValue);
     connect(ui->cancelCompression_Button, &QPushButton::clicked, this, &MainWindow::compressionCanceled);
 
     CompressionOptions compressionOptions = this->getCompressionOptions(rootFolder);
 
-    if (onlyFailed) {
-        this->compressionWatcher->setFuture(this->cImageModel->getRootItem()->compressOnlyFailed(compressionOptions));
+    auto* root = this->cImageModel->getRootItem();
+    if (!targets.isEmpty()) {
+        this->compressionWatcher->setFuture(root->compressTargets(targets, compressionOptions, onlyFailed));
+    } else if (onlyFailed) {
+        this->compressionWatcher->setFuture(root->compressOnlyFailed(compressionOptions));
     } else {
-        this->compressionWatcher->setFuture(this->cImageModel->getRootItem()->compress(compressionOptions));
+        this->compressionWatcher->setFuture(root->compress(compressionOptions));
     }
 
-    compressionSummary.totalImages = multiSelectionEnabled ? this->cImageModel->checkedItemsCount() : this->cImageModel->rowCount();
-    compressionSummary.totalUncompressedSize = multiSelectionEnabled ? this->cImageModel->checkedOriginalItemsSize() : this->cImageModel->originalItemsSize();
+    if (!targets.isEmpty()) {
+        compressionSummary.totalImages = targets.size();
+        compressionSummary.totalUncompressedSize = 0;
+        for (CImage* image : targets) {
+            compressionSummary.totalUncompressedSize += static_cast<double>(image->getOriginalSize());
+        }
+    } else {
+        compressionSummary.totalImages = multiSelectionEnabled ? this->cImageModel->checkedItemsCount() : this->cImageModel->rowCount();
+        compressionSummary.totalUncompressedSize = multiSelectionEnabled ? this->cImageModel->checkedOriginalItemsSize() : this->cImageModel->originalItemsSize();
+    }
     compressionSummary.totalCompressedSize = 0;
     compressionSummary.elapsedTime = 0;
 
@@ -2157,6 +2171,9 @@ QString cliFitIndexToString(int index)
 
 int cliFitStringToIndex(const QString& value)
 {
+    if (value.compare("none", Qt::CaseInsensitive) == 0) {
+        return ResizeMode::NO_RESIZE;
+    }
     if (value.compare("dimensions", Qt::CaseInsensitive) == 0) {
         return ResizeMode::DIMENSIONS;
     }
@@ -2175,7 +2192,9 @@ int cliFitStringToIndex(const QString& value)
     if (value.compare("fixed_height", Qt::CaseInsensitive) == 0) {
         return ResizeMode::FIXED_HEIGHT;
     }
-    return ResizeMode::NO_RESIZE;
+    // Unknown values must be reported as invalid instead of silently falling
+    // back to "no resize", so callers can surface a clear error to the user.
+    return -1;
 }
 
 int cliValueToInt(const QJsonValue& value, int fallback = 0)
@@ -2202,6 +2221,33 @@ bool cliValueToBool(const QJsonValue& value, bool fallback = false)
         return value.toInt() != 0;
     }
     return fallback;
+}
+
+// Strict integer parse: accepts a JSON double or a numeric string. Unlike
+// cliValueToInt it sets ok to false for non-numeric or non-integral values so
+// callers can reject the input instead of silently using a fallback.
+int cliValueToIntStrict(const QJsonValue& value, bool& ok)
+{
+    ok = true;
+    if (value.isString()) {
+        const QString s = value.toString().trimmed();
+        return s.toInt(&ok);
+    }
+    if (value.isDouble()) {
+        const double d = value.toDouble();
+        if (d < -2147483648.0 || d > 2147483647.0) {
+            ok = false;
+            return 0;
+        }
+        const int v = static_cast<int>(d);
+        if (static_cast<double>(v) != d) {
+            ok = false;
+            return 0;
+        }
+        return v;
+    }
+    ok = false;
+    return 0;
 }
 
 } // namespace
@@ -2483,13 +2529,60 @@ CliResponse MainWindow::cliCompress(const QJsonObject& params)
     if (this->isCompressionRunning()) {
         return { false, "COMPRESS_IN_PROGRESS", tr("Compression is already running."), {} };
     }
-    if (this->cImageModel->rowCount() == 0) {
+
+    auto* root = this->cImageModel->getRootItem();
+
+    // Resolve explicit targets. Paths may be files or folders, so expand them
+    // the same way the importer does, then match the resulting files against
+    // the images currently in the list. IDs refer to the CLI session IDs.
+    const QStringList paths = stringListFromJson(params.value("paths"));
+    QList<int> ids;
+    if (params.value("ids").isArray()) {
+        const QJsonArray idArr = params.value("ids").toArray();
+        for (const QJsonValue& v : idArr) {
+            if (v.isDouble() || v.isString()) {
+                ids << v.toVariant().toInt();
+            }
+        }
+    }
+    const bool explicitTargets = !paths.isEmpty() || !ids.isEmpty();
+
+    QList<CImage*> targets;
+    if (!paths.isEmpty()) {
+        const bool scanSubfolders = QSettings().value("preferences/general/import_subfolders", true).toBool();
+        const QStringList files = Importer::scanList(paths, scanSubfolders);
+        for (const QString& file : files) {
+            const QString normalized = QFileInfo(file).absoluteFilePath();
+            for (int i = 0; i < root->childCount(); ++i) {
+                CImage* img = root->children().at(i)->getCImage();
+                if (img->getFullPath() == normalized) {
+                    targets << img;
+                    break;
+                }
+            }
+        }
+    }
+    for (int id : ids) {
+        for (int i = 0; i < root->childCount(); ++i) {
+            CImage* img = root->children().at(i)->getCImage();
+            if (img->getCliId() == id) {
+                targets << img;
+                break;
+            }
+        }
+    }
+
+    if (explicitTargets && targets.isEmpty()) {
+        return { false, "NO_MATCH", tr("None of the given paths/IDs are in the list."), {} };
+    }
+    if (!explicitTargets && this->cImageModel->rowCount() == 0) {
         return { false, "NO_IMAGES", tr("No images in the list. Add some first."), {} };
     }
     if (ui->outputFolder_LineEdit->text().isEmpty() && !ui->sameOutputFolderAsInput_CheckBox->isChecked()) {
         return { false, "NO_OUTPUT_FOLDER", tr("Please select an output folder first."), {} };
     }
-    if (QSettings().value("preferences/general/enable_multi_selection", false).toBool()
+    if (!explicitTargets
+        && QSettings().value("preferences/general/enable_multi_selection", false).toBool()
         && this->cImageModel->checkedItemsCount() == 0) {
         return { false, "NO_IMAGES_SELECTED", tr("No images selected."), {} };
     }
@@ -2498,15 +2591,19 @@ CliResponse MainWindow::cliCompress(const QJsonObject& params)
     this->cliErrorCode.clear();
     this->cliErrorMessage.clear();
     this->suppressSummaryDialog = true;
-    this->startCompression(onlyFailed);
+    this->startCompression(onlyFailed, targets);
     this->cliMode = false;
     if (!this->cliErrorCode.isEmpty()) {
         return { false, this->cliErrorCode, this->cliErrorMessage, {} };
     }
     QJsonObject result;
     result["started"] = true;
-    const bool multiSelectionEnabled = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
-    result["total"] = multiSelectionEnabled ? this->cImageModel->checkedItemsCount() : this->cImageModel->rowCount();
+    if (explicitTargets) {
+        result["total"] = targets.size();
+    } else {
+        const bool multiSelectionEnabled = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
+        result["total"] = multiSelectionEnabled ? this->cImageModel->checkedItemsCount() : this->cImageModel->rowCount();
+    }
     return { true, {}, {}, result };
 }
 
@@ -2909,13 +3006,31 @@ QStringList MainWindow::applyCliOptions(const QJsonObject& options)
         }
     }
     if (options.contains("width")) {
-        ui->width_SpinBox->setValue(cliValueToInt(options.value("width"), ui->width_SpinBox->value()));
+        bool ok = false;
+        const int val = cliValueToIntStrict(options.value("width"), ok);
+        if (!ok || val < ui->width_SpinBox->minimum() || val > ui->width_SpinBox->maximum()) {
+            unknown << "width";
+        } else {
+            ui->width_SpinBox->setValue(val);
+        }
     }
     if (options.contains("height")) {
-        ui->height_SpinBox->setValue(cliValueToInt(options.value("height"), ui->height_SpinBox->value()));
+        bool ok = false;
+        const int val = cliValueToIntStrict(options.value("height"), ok);
+        if (!ok || val < ui->height_SpinBox->minimum() || val > ui->height_SpinBox->maximum()) {
+            unknown << "height";
+        } else {
+            ui->height_SpinBox->setValue(val);
+        }
     }
     if (options.contains("edge")) {
-        ui->edge_SpinBox->setValue(cliValueToInt(options.value("edge"), ui->edge_SpinBox->value()));
+        bool ok = false;
+        const int val = cliValueToIntStrict(options.value("edge"), ok);
+        if (!ok || val < ui->edge_SpinBox->minimum() || val > ui->edge_SpinBox->maximum()) {
+            unknown << "edge";
+        } else {
+            ui->edge_SpinBox->setValue(val);
+        }
     }
     if (options.contains("keep_aspect_ratio")) {
         ui->keepAspectRatio_CheckBox->setChecked(cliValueToBool(options.value("keep_aspect_ratio")));

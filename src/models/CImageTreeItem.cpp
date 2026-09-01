@@ -2,6 +2,8 @@
 
 #include <QSettings>
 #include <QtConcurrent>
+#include <memory>
+#include <utility>
 
 CImageTreeItem::CImageTreeItem(CImage* cImage, CImageTreeItem* parent)
     : m_parentItem(parent)
@@ -106,6 +108,32 @@ QFuture<void> CImageTreeItem::compress(const CompressionOptions& compressionOpti
 QFuture<void> CImageTreeItem::compressOnlyFailed(const CompressionOptions& compressionOptions)
 {
     return this->performCompression(compressionOptions, true);
+}
+
+QFuture<void> CImageTreeItem::compressTargets(QList<CImage*> targets, const CompressionOptions& compressionOptions, bool onlyFailed)
+{
+    // QtConcurrent::map only stores iterators into the passed container, it does
+    // NOT own a copy of it (see qtconcurrentmap.h: map(Sequence&&) forwards to
+    // the iterator overload). The container must therefore outlive the returned
+    // QFuture. Heap-allocate the list and keep it alive through a shared_ptr
+    // captured in the functor; otherwise the worker threads would iterate a
+    // dangling list once this function returns.
+    auto holder = std::make_shared<QList<CImage*>>(std::move(targets));
+    return QtConcurrent::map(holder->begin(), holder->end(),
+        [compressionOptions, onlyFailed, this, holder](CImage* image) {
+            if (this->compressionCanceled) {
+                return;
+            }
+            if (!onlyFailed || (onlyFailed && image->getStatus() == CImageStatus::ERROR)) {
+                image->setStatus(CImageStatus::COMPRESSING);
+                bool compressionResult = image->compress(compressionOptions);
+                if (!compressionResult) {
+                    image->setStatus(CImageStatus::ERROR);
+                } else if (image->getStatus() == CImageStatus::COMPRESSING) {
+                    image->setStatus(CImageStatus::COMPRESSED);
+                }
+            }
+        });
 }
 
 QFuture<void> CImageTreeItem::performCompression(const CompressionOptions& compressionOptions, bool onlyFailed)

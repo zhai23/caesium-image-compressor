@@ -339,21 +339,30 @@ int waitAndPrintSummary(bool json)
             const QJsonArray items = status.result.value(QStringLiteral("items")).toArray();
             qint64 original = 0;
             qint64 compressed = 0;
+            int count = 0;
             int errors = 0;
             for (const QJsonValue& value : items) {
                 const QJsonObject item = value.toObject();
-                original += static_cast<qint64>(item.value(QStringLiteral("original_size")).toDouble());
-                if (item.value(QStringLiteral("status")).toString() == QLatin1String("compressed")) {
-                    compressed += static_cast<qint64>(item.value(QStringLiteral("compressed_size")).toDouble());
+                const QString st = item.value(QStringLiteral("status")).toString();
+                // Only items that actually went through this compression run
+                // count toward the summary. When compressing a subset (by ID or
+                // path), the untouched images keep their "uncompressed" status
+                // and are excluded.
+                if (st != QLatin1String("compressed") && st != QLatin1String("error")) {
+                    continue;
                 }
-                if (item.value(QStringLiteral("status")).toString() == QLatin1String("error")) {
+                count++;
+                original += static_cast<qint64>(item.value(QStringLiteral("original_size")).toDouble());
+                if (st == QLatin1String("compressed")) {
+                    compressed += static_cast<qint64>(item.value(QStringLiteral("compressed_size")).toDouble());
+                } else {
                     errors++;
                 }
             }
             const qint64 saved = original - compressed;
             const double pct = original > 0 ? (saved * 100.0 / static_cast<double>(original)) : 0.0;
             printOutLn(QStringLiteral("压缩完成。"));
-            printOutLn(QStringLiteral("  图片数量：  %1").arg(items.size()));
+            printOutLn(QStringLiteral("  图片数量：  %1").arg(count));
             printOutLn(QStringLiteral("  原始大小：  %1").arg(toHumanSize(static_cast<double>(original))));
             printOutLn(QStringLiteral("  压缩大小：  %1").arg(toHumanSize(static_cast<double>(compressed))));
             printOutLn(QStringLiteral("  节省：      %1 (%2%)")
@@ -408,6 +417,8 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
     };
 
     QStringList paths;
+    QStringList positional;
+    QList<int> ids;
     QJsonObject options;
     bool onlyFailed = false;
     bool wait = false;
@@ -461,18 +472,40 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
             printErrLn(QStringLiteral("错误：未知选项：%1").arg(a));
             return EXIT_BAD_USAGE;
         }
-        paths << a;
+        positional << a;
     }
+
+    // Consistent with `select`: a pure number is an image ID, anything else is
+    // a path. So `compress 4 5 6` compresses images 4, 5 and 6, while
+    // `compress ./a.jpg` (or a folder) imports and compresses those paths.
+    splitIdsAndPaths(positional, ids, paths);
 
     if (dryRun) {
         QJsonObject out;
         out[QStringLiteral("dry_run")] = true;
         out[QStringLiteral("paths")] = QJsonArray::fromStringList(paths);
+        if (!ids.isEmpty()) {
+            QJsonArray idArr;
+            for (int id : ids) {
+                idArr.append(id);
+            }
+            out[QStringLiteral("ids")] = idArr;
+        }
         out[QStringLiteral("options")] = options;
         if (json) {
             printJsonIfNeeded({ true, {}, {}, out }, true);
         } else {
-            printOutLn(QStringLiteral("预览：将处理 %1 个路径。").arg(paths.size()));
+            if (!ids.isEmpty()) {
+                QStringList idStrs;
+                for (int id : ids) {
+                    idStrs << QString::number(id);
+                }
+                printOutLn(QStringLiteral("预览：将压缩 ID：%1 的图片。").arg(idStrs.join(QLatin1String(", "))));
+            } else if (!paths.isEmpty()) {
+                printOutLn(QStringLiteral("预览：将处理 %1 个路径。").arg(paths.size()));
+            } else {
+                printOutLn(QStringLiteral("预览：将压缩当前选中的图片。"));
+            }
             printOutLn(QStringLiteral("选项："));
             for (auto it = options.begin(); it != options.end(); ++it) {
                 printOutLn(QStringLiteral("  %1 = %2").arg(it.key(), jsonValueToString(it.value())));
@@ -501,11 +534,27 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
             }
             return finishResponse(setResp, json);
         }
+        const QJsonArray unknown = setResp.result.value(QStringLiteral("unknown_keys")).toArray();
+        for (const QJsonValue& k : unknown) {
+            printErrLn(QStringLiteral("警告：忽略无效选项 '%1'（键不存在或值非法）。").arg(k.toString()));
+        }
     }
 
     QJsonObject params;
     if (onlyFailed) {
         params[QStringLiteral("only_failed")] = true;
+    }
+    if (!ids.isEmpty()) {
+        QJsonArray idArr;
+        for (int id : ids) {
+            idArr.append(id);
+        }
+        params[QStringLiteral("ids")] = idArr;
+    }
+    if (!paths.isEmpty()) {
+        // Compress exactly the given paths (plus anything already in the list
+        // that matches them), not the whole list.
+        params[QStringLiteral("paths")] = QJsonArray::fromStringList(paths);
     }
     const CliResponse compressResp = sendWithAutoLaunch(QStringLiteral("compress"), params, autoLaunch);
     if (!compressResp.ok) {
@@ -649,16 +698,34 @@ int runSettings(QStringList args, bool json, bool autoLaunch)
         return finishResponse(resp, json);
     }
     if (sub == QLatin1String("set")) {
-        if (args.size() < 2) {
-            printErrLn(QStringLiteral("用法：caesium settings set <key> <value>"));
+        if (args.size() < 2 || (args.size() % 2) != 0) {
+            printErrLn(QStringLiteral("用法：caesium settings set <key> <value> [<key> <value> ...]"));
             return EXIT_BAD_USAGE;
         }
         QJsonObject options;
-        options[args.at(0)] = args.at(1);
+        for (int i = 0; i + 1 < args.size(); i += 2) {
+            options[args.at(i)] = args.at(i + 1);
+        }
         const CliResponse resp = sendWithAutoLaunch(QStringLiteral("settings.set"),
             { { QStringLiteral("options"), options } }, autoLaunch);
-        if (!json && resp.ok) {
-            printOutLn(QStringLiteral("选项 '%1' 已设置。").arg(args.at(0)));
+        if (resp.ok && !json) {
+            const QJsonArray unknown = resp.result.value(QStringLiteral("unknown_keys")).toArray();
+            QSet<QString> badKeys;
+            for (const QJsonValue& k : unknown) {
+                badKeys.insert(k.toString());
+            }
+            for (auto it = options.begin(); it != options.end(); ++it) {
+                if (badKeys.contains(it.key())) {
+                    continue;
+                }
+                printOutLn(QStringLiteral("选项 '%1' 已设置（%2）。").arg(it.key(), it.value().toString()));
+            }
+            for (const QJsonValue& k : unknown) {
+                printErrLn(QStringLiteral("警告：忽略无效设置 '%1'（键不存在或值非法）。").arg(k.toString()));
+            }
+            if (!unknown.isEmpty()) {
+                return EXIT_OPERATION_ERROR;
+            }
         }
         return finishResponse(resp, json);
     }
@@ -710,10 +777,10 @@ void printHelp()
     printOutLn(QStringLiteral("  restore [ID 或路径...]     还原所有选中 / 指定图片（需缓存原始文件）"));
     printOutLn(QStringLiteral("  status [--wait]            显示进度与每张图片的状态"));
     printOutLn(QStringLiteral("  preview <ID 或路径>        预览某张图压缩后的体积（用当前选项）"));
-    printOutLn(QStringLiteral("  compress [路径...] [选项]  添加 + 设置选项 + 开始压缩"));
+    printOutLn(QStringLiteral("  compress [ID/路径...] [选项]  压缩指定 ID / 路径，或当前选中图片"));
     printOutLn(QStringLiteral("  cancel                     取消正在进行的压缩"));
     printOutLn(QStringLiteral("  settings get [key]         读取所有设置（含偏好）"));
-    printOutLn(QStringLiteral("  settings set <key> <val>   写入设置（压缩选项或偏好）"));
+    printOutLn(QStringLiteral("  settings set <key> <val>... 写入设置，可一次设置多个（如 fit_to long_edge edge 1920）"));
     printOutLn(QStringLiteral("  path status|add|remove     管理应用目录在 PATH 中的状态"));
     printOutLn(QStringLiteral("  show                       把主窗口带到前台"));
     printOutLn(QStringLiteral("  quit                       关闭软件"));
@@ -727,6 +794,7 @@ void printHelp()
     printOutLn(QStringLiteral("  --suffix <文本>            输出文件后缀"));
     printOutLn(QStringLiteral("  --fit <none|dimensions|percentage|short_edge|long_edge|fixed_width|fixed_height>"));
     printOutLn(QStringLiteral("  --width <px>, --height <px>, --edge <px>"));
+    printOutLn(QStringLiteral("  （位置参数是纯数字时视为图片 ID，如 compress 4 5 6）"));
     printOutLn(QStringLiteral("  --mode <quality|size>"));
     printOutLn(QStringLiteral("  --lossless, --keep-metadata, --keep-dates, --same-folder-as-input"));
     printOutLn(QStringLiteral("  --skip-if-bigger, --cache-originals, --do-not-enlarge"));
@@ -745,6 +813,7 @@ void printHelp()
     printOutLn(QStringLiteral("  caesium --cli compress ./photos -q 80 -o ./out --wait"));
     printOutLn(QStringLiteral("  caesium --cli status --json"));
     printOutLn(QStringLiteral("  caesium --cli settings set jpeg_quality 85"));
+    printOutLn(QStringLiteral("  caesium --cli settings set fit_to long_edge edge 1920"));
 }
 
 } // namespace
