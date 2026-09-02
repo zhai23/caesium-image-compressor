@@ -1496,6 +1496,16 @@ QScrollArea &gt; QWidget &gt; QScrollBar { background: 1; }</string>
                 </widget>
                </item>
                <item>
+                <widget class="QCheckBox" name="syncMetaFile_CheckBox">
+                 <property name="toolTip">
+                  <string>When converting format, sync the matching .meta file to adapt to the game engine.</string>
+                 </property>
+                 <property name="text">
+                  <string>Sync same-name .meta file</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <layout class="QHBoxLayout" name="moveOriginalFile_HorizontalLayout">
                  <property name="spacing">
                   <number>0</number>

@@ -182,20 +182,20 @@ All rights reserved.</source>
         <translation>가져오기 폴더...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="676"/>
+        <location filename="../../src/MainWindow.cpp" line="678"/>
         <source>Importing files...</source>
         <translation>파일 가져오는 중...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1496"/>
-        <location filename="../../src/MainWindow.cpp" line="676"/>
-        <location filename="../../src/MainWindow.cpp" line="946"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1506"/>
+        <location filename="../../src/MainWindow.cpp" line="678"/>
+        <location filename="../../src/MainWindow.cpp" line="949"/>
         <source>Cancel</source>
         <translation>취소</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="776"/>
+        <location filename="../../src/MainWindow.cpp" line="778"/>
         <source>You are about to overwrite your original images and this action can&apos;t be undone.
 
 Do you really want to continue?</source>
@@ -204,88 +204,88 @@ Do you really want to continue?</source>
 정말 계속하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="778"/>
+        <location filename="../../src/MainWindow.cpp" line="780"/>
         <source>No</source>
         <translation>아니요</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1648"/>
-        <location filename="../../src/MainWindow.cpp" line="1653"/>
+        <location filename="../../src/MainWindow.cpp" line="1651"/>
+        <location filename="../../src/MainWindow.cpp" line="1656"/>
         <source>File not found</source>
         <translation>파일을 찾을 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1688"/>
+        <location filename="../../src/MainWindow.cpp" line="1691"/>
         <source>Finishing...</source>
         <translation>완료 중...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="843"/>
-        <location filename="../../src/MainWindow.cpp" line="1776"/>
+        <location filename="../../src/MainWindow.cpp" line="845"/>
+        <location filename="../../src/MainWindow.cpp" line="1779"/>
         <source>Compressing...</source>
         <translation>압축 중...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="943"/>
+        <location filename="../../src/MainWindow.cpp" line="946"/>
         <source>Do you really want to quit?</source>
         <translation>정말로 종료하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="777"/>
-        <location filename="../../src/MainWindow.cpp" line="945"/>
+        <location filename="../../src/MainWindow.cpp" line="779"/>
+        <location filename="../../src/MainWindow.cpp" line="948"/>
         <source>Yes</source>
         <translation>예</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="758"/>
-        <location filename="../../src/MainWindow.cpp" line="762"/>
+        <location filename="../../src/MainWindow.cpp" line="760"/>
+        <location filename="../../src/MainWindow.cpp" line="764"/>
         <source>Please select an output folder first</source>
         <translation>먼저 출력 폴더를 선택하십시오</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="763"/>
-        <location filename="../../src/MainWindow.cpp" line="809"/>
-        <location filename="../../src/MainWindow.cpp" line="1074"/>
-        <location filename="../../src/MainWindow.cpp" line="1377"/>
-        <location filename="../../src/MainWindow.cpp" line="1403"/>
-        <location filename="../../src/MainWindow.cpp" line="1425"/>
-        <location filename="../../src/MainWindow.cpp" line="1592"/>
+        <location filename="../../src/MainWindow.cpp" line="765"/>
+        <location filename="../../src/MainWindow.cpp" line="811"/>
+        <location filename="../../src/MainWindow.cpp" line="1077"/>
+        <location filename="../../src/MainWindow.cpp" line="1380"/>
+        <location filename="../../src/MainWindow.cpp" line="1406"/>
+        <location filename="../../src/MainWindow.cpp" line="1428"/>
+        <location filename="../../src/MainWindow.cpp" line="1595"/>
         <source>Ok</source>
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="791"/>
+        <location filename="../../src/MainWindow.cpp" line="793"/>
         <source>No images in the list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="803"/>
-        <location filename="../../src/MainWindow.cpp" line="807"/>
+        <location filename="../../src/MainWindow.cpp" line="805"/>
+        <location filename="../../src/MainWindow.cpp" line="809"/>
         <source>No images selected</source>
         <translation>선택된 이미지 없음</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="808"/>
+        <location filename="../../src/MainWindow.cpp" line="810"/>
         <source>Please check at least one image to compress.</source>
         <translation>압축할 이미지를 하나 이상 선택하세요.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="967"/>
+        <location filename="../../src/MainWindow.cpp" line="970"/>
         <source>Select output folder...</source>
         <translation>출력 폴더 선택...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1038"/>
+        <location filename="../../src/MainWindow.cpp" line="1041"/>
         <source>Compression finished!</source>
         <translation>압축 완료!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1064"/>
+        <location filename="../../src/MainWindow.cpp" line="1067"/>
         <source>You just saved %1!</source>
         <translation>%1을(를) 방금 저장했습니다!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1068"/>
+        <location filename="../../src/MainWindow.cpp" line="1071"/>
         <source>Total files: %1
 Original size: %2
 Compressed size: %3
@@ -296,738 +296,750 @@ Saved: %4 (%5%)</source>
 절약됨: %4 (%5%)</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1335"/>
+        <location filename="../../src/MainWindow.cpp" line="1338"/>
         <source>Original:</source>
         <translation>원본:</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1336"/>
+        <location filename="../../src/MainWindow.cpp" line="1339"/>
         <source>Compressed:</source>
         <translation>압축 후:</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1375"/>
-        <location filename="../../src/MainWindow.cpp" line="1402"/>
+        <location filename="../../src/MainWindow.cpp" line="1378"/>
+        <location filename="../../src/MainWindow.cpp" line="1405"/>
         <source>Could not check for updates.</source>
         <translation>업데이트를 확인할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1412"/>
+        <location filename="../../src/MainWindow.cpp" line="1415"/>
         <source>A new version is available!</source>
         <translation>새 버전이 있습니다!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1413"/>
+        <location filename="../../src/MainWindow.cpp" line="1416"/>
         <source>Version %1 is available (you have %2). Do you want to download it?</source>
         <translation>버전 %1 사용 가능 (현재 %2). 다운로드하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1415"/>
+        <location filename="../../src/MainWindow.cpp" line="1418"/>
         <source>Download</source>
         <translation>다운로드</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1416"/>
+        <location filename="../../src/MainWindow.cpp" line="1419"/>
         <source>Not now</source>
         <translation>나중에</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1423"/>
+        <location filename="../../src/MainWindow.cpp" line="1426"/>
         <source>You are up to date!</source>
         <translation>최신 버전입니다!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1424"/>
+        <location filename="../../src/MainWindow.cpp" line="1427"/>
         <source>Version %1 is the latest available.</source>
         <translation>버전 %1 이 최신입니다.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1590"/>
+        <location filename="../../src/MainWindow.cpp" line="1593"/>
         <source>Nothing to restore</source>
         <translation>복원할 항목 없음</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1591"/>
+        <location filename="../../src/MainWindow.cpp" line="1594"/>
         <source>The selected images have no cached original to restore from.</source>
         <translation>선택한 이미지에 복원할 캐시 원본이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1989"/>
+        <location filename="../../src/MainWindow.cpp" line="1997"/>
         <source>Recompress failed</source>
         <translation>재압축 실패</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2345"/>
+        <location filename="../../src/MainWindow.cpp" line="2353"/>
         <source>Unknown command: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2351"/>
+        <location filename="../../src/MainWindow.cpp" line="2359"/>
         <source>Compression is in progress. Wait for it to finish or cancel it first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2355"/>
+        <location filename="../../src/MainWindow.cpp" line="2363"/>
         <source>No paths specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2360"/>
+        <location filename="../../src/MainWindow.cpp" line="2368"/>
         <source>No supported image files found in the given paths.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2375"/>
-        <location filename="../../src/MainWindow.cpp" line="2428"/>
-        <location filename="../../src/MainWindow.cpp" line="2624"/>
-        <location filename="../../src/MainWindow.cpp" line="2721"/>
-        <location filename="../../src/MainWindow.cpp" line="2794"/>
+        <location filename="../../src/MainWindow.cpp" line="2383"/>
+        <location filename="../../src/MainWindow.cpp" line="2436"/>
+        <location filename="../../src/MainWindow.cpp" line="2632"/>
+        <location filename="../../src/MainWindow.cpp" line="2729"/>
+        <location filename="../../src/MainWindow.cpp" line="2802"/>
         <source>Compression is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2388"/>
-        <location filename="../../src/MainWindow.cpp" line="2652"/>
+        <location filename="../../src/MainWindow.cpp" line="2396"/>
+        <location filename="../../src/MainWindow.cpp" line="2660"/>
         <source>No paths or IDs specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2530"/>
+        <location filename="../../src/MainWindow.cpp" line="2538"/>
         <source>Compression is already running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2579"/>
+        <location filename="../../src/MainWindow.cpp" line="2587"/>
         <source>No images in the list. Add some first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2582"/>
+        <location filename="../../src/MainWindow.cpp" line="2590"/>
         <source>Please select an output folder first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2587"/>
+        <location filename="../../src/MainWindow.cpp" line="2595"/>
         <source>No images selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2613"/>
+        <location filename="../../src/MainWindow.cpp" line="2621"/>
         <source>No compression in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2576"/>
-        <location filename="../../src/MainWindow.cpp" line="2687"/>
+        <location filename="../../src/MainWindow.cpp" line="2584"/>
+        <location filename="../../src/MainWindow.cpp" line="2695"/>
         <source>None of the given paths/IDs are in the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2745"/>
+        <location filename="../../src/MainWindow.cpp" line="2753"/>
         <source>No image with the given ID/path is in the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2753"/>
+        <location filename="../../src/MainWindow.cpp" line="2761"/>
         <source>Could not generate the preview.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2847"/>
+        <location filename="../../src/MainWindow.cpp" line="2855"/>
         <source>No matching images to restore.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="3097"/>
+        <location filename="../../src/MainWindow.cpp" line="3105"/>
         <source>Unknown option key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="3116"/>
+        <location filename="../../src/MainWindow.cpp" line="3124"/>
         <source>No options to set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="3148"/>
+        <location filename="../../src/MainWindow.cpp" line="3156"/>
         <source>Unknown setting key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="3252"/>
+        <location filename="../../src/MainWindow.cpp" line="3260"/>
         <source>No settings to set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1378"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1384"/>
         <source>Caesium Image Compressor</source>
         <translation>Caesium 이미지 압축기</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1420"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1426"/>
         <source>Add...</source>
         <translation>추가...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1389"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1421"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1395"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1427"/>
         <source>Remove</source>
         <translation>제거</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1406"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1408"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1422"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1412"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1414"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1428"/>
         <source>Compress</source>
         <translation>압축</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1454"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1460"/>
         <source>Compression</source>
         <translation>압축</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1428"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1434"/>
         <source>JPEG</source>
         <translation>JPEG</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1425"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1429"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1433"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1436"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1431"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1435"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1439"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1442"/>
         <source>Quality</source>
         <translation>품질</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1432"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1438"/>
         <source>PNG</source>
         <translation>PNG</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1435"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1441"/>
         <source>WebP</source>
         <translation>WebP</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1445"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1451"/>
         <source>Lossless</source>
         <translation>무손실</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1447"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1453"/>
         <source>Maximum output size</source>
         <translation>최대 출력 크기</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1449"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1455"/>
         <source>bytes</source>
         <translation>바이트</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1424"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1430"/>
         <source>Mode</source>
         <translation>모드</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1446"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1452"/>
         <source>Keep Metadata</source>
         <translation>메타데이터 유지</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1450"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1456"/>
         <source>KB</source>
         <translation>KB</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1451"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1457"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1470"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1476"/>
         <source>Resize</source>
         <translation>크기 조정</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1455"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1461"/>
         <source>Resize to fit</source>
         <translation>맞춤 크기 조정</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1456"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1462"/>
         <source>No resize</source>
         <translation>크기 조정 없음</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1457"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1463"/>
         <source>Dimensions</source>
         <translation>치수</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1458"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1464"/>
         <source>Percentage</source>
         <translation>백분율</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1459"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1465"/>
         <source>Short edge</source>
         <translation>짧은 가장자리</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1460"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1466"/>
         <source>Long edge</source>
         <translation>긴 가장자리</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1461"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1464"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1467"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1470"/>
         <source>Width</source>
         <translation>너비</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1466"/>
-        <location filename="../../src/MainWindow.cpp" line="1108"/>
-        <location filename="../../src/MainWindow.cpp" line="1112"/>
-        <location filename="../../src/MainWindow.cpp" line="1147"/>
-        <location filename="../../src/MainWindow.cpp" line="1151"/>
-        <location filename="../../src/MainWindow.cpp" line="1160"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1472"/>
+        <location filename="../../src/MainWindow.cpp" line="1111"/>
+        <location filename="../../src/MainWindow.cpp" line="1115"/>
+        <location filename="../../src/MainWindow.cpp" line="1150"/>
+        <location filename="../../src/MainWindow.cpp" line="1154"/>
         <location filename="../../src/MainWindow.cpp" line="1163"/>
+        <location filename="../../src/MainWindow.cpp" line="1166"/>
         <source>px</source>
         <translation>px</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1426"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1465"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1432"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1471"/>
         <source>Size</source>
         <translation>크기</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1462"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1467"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1468"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1473"/>
         <source>Height</source>
         <translation>높이</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1468"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1474"/>
         <source>Do not enlarge</source>
         <translation>확대하지 마십시오</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1469"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1475"/>
         <source>Keep aspect ratio</source>
         <translation>종횡비 유지</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1493"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1503"/>
         <source>Output</source>
         <translation>출력</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1471"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1477"/>
         <source>Folder</source>
         <translation>폴더</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1472"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1478"/>
         <source>Select...</source>
         <translation>선택...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1473"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1479"/>
         <source>Same folder as input</source>
         <translation>입력과 동일한 폴더</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1474"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1480"/>
         <source>Keep folder structure</source>
         <translation>폴더 구조 유지</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1475"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1481"/>
         <source>Skip if output size is bigger than the original</source>
         <translation>출력 크기가 원본보다 크면 건너뛰기</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1488"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1498"/>
         <source>Keep file dates</source>
         <translation>파일 날짜 유지</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1489"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1499"/>
         <source>Creation</source>
         <translation>생성</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1490"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1500"/>
         <source>Last modified</source>
         <translation>마지막 수정</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1491"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1501"/>
         <source>Last access</source>
         <translation>마지막 접근</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1423"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1429"/>
         <source>Format</source>
         <translation>형식</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1492"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1502"/>
         <source>Suffix</source>
         <translation>접미사</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1495"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1505"/>
         <source>Converting to a new format or resizing can degrade quality even if &quot;lossless&quot; option is selected</source>
         <translation>새 형식으로 변환하거나 크기를 조정하면 &quot;무손실&quot; 옵션이 선택되어 있어도 품질이 저하될 수 있습니다.</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1497"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1507"/>
         <source>Original</source>
         <translation>원본</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1415"/>
-        <location filename="../../src/MainWindow.cpp" line="1671"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1421"/>
+        <location filename="../../src/MainWindow.cpp" line="1674"/>
         <source>Preview</source>
         <translation>미리보기</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1500"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1510"/>
         <source>Compressed</source>
         <translation>압축됨</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1434"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1440"/>
         <source>Optimization level</source>
         <translation>최적화 수준</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1437"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1443"/>
         <source>TIFF</source>
         <translation>TIFF</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1438"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1444"/>
         <source>Method</source>
         <translation>방법</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1965"/>
+        <location filename="../../src/MainWindow.cpp" line="1973"/>
         <source>Best</source>
         <translation>최고</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1444"/>
-        <location filename="../../src/MainWindow.cpp" line="1967"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1450"/>
+        <location filename="../../src/MainWindow.cpp" line="1975"/>
         <source>Balanced</source>
         <translation>균형 잡힌</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1963"/>
+        <location filename="../../src/MainWindow.cpp" line="1971"/>
         <source>Fast</source>
         <translation>빠름</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1439"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1445"/>
         <source>Uncompressed</source>
         <translation>압축 해제됨</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1430"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1436"/>
         <source>Chroma subsampling</source>
         <translatorcomment>Refers to: https://en.wikipedia.org/wiki/Chroma_subsampling</translatorcomment>
         <translation>크로마 서브샘플링</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1431"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1437"/>
         <source>Progressive</source>
         <translation>점진적</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1484"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1494"/>
         <source>Move the original file</source>
         <translation>원본 파일 이동</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1485"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1495"/>
         <source>To Trash</source>
         <translation>휴지통으로</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1486"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1496"/>
         <source>Delete Permanently</source>
         <translation>영구 삭제</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1502"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1512"/>
         <source>Help</source>
         <translation>도움말</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1503"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1513"/>
         <source>File</source>
         <translation>파일</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1504"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1514"/>
         <source>Edit</source>
         <translation>편집</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1505"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1515"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1506"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1507"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1516"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1517"/>
         <source>Toolbar</source>
         <translation>툴바</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1379"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1385"/>
         <source>About Caesium Image Compressor</source>
         <translation>Caesium 이미지 압축기에 대하여</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1380"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1386"/>
         <source>Add files...</source>
         <translation>파일 추가...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1382"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1388"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1384"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1390"/>
         <source>Add folder...</source>
         <translation>폴더 추가...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1386"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1392"/>
         <source>Ctrl+Shift+O</source>
         <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1388"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1394"/>
         <location filename="../../src/MainWindow.cpp" line="273"/>
         <source>Exit</source>
         <translation>종료</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1391"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1397"/>
         <source>Del</source>
         <translatorcomment>Delete key on keyboard</translatorcomment>
         <translation>삭제</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1393"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1399"/>
         <source>Select All</source>
         <translation>모두 선택</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1395"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1401"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1397"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1403"/>
         <source>Clear</source>
         <translation>지우기</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1398"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1404"/>
         <source>Show previews</source>
         <translation>미리보기 표시</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1399"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1405"/>
         <source>Preferences...</source>
         <translation>환경 설정...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1400"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1406"/>
         <source>Show original in file manager</source>
         <translation>파일 관리자에서 원본 보기</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1401"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1407"/>
         <source>Show compressed in file manager</source>
         <translation>파일 관리자에서 압축된 파일 보기</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1410"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1416"/>
         <source>Icons</source>
         <translation>아이콘</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1411"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1417"/>
         <source>Icons and Text</source>
         <translation>아이콘 및 텍스트</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1412"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1418"/>
         <source>Hide</source>
         <translation>숨기기</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1413"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1419"/>
         <source>Show</source>
         <translation>표시</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1414"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1420"/>
         <source>Auto preview</source>
         <translation>자동 미리보기</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1417"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1423"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1419"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1425"/>
         <source>Advanced import...</source>
         <translation>고급 가져오기...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1452"/>
-        <location filename="../../src/MainWindow.cpp" line="1122"/>
-        <location filename="../../src/MainWindow.cpp" line="1126"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1458"/>
+        <location filename="../../src/MainWindow.cpp" line="1125"/>
+        <location filename="../../src/MainWindow.cpp" line="1129"/>
         <source>%</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1334"/>
+        <location filename="../../src/MainWindow.cpp" line="1337"/>
         <source>images in list</source>
         <translation>목록에서 이미지 보기</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1477"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1483"/>
         <source>Keep a copy of the original images so you can re-compress with different settings even after overwriting them.</source>
         <translation>원본 이미지의 사본을 보관하여 덮어쓴 후에도 다른 설정으로 다시 압축할 수 있습니다.</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1479"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1485"/>
         <source>Cache originals for re-compression</source>
         <translation>재압축을 위해 원본 캐시</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1481"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1487"/>
         <source>After converting to a new format, delete the same-named file with the original extension in the output folder.</source>
         <translation>새 형식으로 변환한 후 출력 폴더에서 같은 이름의 원본 확장자 파일을 삭제합니다.</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1483"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1489"/>
         <source>Delete original-format file after conversion</source>
         <translation>변환 후 원본 형식 파일 삭제</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1442"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1448"/>
         <source>Current Deflate level (Fast / Balanced / Best)</source>
         <translation>현재 Deflate 레벨 (빠름 / 균형 / 최고)</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1402"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1408"/>
         <source>Restore</source>
         <translation>복원</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1404"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1410"/>
         <source>Restore the original image from cache and remove the converted output.</source>
         <translation>캐시에서 원본 이미지를 복원하고 변환된 출력 파일을 삭제합니다.</translation>
+    </message>
+    <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1493"/>
+        <source>Sync same-name .meta file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1491"/>
+        <source>When converting format, sync the matching .meta file to adapt to the game engine.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1356,52 +1368,52 @@ Saved: %4 (%5%)</source>
         <translation>이미지 파일</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="177"/>
+        <location filename="../../src/models/CImage.cpp" line="183"/>
         <source>Input file does not exist</source>
         <translation>입력 파일이 존재하지 않습니다.</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="202"/>
+        <location filename="../../src/models/CImage.cpp" line="208"/>
         <source>Cannot make output path, check your permissions</source>
         <translation>출력 경로를 만들 수 없습니다. 권한을 확인하세요.</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="219"/>
+        <location filename="../../src/models/CImage.cpp" line="225"/>
         <source>Temporary file creation failed</source>
         <translation>임시 파일 생성 실패</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="231"/>
+        <location filename="../../src/models/CImage.cpp" line="237"/>
         <source>File conversion failed</source>
         <translation>파일 변환 실패</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="283"/>
+        <location filename="../../src/models/CImage.cpp" line="289"/>
         <source>Skipped: compressed file is bigger than original</source>
         <translation>건너뛰기: 압축된 파일이 원본보다 큽니다</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="293"/>
+        <location filename="../../src/models/CImage.cpp" line="299"/>
         <source>Cannot copy output file, check your permissions</source>
         <translation>출력 파일을 복사할 수 없습니다. 권한을 확인하세요.</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="318"/>
+        <location filename="../../src/models/CImage.cpp" line="324"/>
         <source>Cannot move original file to trash, check your permissions</source>
         <translation>원본 파일을 휴지통으로 이동할 수 없습니다. 권한을 확인하세요.</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="321"/>
+        <location filename="../../src/models/CImage.cpp" line="327"/>
         <source>Cannot delete original file, check your permissions</source>
         <translation>원본 파일을 삭제할 수 없습니다. 권한을 확인하세요.</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="447"/>
+        <location filename="../../src/models/CImage.cpp" line="470"/>
         <source>Compressing...</source>
         <translation>압축 중...</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="449"/>
+        <location filename="../../src/models/CImage.cpp" line="472"/>
         <source>Error:</source>
         <translation>오류:</translation>
     </message>

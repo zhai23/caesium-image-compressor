@@ -5,8 +5,14 @@
 #include "exceptions/ImageTooBigException.h"
 #include <QColor>
 #include <QDir>
+#include <QFile>
 #include <QImage>
 #include <QImageReader>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
+#include <QJsonValue>
 #include <QPainter>
 #include <QStandardPaths>
 #include <QTemporaryFile>
@@ -322,6 +328,23 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
             }
         }
 
+        // Cocos Creator support: when the image was actually converted to a new
+        // format, the output was placed in the same folder as the original and
+        // the original source file has been removed, the adjacent
+        // "<name>.meta" file must follow the new file (rename + update the
+        // format recorded inside it), otherwise the editor would reimport the
+        // asset with a brand new uuid and break existing references.
+        if (compressionOptions.syncMetaFile) {
+            const QFileInfo convertedFileInfo(outputFullPath);
+            if (convert
+                && !outputIsBiggerThanInput
+                && convertedFileInfo.completeBaseName() == inputFileInfo.completeBaseName()
+                && QDir::cleanPath(convertedFileInfo.absolutePath()) == QDir::cleanPath(inputFileInfo.absolutePath())
+                && !QFileInfo::exists(inputFileInfo.absoluteFilePath())) {
+                CImage::syncMetaFileForConversion(inputFileInfo.absoluteFilePath(), convertedFileInfo.absoluteFilePath());
+            }
+        }
+
         QFileInfo outputFileInfo = QFileInfo(outputFullPath);
         if (compressionOptions.keepDates) {
             CImage::setFileDates(outputFileInfo, compressionOptions.datesMap, inputFileDates);
@@ -622,7 +645,19 @@ bool CImage::restoreFromCache()
         }
     }
 
-    // 3) Reset compression info back to the uncompressed original state.
+    // 3) If the previous conversion moved the adjacent Cocos Creator .meta file
+    //    to the converted output's name (e.g. 1.png.meta -> 1.jpg.meta), bring
+    //    it back to the restored original's name so the asset keeps its uuid.
+    if (!this->compressedFullPath.isEmpty()
+        && QFileInfo(this->compressedFullPath).absoluteFilePath() != QFileInfo(this->fullPath).absoluteFilePath()) {
+        const QString convertedMeta = this->compressedFullPath + QLatin1String(".meta");
+        const QString originalMeta = this->fullPath + QLatin1String(".meta");
+        if (QFile::exists(convertedMeta) && !QFile::exists(originalMeta)) {
+            CImage::syncMetaFileForConversion(this->compressedFullPath, this->fullPath);
+        }
+    }
+
+    // 4) Reset compression info back to the uncompressed original state.
     this->compressedFullPath.clear();
     this->compressedDirectory.clear();
     this->compressedSize = this->size;
@@ -630,5 +665,121 @@ bool CImage::restoreFromCache()
     this->compressedHeight = this->height;
     this->additionalInfo.clear();
     this->status = CImageStatus::UNCOMPRESSED;
+    return true;
+}
+
+namespace {
+
+// Recursively walk a parsed Cocos Creator meta document and collect the bare
+// file-extension tokens (anything starting with "." that is not ".json", e.g.
+// ".png"/".jpg") that appear inside any "files" array. These tokens describe
+// the library files Cocos Creator produced for the asset.
+void collectMetaFileExtensions(const QJsonValue& value, QStringList& extensions)
+{
+    if (value.isObject()) {
+        const QJsonObject obj = value.toObject();
+        for (auto it = obj.begin(); it != obj.end(); ++it) {
+            if (it.key() == QLatin1String("files") && it.value().isArray()) {
+                const QJsonArray arr = it.value().toArray();
+                for (const QJsonValue& elem : arr) {
+                    if (elem.isString()) {
+                        const QString s = elem.toString();
+                        if (s.startsWith(QLatin1Char('.'))
+                            && s.compare(QLatin1String(".json"), Qt::CaseInsensitive) != 0
+                            && !extensions.contains(s, Qt::CaseInsensitive)) {
+                            extensions.append(s);
+                        }
+                    }
+                }
+            } else {
+                collectMetaFileExtensions(it.value(), extensions);
+            }
+        }
+    } else if (value.isArray()) {
+        const QJsonArray arr = value.toArray();
+        for (const QJsonValue& elem : arr) {
+            collectMetaFileExtensions(elem, extensions);
+        }
+    }
+}
+
+} // namespace
+
+bool CImage::syncMetaFileForConversion(const QString& sourceImagePath, const QString& outputImagePath)
+{
+    const QFileInfo sourceInfo(sourceImagePath);
+    const QFileInfo outputInfo(outputImagePath);
+    const QString sourceExt = sourceInfo.suffix();
+    const QString outputExt = outputInfo.suffix();
+    if (sourceExt.compare(outputExt, Qt::CaseInsensitive) == 0) {
+        return false;
+    }
+
+    const QString metaPath = sourceImagePath + QLatin1String(".meta");
+    const QString newMetaPath = outputImagePath + QLatin1String(".meta");
+    if (!QFile::exists(metaPath)) {
+        return false;
+    }
+    if (QFileInfo(metaPath).absoluteFilePath() == QFileInfo(newMetaPath).absoluteFilePath()) {
+        return false;
+    }
+
+    QFile metaFile(metaPath);
+    if (!metaFile.open(QIODevice::ReadOnly)) {
+        qWarning() << "Cannot read Cocos Creator meta file:" << metaPath;
+        return false;
+    }
+    QString content = QString::fromUtf8(metaFile.readAll());
+    metaFile.close();
+
+    // Cocos Creator records the library file extensions it produced as quoted
+    // tokens in the "files" arrays (e.g. ".json", ".png"). We swap them
+    // textually so the rest of the file bytes and formatting are preserved.
+    const QString newToken = QStringLiteral("\".%1\"").arg(outputExt.toLower());
+    bool contentChanged = false;
+
+    // Compatibility rule: only modify the file contents when it really is JSON
+    // AND actually contains "files" arrays with an extension entry we can swap.
+    // In every other situation - not JSON, JSON without a "files" array, a
+    // "files" array that only lists ".json", ... - the contents are left
+    // byte-for-byte untouched and only the file name is changed below.
+    QJsonParseError parseError {};
+    const QJsonDocument doc = QJsonDocument::fromJson(content.toUtf8(), &parseError);
+    if (parseError.error == QJsonParseError::NoError && (doc.isObject() || doc.isArray())) {
+        const QJsonValue root = doc.isObject() ? QJsonValue(doc.object()) : QJsonValue(doc.array());
+        QStringList extensions;
+        collectMetaFileExtensions(root, extensions);
+        for (const QString& ext : extensions) {
+            // The tokens appear quoted in the raw text, e.g. ".jpg"; replace
+            // them with the new one, preserving the original file layout.
+            const QString quotedExt = QLatin1Char('"') + ext + QLatin1Char('"');
+            if (quotedExt.compare(newToken, Qt::CaseInsensitive) == 0) {
+                continue;
+            }
+            content.replace(quotedExt, newToken, Qt::CaseInsensitive);
+            contentChanged = true;
+        }
+    }
+
+    // Write the updated content back in place first, then move the .meta next
+    // to the converted image so the rename cannot leave a stale file behind.
+    if (contentChanged) {
+        if (!metaFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            qWarning() << "Cannot write Cocos Creator meta file:" << metaPath;
+            return false;
+        }
+        metaFile.write(content.toUtf8());
+        metaFile.close();
+    }
+
+    // Remove a pre-existing target so the rename cannot fail on it.
+    if (QFile::exists(newMetaPath) && !QFile::remove(newMetaPath)) {
+        qWarning() << "Cannot remove existing meta file:" << newMetaPath;
+        return false;
+    }
+    if (!QFile::rename(metaPath, newMetaPath)) {
+        qWarning() << "Cannot rename Cocos Creator meta file:" << metaPath << "to" << newMetaPath;
+        return false;
+    }
     return true;
 }

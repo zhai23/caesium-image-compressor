@@ -80,6 +80,12 @@ private:
     // images and, for formats without alpha (JPG), composite transparent pixels
     // onto the given fill color so they don't become garbage.
     static QImage prepareImageForConversion(const QImage& source, int targetFormatIndex, const QString& fillColorHex);
+
+    // Rename an adjacent Cocos Creator .meta file so it follows a format
+    // conversion (e.g. 1.png.meta -> 1.jpg.meta) and update the format entry
+    // recorded inside it (the top-level "files" list). sourceImagePath /
+    // outputImagePath are the paths of the old and the new image files.
+    static bool syncMetaFileForConversion(const QString& sourceImagePath, const QString& outputImagePath);
 };
 
 #endif // CIMAGE_H
