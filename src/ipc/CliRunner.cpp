@@ -800,6 +800,8 @@ int runPath(QStringList args, bool json)
             QJsonObject result;
             result[QStringLiteral("supported")] = true;
             result[QStringLiteral("configured")] = configured;
+            result[QStringLiteral("bin_dir")] = CliPathConfig::binDir();
+            result[QStringLiteral("wrapper")] = CliPathConfig::cliWrapperPath();
             result[QStringLiteral("folder")] = CliPathConfig::cliFolder();
             QJsonObject out;
             out[QStringLiteral("ok")] = true;
@@ -823,6 +825,7 @@ int runPath(QStringList args, bool json)
         if (json) {
             QJsonObject result;
             result[QStringLiteral("ok")] = ok;
+            result[QStringLiteral("bin_dir")] = CliPathConfig::binDir();
             result[QStringLiteral("folder")] = CliPathConfig::cliFolder();
             QJsonObject out;
             out[QStringLiteral("ok")] = true;
@@ -830,8 +833,8 @@ int runPath(QStringList args, bool json)
             writeJsonOutput(out);
         } else if (ok) {
             printOutLn(sub == QLatin1String("add")
-                ? QStringLiteral("已将文件夹添加到您的 PATH。")
-                : QStringLiteral("已将文件夹从您的 PATH 中移除。"));
+                ? QStringLiteral("已将命令文件夹添加到您的 PATH。软件移动位置后会自动刷新，不会残留旧条目。")
+                : QStringLiteral("已从您的 PATH 中移除 caesium-cli 相关条目。"));
             printOutLn(QStringLiteral("重新打开终端（或开一个新的）后生效。"));
         } else {
             printErrLn(QStringLiteral("错误：无法修改 PATH。"));
@@ -1162,7 +1165,7 @@ void printHelp()
     printOutLn(QStringLiteral("  cancel                     取消正在进行的压缩"));
     printOutLn(QStringLiteral("  settings get [key]         读取所有设置（含偏好）"));
     printOutLn(QStringLiteral("  settings set <key> <val>... 写入设置，可一次设置多个（如 fit_to long_edge edge 1920）"));
-    printOutLn(QStringLiteral("  path status|add|remove     管理应用目录在 PATH 中的状态"));
+    printOutLn(QStringLiteral("  path status|add|remove     管理 caesium-cli 命令在 PATH 中的状态"));
     printOutLn(QStringLiteral("  show                       把主窗口带到前台"));
     printOutLn(QStringLiteral("  quit                       关闭软件"));
     printOutLn(QStringLiteral("  shell                      与软件交互的会话模式"));

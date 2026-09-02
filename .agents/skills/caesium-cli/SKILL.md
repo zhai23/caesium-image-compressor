@@ -38,8 +38,11 @@ details verified in `src/ipc/CliRunner.cpp`, `src/ipc/CliClient.cpp`,
 
 ## Finding and invoking the CLI
 
-The Windows installer places `caesium-cli.cmd` beside
-`Caesium Image Compressor.exe` and can add that directory to the user PATH:
+The CLI command is made available through a dedicated single-file bin folder
+(`%LOCALAPPDATA%\CaesiumImageCompressor\bin`), which is what gets added to the
+user PATH — not the whole application folder. The wrapper there reads the real
+executable location from `app-path.txt` (refreshed on every app start), so the
+entry keeps working and is de-duplicated even if the app is moved:
 
 ```powershell
 caesium-cli path status
@@ -263,8 +266,9 @@ line because `%*` expansion in the `.cmd` wrapper can remove embedded quotes.
 
 ## Troubleshooting checklist
 
-1. If the command is not found, run `caesium-cli path status`; add the
-   application directory to PATH and open a new terminal.
+1. If the command is not found, run `caesium-cli path status`; run
+   `caesium-cli path add` (adds the dedicated bin folder and cleans up stale
+   entries) and open a new terminal.
 2. If direct `.exe` invocation has no output or does not wait, use the adjacent
    `caesium-cli.cmd` wrapper.
 3. If `NOT_RUNNING` occurs, remove `--no-launch` or start Caesium manually.

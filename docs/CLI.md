@@ -101,20 +101,27 @@ CLI 就是可执行程序本身，区别只是启动参数。能调用它的前�
 ### 方式一：安装版（推荐）
 
 安装器（setup.iss）会自动：
-1. 安装 `caesium-cli.cmd` 到应用目录；
-2. 把应用目录写入**用户 PATH**。
+1. 安装 `caesium-cli.cmd` 到应用目录（供在应用目录内使用 `.\caesium-cli`）；
+2. 在 `%LOCALAPPDATA%\CaesiumImageCompressor\bin` 写入单文件 wrapper 和 `app-path.txt` 指针；
+3. 把**这个专用 bin 文件夹**写入**用户 PATH**（不会把整个应用目录加进去）。
 
-装完重开一个终端，即可直接使用 `caesium-cli`。
+装完重开一个终端，即可直接使用 `caesium-cli`。卸载时安装器会自动删除该 bin 文件夹并清理 PATH 条目。
 
 ### 方式二：绿色版 / 开发目录
 
-把应用目录加入用户 PATH：
+推荐使用软件设置：**设置 → 命令行 (CLI) → 添加到 PATH**（也可用 `caesium-cli path add`）。
+
+软件**不会把整个应用目录加入 PATH**，而是在
+`%LOCALAPPDATA%\CaesiumImageCompressor\bin` 里只放一个 `caesium-cli.cmd` 单文件，
+然后把**这个专用 bin 文件夹**写入用户 PATH。该 wrapper 通过 `app-path.txt` 指针文件
+定位当前 exe 位置，每次启动软件都会刷新它，所以软件移动到新目录后 PATH 条目不重复、
+不残留旧位置；再次点击"添加到 PATH"还会自动清理旧位置残留的条目。
+
+也可以手动加入用户 PATH：
 
 ```powershell
-[Environment]::SetEnvironmentVariable("Path", $env:Path + ";<应用目录>", "User")
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";<bin 文件夹>", "User")
 ```
-
-或者使用设置界面：**设置 → 命令行 (CLI) → 添加到 PATH**（也可用 `caesium-cli path add`）。
 
 改完 PATH 后**重开终端**生效。
 
@@ -125,7 +132,12 @@ CLI 就是可执行程序本身，区别只是启动参数。能调用它的前�
 
 ### 关于 `caesium-cli.cmd`
 
-Windows 上 exe 是 GUI 子系统程序，直接在 PowerShell 中调用可能不会被等待。`caesium-cli.cmd`（与 exe 同目录）解决了这个问题，会自动等待命令结束并透传退出码。**它必须和 exe 放在同一目录**；"添加到 PATH" 时软件会自动生成它。
+Windows 上 exe 是 GUI 子系统程序，直接在 PowerShell 中调用可能不会被等待。`caesium-cli.cmd`
+解决了这个问题，会自动等待命令结束并透传退出码。
+
+- 绿色版 / 开发目录：把 `caesium-cli.cmd` 放在 exe 同目录，运行 `.\caesium-cli <命令> ...`；
+- 使用"添加到 PATH"后：软件在专用 bin 文件夹里生成的 `caesium-cli.cmd` 会自动读取
+  `app-path.txt` 找到当前 exe，因此软件移动到新位置后无需重新添加到 PATH。
 
 - Windows（cmd / PowerShell）：`caesium-cli <命令> ...`
 - Linux / macOS：直接使用 `caesium-image-compressor --cli <命令> ...`（原生阻塞，无需包装脚本）
@@ -429,9 +441,9 @@ caesium-cli restore "C:\a.jpg"         # 按路径还原
 #### `path` 管理 PATH
 
 ```bash
-caesium-cli path status     # 查看应用目录是否在用户 PATH 上
-caesium-cli path add        # 添加到 PATH（缺失 caesium-cli.cmd 会自动生成）
-caesium-cli path remove     # 从 PATH 移除
+caesium-cli path status     # 查看 caesium-cli 命令是否在用户 PATH 上
+caesium-cli path add        # 添加专用 bin 文件夹到 PATH（缺失 wrapper 自动生成，并清理旧位置残留条目）
+caesium-cli path remove     # 从 PATH 移除 caesium-cli 相关条目
 ```
 
 此命令**不需要软件运行**，直接读写注册表（Windows）。修改后重开终端生效。
@@ -693,10 +705,10 @@ caesium-cli quit
 软件没在运行且使用了 `--no-launch`，或自动启动失败。去掉 `--no-launch` 即可让 CLI 自动启动软件。
 
 **问：在 PowerShell 里直接调用 exe 时输出/等待异常？**
-exe 是 GUI 子系统程序。请使用与 exe 同目录的 `caesium-cli.cmd`，或把应用目录加入 PATH 后使用 `caesium-cli`。
+exe 是 GUI 子系统程序。请使用与 exe 同目录的 `caesium-cli.cmd`，或把专用 bin 文件夹加入 PATH 后使用 `caesium-cli`。
 
 **问：`caesium-cli` 提示找不到命令？**
-应用目录不在 PATH。运行 `caesium-cli path add`（或软件内 设置 → 命令行 (CLI) → 添加到 PATH），然后重开终端。
+caesium-cli 不在 PATH（或其指向的 exe 不存在）。运行 `caesium-cli path add`（或软件内 设置 → 命令行 (CLI) → 添加到 PATH），然后重开终端。
 
 **问：压缩时收到 `COMPRESS_IN_PROGRESS`？**
 压缩进行中不能再次添加/压缩/修改列表。先 `caesium-cli cancel` 或等它结束。

@@ -69,30 +69,129 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "package\{#MyAppVersion}\caesium-image-compressor-{#MyAppVersion}-win\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "package\{#MyAppVersion}\caesium-image-compressor-{#MyAppVersion}-win-setup\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "caesium-cli.cmd"; DestDir: "{app}"; Flags: ignoreversion
+; Seed the dedicated single-file bin folder used for PATH integration. The app
+; only ever adds this folder (not the whole app folder) to the user PATH.
+Source: "caesium-cli-path.cmd"; DestDir: "{localappdata}\CaesiumImageCompressor\bin"; DestName: "caesium-cli.cmd"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
-; Put the application folder on the user PATH so "caesium-cli" works from any
-; terminal. The wrapper script handles the waiting/exit-code semantics.
-[Registry]
-Root: HKCU; Subkey: "Environment"; ValueType: expandsz; ValueName: "Path"; ValueData: "{olddata};{app}"; Check: NeedsAddPath('{app}')
+; On uninstall, remove the dedicated bin folder. The PATH entry itself is
+; cleaned up by RemoveCliPath() in [Code] below.
+[UninstallDelete]
+Type: filesandordirs; Name: "{localappdata}\CaesiumImageCompressor\bin"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall
 
 [Code]
-function NeedsAddPath(Param: string): boolean;
+// The dedicated single-file bin folder that lives on the user PATH.
+function CliBinDir(): string;
+begin
+  Result := ExpandConstant('{localappdata}\CaesiumImageCompressor\bin');
+end;
+
+// True when a PATH entry belongs to this application: the dedicated bin folder,
+// a folder containing the caesium-cli.cmd wrapper, or a folder containing the
+// Caesium executable. Used to drop stale entries left behind by older installs
+// or by the application being moved to a new location.
+function IsCaesiumPathEntry(const Part: string): boolean;
+begin
+  Result := (CompareText(Part, CliBinDir()) = 0)
+    or FileExists(AddBackslash(Part) + 'caesium-cli.cmd')
+    or FileExists(AddBackslash(Part) + '{#MyAppExeName}');
+end;
+
+// Rewrites the user PATH so that the only caesium-related entry is the dedicated
+// bin folder (deduped), removing every stale entry from older app locations.
+procedure UpdateCliPath();
 var
-  OrigPath: string;
+  OrigPath, Part, Kept: string;
+  P, NextP: Integer;
+  HasBin: boolean;
 begin
   if not RegQueryStringValue(HKEY_CURRENT_USER, 'Environment', 'Path', OrigPath) then
+    OrigPath := '';
+  OrigPath := OrigPath + ';';
+  Kept := '';
+  HasBin := False;
+  P := 1;
+  while P <= Length(OrigPath) do
   begin
-    Result := True;
-    Exit;
+    NextP := P;
+    while (NextP <= Length(OrigPath)) and (OrigPath[NextP] <> ';') do
+      Inc(NextP);
+    Part := Copy(OrigPath, P, NextP - P);
+    if Part <> '' then
+    begin
+      if CompareText(Part, CliBinDir()) = 0 then
+        HasBin := True
+      else if not IsCaesiumPathEntry(Part) then
+      begin
+        if Kept <> '' then
+          Kept := Kept + ';';
+        Kept := Kept + Part;
+      end;
+    end;
+    P := NextP + 1;
   end;
-  Result := Pos(';' + Uppercase(Param) + ';', ';' + Uppercase(OrigPath) + ';') = 0;
+  if not HasBin then
+  begin
+    if Kept <> '' then
+      Kept := Kept + ';';
+    Kept := Kept + CliBinDir();
+  end;
+  RegWriteExpandStringValue(HKEY_CURRENT_USER, 'Environment', 'Path', Kept);
 end;
+
+// Removes every caesium-related entry from the user PATH (uninstall).
+procedure RemoveCliPath();
+var
+  OrigPath, Part, Kept: string;
+  P, NextP: Integer;
+begin
+  if not RegQueryStringValue(HKEY_CURRENT_USER, 'Environment', 'Path', OrigPath) then
+    Exit;
+  OrigPath := OrigPath + ';';
+  Kept := '';
+  P := 1;
+  while P <= Length(OrigPath) do
+  begin
+    NextP := P;
+    while (NextP <= Length(OrigPath)) and (OrigPath[NextP] <> ';') do
+      Inc(NextP);
+    Part := Copy(OrigPath, P, NextP - P);
+    if (Part <> '') and not IsCaesiumPathEntry(Part) then
+    begin
+      if Kept <> '' then
+        Kept := Kept + ';';
+      Kept := Kept + Part;
+    end;
+    P := NextP + 1;
+  end;
+  if Kept = '' then
+    RegDeleteValue(HKEY_CURRENT_USER, 'Environment', 'Path')
+  else
+    RegWriteExpandStringValue(HKEY_CURRENT_USER, 'Environment', 'Path', Kept);
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if CurStep = ssPostInstall then
+  begin
+    // Point the wrapper at the freshly installed executable.
+    SaveStringToUTF8File(AddBackslash(CliBinDir()) + 'app-path.txt',
+      ExpandConstant('{app}\{#MyAppExeName}'), False);
+    UpdateCliPath();
+  end;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin
+  if CurUninstallStep = usPostUninstall then
+    RemoveCliPath();
+end;
+
 

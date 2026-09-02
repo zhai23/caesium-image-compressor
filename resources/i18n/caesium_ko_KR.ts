@@ -1034,181 +1034,181 @@ Saved: %4 (%5%)</source>
     <name>PreferencesDialog</name>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="445"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="443"/>
         <source>Preferences</source>
         <translation>환경 설정</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="467"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="465"/>
         <source>Auto</source>
         <translation>자동</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="468"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="466"/>
         <source>Light</source>
         <translation>밝기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="469"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="467"/>
         <source>Dark</source>
         <translation>어두운</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="483"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="481"/>
         <source> threads</source>
         <translation> 스레드</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="486"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="484"/>
         <source>No action</source>
         <translation>작업 없음</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="487"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="485"/>
         <source>Close the application</source>
         <translation>응용 프로그램 닫기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="488"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="486"/>
         <source>Sleep</source>
         <translation>잠자기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="489"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="487"/>
         <source>Shutdown</source>
         <translation>종료</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="490"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="488"/>
         <source>Open output folder</source>
         <translation>출력 폴더 열기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="475"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="473"/>
         <source>Perform an action after successful compression</source>
         <translation>압축 성공 후 작업 수행</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="485"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="483"/>
         <source>Threads priority</source>
         <translation>스레드 우선순위</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="501"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="499"/>
         <source>Restart</source>
         <translation>재시작</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="502"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="500"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="446"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="444"/>
         <source>General</source>
         <translation>일반</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="465"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="463"/>
         <source>Prompt before exit</source>
         <translation>종료 전에 확인</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="500"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="498"/>
         <source>Changes will apply after restart</source>
         <translation>변경 사항은 재시작 후 적용됩니다</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="466"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="464"/>
         <source>Theme (experimental)</source>
         <translation>테마 (실험적)</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="477"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="475"/>
         <source>This option applies when using command line or by dropping files to the application icon</source>
         <translation>이 옵션은 명령줄을 사용하거나 애플리케이션 아이콘에 파일을 드롭할 때 적용됩니다.</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="464"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="462"/>
         <source>Check updates at startup</source>
         <translation>시작 시 업데이트 확인</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="472"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="470"/>
         <source>Import files in subfolders when opening a directory</source>
         <translation>디렉토리를 열 때 하위 폴더의 파일 가져오기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="463"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="461"/>
         <source>Send anonymous usage reports</source>
         <translation>익명 사용 보고서 전송</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="473"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="471"/>
         <source>Advanced</source>
         <translation>고급</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="484"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="482"/>
         <source>Multithreading</source>
         <translation>다중 스레딩</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="447"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="445"/>
         <source>Skip message and warning dialogs during compression</source>
         <translation>압축 중 메시지 및 경고 대화 상자 건너뛰기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="471"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="469"/>
         <source>Import</source>
         <translation>가져오기</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="479"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="477"/>
         <source>Import only</source>
         <translation>가져오기 전용</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="480"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="478"/>
         <source>Import and compress</source>
         <translation>가져오기 및 압축</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="482"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="480"/>
         <source>When importing files directly</source>
         <translation>파일을 직접 가져올 때</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="462"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="460"/>
         <source>Preferred language</source>
         <translation>선호하는 언어</translation>
     </message>
@@ -1224,126 +1224,126 @@ Saved: %4 (%5%)</source>
     </message>
     <message>
         <location filename="../../src/dialogs/PreferencesDialog.cpp" line="282"/>
-        <source>PATH management is only available on Windows</source>
+        <source>PATH 管理仅适用于 Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/dialogs/PreferencesDialog.cpp" line="290"/>
-        <source>caesium-cli is on your PATH</source>
+        <source>caesium-cli 已加入 PATH</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/dialogs/PreferencesDialog.cpp" line="292"/>
-        <source>caesium-cli is NOT on your PATH</source>
+        <source>caesium-cli 未加入 PATH</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/dialogs/PreferencesDialog.cpp" line="302"/>
         <location filename="../../src/dialogs/PreferencesDialog.cpp" line="305"/>
         <location filename="../../src/dialogs/PreferencesDialog.cpp" line="315"/>
-        <source>Command line</source>
+        <source>命令行</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/dialogs/PreferencesDialog.cpp" line="303"/>
-        <source>Folder added to PATH.
+        <source>命令文件夹已添加到 PATH。
 
-Restart your terminal (or open a new one) to use &quot;caesium-cli&quot;.</source>
+重新打开终端（或打开一个新的终端）即可使用 &quot;caesium-cli&quot;。</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/dialogs/PreferencesDialog.cpp" line="306"/>
-        <source>Could not add the folder to PATH.</source>
+        <source>无法将命令文件夹添加到 PATH。</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/dialogs/PreferencesDialog.cpp" line="316"/>
-        <source>Could not remove the folder from PATH.</source>
+        <source>无法从 PATH 中移除命令文件夹。</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="474"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="472"/>
         <source>Enable multi-selection column in the image list</source>
         <translation>이미지 목록에서 다중 선택 열 활성화</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="448"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="446"/>
         <source>Preview background</source>
         <translation>미리보기 배경</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="449"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="447"/>
         <source>Theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="450"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="448"/>
         <source>White</source>
         <translation>흰색</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="451"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="449"/>
         <source>Black</source>
         <translation>검정색</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="452"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="450"/>
         <source>Checkerboard</source>
         <translation>체커보드</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="455"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="459"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="453"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="457"/>
         <source>Color used to fill transparent areas when converting to JPG (which has no transparency).</source>
         <translation>JPG(투명 미지원)로 변환할 때 투명 영역을 채우는 색입니다.</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="457"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="455"/>
         <source>Transparency fill color (JPG)</source>
         <translation>투명 영역 채우기 색 (JPG)</translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="490"/>
+        <source>命令行 (CLI)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="491"/>
+        <source>状态</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../views/PreferencesDialog.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="492"/>
-        <source>Command line (CLI)</source>
+        <source>正在检查...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="493"/>
-        <source>Status</source>
+        <source>当前 CLI 路径</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="494"/>
-        <source>Checking...</source>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="495"/>
+        <source>添加到 PATH</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/PreferencesDialog.ui"/>
         <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="496"/>
-        <source>Add this folder to your user PATH so the &quot;caesium-cli&quot; command works from any terminal. The change applies to new terminals only.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="497"/>
-        <source>Add to PATH</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../views/PreferencesDialog.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_PreferencesDialog.h" line="498"/>
-        <source>Remove from PATH</source>
+        <source>从 PATH 移除</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

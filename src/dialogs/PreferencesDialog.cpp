@@ -276,10 +276,10 @@ void PreferencesDialog::onThreadsPriorityChanged(int value)
 
 void PreferencesDialog::updateCliPathUi() const
 {
-    ui->cliPathValue_Label->setText(CliPathConfig::cliFolder());
+    ui->cliPathValue_Label->setText(CliPathConfig::currentCliPath());
 
     if (!CliPathConfig::isSupported()) {
-        ui->cliPathStatus_Label->setText(tr("PATH management is only available on Windows"));
+        ui->cliPathStatus_Label->setText(tr("PATH 管理仅适用于 Windows"));
         ui->cliAddToPath_Button->setEnabled(false);
         ui->cliRemoveFromPath_Button->setEnabled(false);
         return;
@@ -287,9 +287,9 @@ void PreferencesDialog::updateCliPathUi() const
 
     const bool configured = CliPathConfig::isConfigured();
     if (configured) {
-        ui->cliPathStatus_Label->setText(tr("caesium-cli is on your PATH"));
+        ui->cliPathStatus_Label->setText(tr("caesium-cli 已加入 PATH"));
     } else {
-        ui->cliPathStatus_Label->setText(tr("caesium-cli is NOT on your PATH"));
+        ui->cliPathStatus_Label->setText(tr("caesium-cli 未加入 PATH"));
     }
     ui->cliAddToPath_Button->setEnabled(!configured);
     ui->cliRemoveFromPath_Button->setEnabled(configured);
@@ -299,11 +299,11 @@ void PreferencesDialog::onCliAddToPathClicked()
 {
     if (CliPathConfig::addToPath()) {
         this->updateCliPathUi();
-        QMessageBox::information(this, tr("Command line"),
-            tr("Folder added to PATH.\n\nRestart your terminal (or open a new one) to use \"caesium-cli\"."));
+        QMessageBox::information(this, tr("命令行"),
+            tr("命令文件夹已添加到 PATH。\n\n重新打开终端（或打开一个新的终端）即可使用 \"caesium-cli\"。"));
     } else {
-        QMessageBox::warning(this, tr("Command line"),
-            tr("Could not add the folder to PATH."));
+        QMessageBox::warning(this, tr("命令行"),
+            tr("无法将命令文件夹添加到 PATH。"));
     }
 }
 
@@ -312,7 +312,7 @@ void PreferencesDialog::onCliRemoveFromPathClicked()
     if (CliPathConfig::removeFromPath()) {
         this->updateCliPathUi();
     } else {
-        QMessageBox::warning(this, tr("Command line"),
-            tr("Could not remove the folder from PATH."));
+        QMessageBox::warning(this, tr("命令行"),
+            tr("无法从 PATH 中移除命令文件夹。"));
     }
 }

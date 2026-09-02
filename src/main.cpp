@@ -2,6 +2,7 @@
 #include "ipc/CliClient.h"
 #include "ipc/CliRunner.h"
 #include "ipc/CliServer.h"
+#include "utils/CliPathConfig.h"
 #include "utils/Logger.h"
 
 #include <QApplication>
@@ -97,6 +98,11 @@ int main(int argc, char* argv[])
 #endif
 
     QApplication a(argc, argv);
+
+    // Refresh the "app-path.txt" pointer used by the caesium-cli.cmd wrapper on
+    // PATH. If the application was moved to a new folder, the existing PATH
+    // entry keeps working and is never duplicated.
+    CliPathConfig::updateAppLocation();
 
     // Command-line control mode: "caesium --cli <command> ..." connects to the
     // running instance and forwards the command. Everything else is handled by
