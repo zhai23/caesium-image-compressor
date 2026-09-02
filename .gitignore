@@ -168,3 +168,4 @@ ts.py
 /build_dir
 *.log
 /portable
+/caesium_registry/backups
