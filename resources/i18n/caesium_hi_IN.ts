@@ -1040,6 +1040,11 @@ Saved: %4 (%5%)</source>
         <source>When converting format, sync the matching .meta file to adapt to the game engine.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="95"/>
+        <source>TGA uses lossless RLE compression and preserves transparency. Quality sliders do not apply. TGA metadata is not supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>
@@ -1455,6 +1460,26 @@ Saved: %4 (%5%)</source>
         <location filename="../../src/utils/Utils.cpp" line="239"/>
         <source>Auto</source>
         <translation>स्वत:</translation>
+    </message>
+    <message>
+        <location filename="../../src/models/CImage.cpp" line="166"/>
+        <source>Cannot cache original image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/models/CImage.cpp" line="410"/>
+        <source>TGA metadata cannot be preserved. Disable Keep metadata to continue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/models/CImage.cpp" line="415"/>
+        <source>Cannot decode source image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/models/CImage.cpp" line="446"/>
+        <source>TGA lossless RLE cannot meet the requested size. Choose another format or resize the image.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

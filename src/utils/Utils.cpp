@@ -38,19 +38,20 @@ QString toHumanSize(double size)
 
 std::tuple<unsigned int, unsigned int> cResize(const QImageReader* reader, const CompressionOptions& compressionOptions)
 {
+    const bool useOrientation = compressionOptions.keepMetadata
+        && (compressionOptions.fitTo == ResizeMode::FIXED_WIDTH || compressionOptions.fitTo == ResizeMode::FIXED_HEIGHT);
+    return cResize(useOrientation ? getSizeWithMetadata(reader) : reader->size(),
+        compressionOptions, useOrientation && isRotatedByMetadata(reader));
+}
+
+std::tuple<unsigned int, unsigned int> cResize(QSize originalSize, const CompressionOptions& compressionOptions, bool rotatedByMetadata)
+{
     int fitTo = compressionOptions.fitTo;
     int width = compressionOptions.width;
     int height = compressionOptions.height;
     int size = compressionOptions.size;
     bool doNotEnlarge = compressionOptions.doNotEnlarge;
     bool keepMetadata = compressionOptions.keepMetadata;
-    bool rotatedByMetadata = false;
-
-    QSize originalSize = reader->size();
-    if (keepMetadata && (fitTo == ResizeMode::FIXED_WIDTH || fitTo == ResizeMode::FIXED_HEIGHT)) {
-        originalSize = getSizeWithMetadata(reader);
-        rotatedByMetadata = isRotatedByMetadata(reader);
-    }
 
     int originalWidth = originalSize.width();
     int originalHeight = originalSize.height();
@@ -208,6 +209,7 @@ QStringList getOutputSupportedFormats()
         QIODevice::tr("PNG"),
         QIODevice::tr("WebP"),
         QIODevice::tr("TIFF"),
+        QStringLiteral("TGA"),
     };
 }
 

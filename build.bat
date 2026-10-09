@@ -95,6 +95,9 @@ copy /Y "%BUILD_DIR%\Caesium Image Compressor.exe" "%OUT_DIR%\" >nul
 if errorlevel 1 goto :fail
 
 rem Also ship the CLI wrapper so "caesium-cli" works from the portable package.
+if not exist "%OUT_DIR%\licenses" mkdir "%OUT_DIR%\licenses"
+copy /Y "%~dp0third_party\stb\LICENSE" "%OUT_DIR%\licenses\stb.txt" >nul
+if errorlevel 1 goto :fail
 copy /Y "%~dp0caesium-cli.cmd" "%OUT_DIR%\" >nul
 if errorlevel 1 goto :fail
 

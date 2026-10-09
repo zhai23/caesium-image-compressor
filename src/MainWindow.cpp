@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "utils/ImageIO.h"
 #include "delegates/HtmlDelegate.h"
 #include "exceptions/ImageNotSupportedException.h"
 #include "exceptions/ImageTooBigException.h"
@@ -90,6 +91,8 @@ MainWindow::MainWindow(CliServer* cliServer, QWidget* parent)
     this->setupCompressButton();
 
     ui->format_ComboBox->addItems(getOutputSupportedFormats());
+    ui->format_ComboBox->setItemData(5,
+        tr("TGA uses lossless RLE compression and preserves transparency. Quality sliders do not apply. TGA metadata is not supported."), Qt::ToolTipRole);
     ui->format_ComboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     this->setupChromaSubsamplingComboBox();
 
@@ -408,7 +411,7 @@ void MainWindow::triggerImportFiles()
     QStringList fileList = QFileDialog::getOpenFileNames(this,
         tr("Import files..."),
         this->lastOpenedDirectory,
-        QIODevice::tr("Image Files") + " (*.jpg *.jpeg *.png *.webp *.tif *.tiff)");
+        QIODevice::tr("Image Files") + " (*.jpg *.jpeg *.png *.webp *.tif *.tiff *.tga)");
 
     if (fileList.isEmpty()) {
         return;
@@ -611,11 +614,8 @@ void MainWindow::previewImage(const QModelIndex& imageIndex, bool forceRuntimePr
                 previewFullPath = cImage->getCompressedFullPath();
             }
         }
-        auto* imageReader = new QImageReader(previewFullPath);
-        imageReader->setAutoTransform(true);
-        // Read the format BEFORE consuming the reader (afterwards it can be empty).
-        QString detectedFormat = QString(imageReader->format()).toUpper();
-        QPixmap image = QPixmap::fromImageReader(imageReader);
+        QString detectedFormat = ImageIO::format(previewFullPath).toUpper();
+        QPixmap image = QPixmap::fromImage(ImageIO::read(previewFullPath));
         imagePreview.image = image;
         imagePreview.fileInfo = QFileInfo(previewFullPath);
         imagePreview.originalSize = cImage->getOriginalSize();
@@ -626,7 +626,6 @@ void MainWindow::previewImage(const QModelIndex& imageIndex, bool forceRuntimePr
             format = detectedFormat;
         }
         imagePreview.format = format;
-        delete imageReader; // Or the file will be opened forever
         return imagePreview;
     };
 
@@ -2079,6 +2078,8 @@ QString cliFormatIndexToString(int index)
         return "webp";
     case 4:
         return "tiff";
+    case 5:
+        return "tga";
     default:
         return "same";
     }
@@ -2097,6 +2098,9 @@ int cliFormatStringToIndex(const QString& value)
     }
     if (value.compare("tiff", Qt::CaseInsensitive) == 0) {
         return 4;
+    }
+    if (value.compare("tga", Qt::CaseInsensitive) == 0) {
+        return 5;
     }
     return 0; // same as input
 }
@@ -2769,8 +2773,8 @@ CliResponse MainWindow::cliPreview(const QJsonObject& params)
 
     // Format + resolution for the source and the preview, like the GUI panes.
     const QString sourcePath = target->getCompressionSourcePath(opts.cacheOriginals);
-    const QSize origRes = QImageReader(sourcePath).size();
-    const QSize prevRes = QImageReader(previewPath).size();
+    const QSize origRes = ImageIO::size(sourcePath);
+    const QSize prevRes = ImageIO::size(previewPath);
     const QString origFormat = target->getFormat().toUpper();
     // The preview temp file is a hash-named file with no useful extension, so
     // derive the output format from the chosen compression format ("same as

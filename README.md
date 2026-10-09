@@ -25,7 +25,8 @@ Try it directly on browser at [caesium.app](https://caesium.app)
 ### What is it for
 
 Caesium is an image compression software that helps you store, send and share digital pictures, supporting JPG, PNG and
-WebP formats.
+WebP formats. TGA import, preview, conversion and lossless RLE output are also
+supported; see [TGA support](docs/TGA.md) for format details and limitations.
 You can quickly reduce the file size (and resolution, if you want) by preserving the overall quality of the image.
 
 ### Supported Platforms

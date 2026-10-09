@@ -1,5 +1,7 @@
 #include "CImage.h"
 #include "../include/libcaesium.h"
+#include "utils/ImageIO.h"
+#include "utils/TgaCodec.h"
 
 #include "./exceptions/ImageNotSupportedException.h"
 #include "exceptions/ImageTooBigException.h"
@@ -21,17 +23,9 @@
 CImage::CImage(const QString& path)
 {
     QFileInfo fileInfo = QFileInfo(path);
-    auto* imageReader = new QImageReader();
-    imageReader->setAutoDetectImageFormat(true);
-    imageReader->setAutoTransform(true);
-    imageReader->setFileName(path);
-    this->format = imageReader->format().toLower();
-    if (this->format == "jpeg") {
-        this->format = "jpg";
-    }
+    this->format = ImageIO::format(path);
 
     if (!supportedFormats.contains(format)) {
-        delete imageReader;
         throw ImageNotSupportedException();
     }
 
@@ -47,7 +41,8 @@ CImage::CImage(const QString& path)
     this->fileName = fileInfo.fileName();
     this->compressedSize = this->size;
 
-    QSize imageSize = getSizeWithMetadata(imageReader);
+    QSize imageSize = ImageIO::size(path);
+    if (!imageSize.isValid() || imageSize.isEmpty()) throw ImageNotSupportedException();
     this->width = imageSize.width();
     this->height = imageSize.height();
 
@@ -58,7 +53,6 @@ CImage::CImage(const QString& path)
 
     this->status = CImageStatus::UNCOMPRESSED;
 
-    delete imageReader;
 }
 
 bool operator==(const CImage& c1, const CImage& c2)
@@ -133,6 +127,10 @@ bool CImage::preview(const CompressionOptions& compressionOptions) const
         return false;
     }
     const QString& outputFormat = getOutputSupportedFormats()[compressionOptions.format];
+    if (outputFormat == "TGA" || (compressionOptions.format == 0 && this->format == "tga")) {
+        QString error;
+        return writeTgaOutput(inputFullPath, outputFullPath, compressionOptions, error);
+    }
     bool convert = compressionOptions.format != 0 && this->getFormat().compare(outputFormat, Qt::CaseInsensitive) != 0;
     FileDates inputFileDates = {
         inputFileInfo.fileTime(QFile::FileBirthTime),
@@ -141,7 +139,7 @@ bool CImage::preview(const CompressionOptions& compressionOptions) const
     };
     CCSParameters r_parameters = this->getCSParameters(compressionOptions);
     if (convert) {
-        QImage imageToBeConverted = QImage(inputFullPath);
+        QImage imageToBeConverted = ImageIO::read(inputFullPath, false);
         imageToBeConverted = prepareImageForConversion(imageToBeConverted, compressionOptions.format, compressionOptions.transparencyFillColor);
         bool conversionSuccess = imageToBeConverted.save(outputFullPath, getOutputSupportedFormats().at(compressionOptions.format).toLower().toUtf8().constData(), 100);
         if (!conversionSuccess) {
@@ -164,7 +162,10 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
     // exists BEFORE we (potentially) overwrite it. All source reads below use
     // this copy so re-compressing later still uses the uncompressed original.
     if (compressionOptions.cacheOriginals) {
-        this->ensureCachedOriginal();
+        if (!this->ensureCachedOriginal()) {
+            this->additionalInfo = QIODevice::tr("Cannot cache original image");
+            return false;
+        }
     }
 
     QString outputPath = compressionOptions.sameFolderAsInput ? this->getDirectory() : compressionOptions.outputPath;
@@ -176,6 +177,7 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
     // Size/comparisons should reflect the actual source bytes being read.
     QFileInfo sourceFileInfo = QFileInfo(sourceReadPath);
     QString outputFormat = getOutputSupportedFormats()[compressionOptions.format];
+    const bool tgaOutput = outputFormat == "TGA" || (compressionOptions.format == 0 && this->format == "tga");
     bool convert = compressionOptions.format != 0 && this->format.compare(outputFormat, Qt::CaseInsensitive) != 0;
     this->additionalInfo = "";
     if (!QFileInfo::exists(sourceReadPath)) {
@@ -230,8 +232,8 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
 
     QString inputCopyFile = sourceReadPath;
     QString compressionInput = sourceReadPath;
-    if (convert) {
-        QImage imageToBeConverted = QImage(sourceReadPath);
+    if (convert && !tgaOutput) {
+        QImage imageToBeConverted = ImageIO::read(sourceReadPath, false);
         imageToBeConverted = prepareImageForConversion(imageToBeConverted, compressionOptions.format, compressionOptions.transparencyFillColor);
         bool conversionSuccess = imageToBeConverted.save(tempFileFullPath, getOutputSupportedFormats().at(compressionOptions.format).toLower().toUtf8().constData(), 100);
         this->additionalInfo = QIODevice::tr("File conversion failed");
@@ -242,7 +244,7 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
     }
 
     QString previewPath = this->getTemporaryPreviewFullPath();
-    if (QFile::exists(previewPath)) {
+    if (!tgaOutput && QFile::exists(previewPath)) {
         if (QFile::remove(tempFileFullPath)) {
             QFile::copy(previewPath, tempFileFullPath);
         }
@@ -252,7 +254,16 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
 
     size_t maxOutputSize = getMaxOutputSizeInBytes(compressionOptions.maxOutputSize, sourceFileInfo.size());
 
-    CCSResult result = compressionOptions.compressionMode == SIZE ? c_compress_to_size(compressionInput.toUtf8().constData(), tempFileFullPath.toUtf8().constData(), r_parameters, maxOutputSize, true) : c_compress(compressionInput.toUtf8().constData(), tempFileFullPath.toUtf8().constData(), r_parameters);
+    QString tgaError;
+    QByteArray tgaErrorBytes;
+    CCSResult result {};
+    if (tgaOutput) {
+        result.success = writeTgaOutput(sourceReadPath, tempFileFullPath, compressionOptions, tgaError);
+        tgaErrorBytes = tgaError.toUtf8();
+        result.error_message = tgaErrorBytes.constData();
+    } else {
+        result = compressionOptions.compressionMode == SIZE ? c_compress_to_size(compressionInput.toUtf8().constData(), tempFileFullPath.toUtf8().constData(), r_parameters, maxOutputSize, true) : c_compress(compressionInput.toUtf8().constData(), tempFileFullPath.toUtf8().constData(), r_parameters);
+    }
 
     if (result.success) {
         QFileInfo outputInfo(tempFileFullPath);
@@ -304,7 +315,7 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
         // source file this image was converted FROM (same base name + the source's
         // ORIGINAL extension) in the output directory. Only that one file is
         // touched — same-named files of other, unrelated formats are left alone.
-        if (convert && compressionOptions.deleteOriginalFormatFile) {
+        if (convert && !outputIsBiggerThanInput && compressionOptions.deleteOriginalFormatFile) {
             QString sourceExt = this->extension.toLower();
             // The source file keeps its original name (the output suffix only
             // applies to the converted output, not to the source we're removing).
@@ -351,7 +362,7 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
         }
         this->setCompressedInfo(outputFileInfo);
     } else {
-        this->additionalInfo = result.error_message;
+        this->additionalInfo = QString::fromUtf8(result.error_message);
         qCritical() << "Compression result for i:" << inputFullPath << "and o: " << tempFileFullPath << "is false. Error:" << result.error_message;
     }
 
@@ -379,9 +390,10 @@ CCSParameters CImage::getCSParameters(const CompressionOptions& compressionOptio
     // Resize
     if (compressionOptions.resize) {
         QImageReader imageReader(this->getCompressionSourcePath(compressionOptions.cacheOriginals));
-        QSize originalSize = imageReader.size();
+        QSize originalSize = this->format == "tga" ? ImageIO::size(imageReader.fileName()) : imageReader.size();
 
-        std::tuple<unsigned int, unsigned int> dimensions = cResize(&imageReader, compressionOptions);
+        std::tuple<unsigned int, unsigned int> dimensions = this->format == "tga"
+            ? cResize(originalSize, compressionOptions) : cResize(&imageReader, compressionOptions);
 
         if (std::get<0>(dimensions) != originalSize.width() || std::get<1>(dimensions) != originalSize.height()) {
             r_parameters.width = static_cast<int>(std::get<0>(dimensions));
@@ -391,10 +403,55 @@ CCSParameters CImage::getCSParameters(const CompressionOptions& compressionOptio
     return r_parameters;
 }
 
+bool CImage::writeTgaOutput(const QString& sourcePath, const QString& outputPath,
+    const CompressionOptions& options, QString& error) const
+{
+    if (options.keepMetadata && this->format == "tga" && TgaCodec::hasMetadata(sourcePath)) {
+        error = QIODevice::tr("TGA metadata cannot be preserved. Disable Keep metadata to continue.");
+        return false;
+    }
+    QImage image = ImageIO::read(sourcePath);
+    if (image.isNull()) {
+        error = QIODevice::tr("Cannot decode source image");
+        return false;
+    }
+    if (options.resize) {
+        // ImageIO has already applied orientation; resize in displayed coordinates.
+        const auto dimensions = cResize(image.size(), options);
+        const int width = int(std::get<0>(dimensions));
+        const int height = int(std::get<1>(dimensions));
+        if (width && height) image = image.scaled(width, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        else if (width) image = image.scaledToWidth(width, Qt::SmoothTransformation);
+        else if (height) image = image.scaledToHeight(height, Qt::SmoothTransformation);
+    }
+    // compress() supplies an existing QTemporaryFile. On Windows its handle
+    // prevents QSaveFile from renaming over it, so write this staging file
+    // directly; publication/overwrite happens only after successful encoding.
+    QFile output(outputPath);
+    if (!output.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        error = output.errorString();
+        return false;
+    }
+    const bool written = TgaCodec::write(output, image, &error);
+    const bool flushed = output.flush();
+    output.close();
+    if (!written || !flushed) {
+        if (error.isEmpty()) error = output.errorString();
+        QFile::remove(outputPath);
+        return false;
+    }
+    if (options.compressionMode == SIZE
+        && quint64(QFileInfo(outputPath).size()) > getMaxOutputSizeInBytes(options.maxOutputSize, QFileInfo(sourcePath).size())) {
+        QFile::remove(outputPath);
+        error = QIODevice::tr("TGA lossless RLE cannot meet the requested size. Choose another format or resize the image.");
+        return false;
+    }
+    return true;
+}
+
 void CImage::setCompressedInfo(const QFileInfo& fileInfo)
 {
-    QImageReader imageReader(fileInfo.canonicalFilePath());
-    QSize imageSize = getSizeWithMetadata(&imageReader);
+    QSize imageSize = ImageIO::size(fileInfo.canonicalFilePath());
     this->compressedDirectory = fileInfo.canonicalPath();
     this->compressedSize = fileInfo.size();
     this->compressedFullPath = fileInfo.canonicalFilePath();

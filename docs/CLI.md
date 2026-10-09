@@ -502,7 +502,7 @@ caesium-cli --raw '{"method":"ping","params":{}}'
 |---|---|
 | `-q, --quality <0-100>` | 同时设置 JPEG/PNG/WebP 质量 |
 | `--jpeg-quality` `--png-quality` `--webp-quality` | 单独设置某种格式质量 |
-| `--format <jpg\|png\|webp\|tiff\|same>` | 输出格式（`same` = 保持原格式） |
+| `--format <jpg\|png\|webp\|tiff\|tga\|same>` | 输出格式（`same` = 保持原格式；TGA 输出使用无损 RLE） |
 | `-o, --output <目录>` | 输出文件夹 |
 | `--suffix <文本>` | 输出文件后缀 |
 | `--mode <quality\|size>` | 压缩模式 |
@@ -535,7 +535,7 @@ caesium-cli --raw '{"method":"ping","params":{}}'
 
 | 键 | 取值示例 |
 |---|---|
-| `format` | `same` `jpg` `png` `webp` `tiff` |
+| `format` | `same` `jpg` `png` `webp` `tiff` `tga` |
 | `mode` | `quality` `size` |
 | `lossless` `keep_metadata` `keep_structure` | `true` / `false` |
 | `jpeg_quality` `png_quality` `webp_quality` | `0`-`100` |

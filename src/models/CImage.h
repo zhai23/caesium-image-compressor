@@ -5,7 +5,7 @@
 #include "../utils/Utils.h"
 
 class CImage {
-    const QList<QByteArray> supportedFormats = { "png", "jpg", "jpeg", "webp", "tiff" };
+    const QList<QByteArray> supportedFormats = { "png", "jpg", "jpeg", "webp", "tiff", "tga" };
 
 public:
     explicit CImage(const QString& path);
@@ -53,6 +53,8 @@ public:
     void setCliId(int id);
 
 private:
+    bool writeTgaOutput(const QString& sourcePath, const QString& outputPath,
+        const CompressionOptions& options, QString& error) const;
     CImageStatus status;
     QString fullPath;
     QString fileName;

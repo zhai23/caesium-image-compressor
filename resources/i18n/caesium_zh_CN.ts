@@ -1039,6 +1039,11 @@ Saved: %4 (%5%)</source>
         <source>When converting format, sync the matching .meta file to adapt to the game engine.</source>
         <translation>格式转换时同步更新同名的 .meta 文件，适配游戏引擎。</translation>
     </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="95"/>
+        <source>TGA uses lossless RLE compression and preserves transparency. Quality sliders do not apply. TGA metadata is not supported.</source>
+        <translation>TGA 使用无损 RLE 压缩并保留透明通道，质量滑块不适用，不支持保留 TGA 元数据。</translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>
@@ -1454,6 +1459,26 @@ Saved: %4 (%5%)</source>
         <location filename="../../src/utils/Utils.cpp" line="239"/>
         <source>Auto</source>
         <translation>自动</translation>
+    </message>
+    <message>
+        <location filename="../../src/models/CImage.cpp" line="166"/>
+        <source>Cannot cache original image</source>
+        <translation>无法缓存原始图片</translation>
+    </message>
+    <message>
+        <location filename="../../src/models/CImage.cpp" line="410"/>
+        <source>TGA metadata cannot be preserved. Disable Keep metadata to continue.</source>
+        <translation>无法保留 TGA 元数据。请取消“保留元数据”后重试。</translation>
+    </message>
+    <message>
+        <location filename="../../src/models/CImage.cpp" line="415"/>
+        <source>Cannot decode source image</source>
+        <translation>无法解码原始图片</translation>
+    </message>
+    <message>
+        <location filename="../../src/models/CImage.cpp" line="446"/>
+        <source>TGA lossless RLE cannot meet the requested size. Choose another format or resize the image.</source>
+        <translation>TGA 无损 RLE 无法达到指定体积。请选择其他格式或调整图片尺寸。</translation>
     </message>
 </context>
 <context>

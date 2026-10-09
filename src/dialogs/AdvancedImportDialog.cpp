@@ -128,7 +128,7 @@ void AdvancedImportDialog::onAddFilesActionTriggered()
     QStringList fileList = QFileDialog::getOpenFileNames(this,
         tr("Import files..."),
         this->lastOpenedDirectory,
-        QIODevice::tr("Image Files") + " (*.jpg *.jpeg *.png *.webp *.tif *.tiff)");
+        QIODevice::tr("Image Files") + " (*.jpg *.jpeg *.png *.webp *.tif *.tiff *.tga)");
 
     if (fileList.isEmpty()) {
         return;

@@ -165,6 +165,7 @@ const CsTheme THEMES[THEMES_COUNT] = {
 // Utilities
 QString toHumanSize(double size);
 std::tuple<unsigned int, unsigned int> cResize(const QImageReader* reader, const CompressionOptions& compressionOptions);
+std::tuple<unsigned int, unsigned int> cResize(QSize originalSize, const CompressionOptions& compressionOptions, bool rotatedByMetadata = false);
 QSize getSizeWithMetadata(const QImageReader* reader);
 bool isRotatedByMetadata(const QImageReader* reader);
 void showFileInNativeFileManager(const QString& filePath, const QString& fallbackDirectory);

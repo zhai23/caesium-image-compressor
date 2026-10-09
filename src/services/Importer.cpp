@@ -91,7 +91,7 @@ QStringList Importer::scanDirectory(bool hasFilters, const QString& directory, b
 {
     QStringList fileList;
     QDirIterator::IteratorFlags flags = subfolders ? QDirIterator::Subdirectories : QDirIterator::NoIteratorFlags;
-    QDirIterator it(directory, {"*.jpg", "*.jpeg", "*.png", "*.webp", "*.tif", "*.tiff"}, QDir::AllEntries, flags);
+    QDirIterator it(directory, {"*.jpg", "*.jpeg", "*.png", "*.webp", "*.tif", "*.tiff", "*.tga"}, QDir::Files, flags);
 
     while (it.hasNext()) {
         QString filePath = it.next();

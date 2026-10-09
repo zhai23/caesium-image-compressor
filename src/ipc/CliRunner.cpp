@@ -1192,7 +1192,8 @@ void printHelp()
     printOutLn(QStringLiteral("    保持宽高比：--keep-aspect-ratio"));
     printOutLn(QStringLiteral("    不放大：--do-not-enlarge"));
     printOutLn(QStringLiteral("  输出："));
-    printOutLn(QStringLiteral("    输出格式：--format <jpg|png|webp|tiff|same>"));
+    printOutLn(QStringLiteral("    输出格式：--format <jpg|png|webp|tiff|tga|same>"));
+    printOutLn(QStringLiteral("    TGA 使用无损 RLE，保留透明通道；质量参数不适用，目标体积无法达到时会报错。"));
     printOutLn(QStringLiteral("    输出文件夹：-o, --output <目录>"));
     printOutLn(QStringLiteral("    输出后缀：--suffix <文本>"));
     printOutLn(QStringLiteral("    输出到输入目录：--same-folder-as-input"));

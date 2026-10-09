@@ -69,6 +69,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "package\{#MyAppVersion}\caesium-image-compressor-{#MyAppVersion}-win\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "package\{#MyAppVersion}\caesium-image-compressor-{#MyAppVersion}-win-setup\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "caesium-cli.cmd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "third_party\stb\LICENSE"; DestDir: "{app}\licenses"; DestName: "stb.txt"; Flags: ignoreversion
 ; Seed the dedicated single-file bin folder used for PATH integration. The app
 ; only ever adds this folder (not the whole app folder) to the user PATH.
 Source: "caesium-cli-path.cmd"; DestDir: "{localappdata}\CaesiumImageCompressor\bin"; DestName: "caesium-cli.cmd"; Flags: ignoreversion

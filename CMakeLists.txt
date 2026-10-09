@@ -96,6 +96,8 @@ set(SOURCES
         src/models/CImageTreeModel.cpp
         src/models/CImageSortFilterProxyModel.cpp
         src/utils/Utils.cpp
+        src/utils/ImageIO.cpp
+        src/utils/TgaCodec.cpp
         src/utils/LanguageManager.cpp
         src/utils/Logger.cpp
         src/utils/PostCompressionActions.cpp
@@ -268,5 +270,5 @@ else ()
     endif ()
 endif ()
 
+enable_testing()
 add_subdirectory(tests)
-add_test(NAME CsTests COMMAND CsTests)
