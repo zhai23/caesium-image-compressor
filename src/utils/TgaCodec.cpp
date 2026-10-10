@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QSaveFile>
 #include <QVector>
+#include <mutex>
 
 #define STBI_ONLY_TGA
 #define STBI_NO_STDIO
@@ -172,14 +173,14 @@ QImage TgaCodec::read(const QString& path, QString* error)
     return image;
 }
 
-bool TgaCodec::write(const QString& path, const QImage& source, QString* error)
+bool TgaCodec::write(const QString& path, const QImage& source, QString* error, bool rle)
 {
     QSaveFile file(path);
     if (!file.open(QIODevice::WriteOnly)) {
         if (error) *error = file.errorString();
         return false;
     }
-    if (!write(file, source, error)) return false;
+    if (!write(file, source, error, rle)) return false;
     if (!file.commit()) {
         if (error) *error = file.errorString();
         return false;
@@ -187,7 +188,7 @@ bool TgaCodec::write(const QString& path, const QImage& source, QString* error)
     return true;
 }
 
-bool TgaCodec::write(QIODevice& file, const QImage& source, QString* error)
+bool TgaCodec::write(QIODevice& file, const QImage& source, QString* error, bool rle)
 {
     if (source.isNull() || source.width() > 65535 || source.height() > 65535
         || quint64(source.width()) * source.height() * 4 > maxPixelBytes) {
@@ -219,8 +220,11 @@ bool TgaCodec::write(QIODevice& file, const QImage& source, QString* error)
         return false;
     }
     Writer writer { &file };
-    // stb defaults to RLE. Never mutate its global options: parallel image
-    // compression must not race on per-file writer settings.
+    // stb exposes compression as a global, so changing it and encoding must
+    // share a lock. Pixel preparation and decoding can still run in parallel.
+    static std::mutex writerMutex;
+    const std::lock_guard<std::mutex> lock(writerMutex);
+    stbi_write_tga_with_rle = rle ? 1 : 0;
     if (!stbi_write_tga_to_func(writeBytes, &writer, image.width(), image.height(), alpha ? 4 : 3, pixels)
         || !writer.ok) {
         if (error) *error = QStringLiteral("Cannot write TGA output: ") + file.errorString();

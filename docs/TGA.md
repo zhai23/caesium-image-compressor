@@ -6,8 +6,11 @@ caching, restoration, and Cocos Creator `.meta` synchronization use the same
 image pipeline as the other supported formats.
 
 Choose **Same as input** to recompress a TGA, or **TGA** to convert another
-supported format to TGA. Output is 24-bit RGB or 32-bit RGBA with lossless RLE
-compression. Alpha values, including fully transparent pixels' RGB values, are
+supported format to TGA. The **TGA** section at the top of the **Compression**
+tab offers **RLE (lossless)** (default) and **Uncompressed**. This section remains
+available in both quality and target-size modes. The choice is saved and changing
+it refreshes the automatic preview when enabled. Output is 24-bit RGB or 32-bit RGBA.
+Alpha values, including fully transparent pixels' RGB values, are
 retained when no resizing occurs. Quality sliders do not affect TGA output.
 Resizing changes pixels and is performed only when explicitly enabled.
 
@@ -16,11 +19,13 @@ Examples:
 ```text
 caesium-cli compress ./textures --format same --wait
 caesium-cli compress ./textures --format tga --wait
+caesium-cli compress ./textures --format tga --tga-compression none --wait
+caesium-cli settings set tga_compression rle
 caesium-cli compress ./textures --format png --lossless --wait
 ```
 
 RLE does not always reduce file size. The existing **Skip if bigger** option
-still applies. In target-size mode, TGA output that exceeds the requested limit
+still applies, including when selecting Uncompressed. In target-size mode, TGA output that exceeds the requested limit
 fails with an explanation and leaves existing output/source files untouched;
 the program does not silently reduce quality or dimensions.
 

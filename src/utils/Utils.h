@@ -133,6 +133,7 @@ typedef struct CompressionOptions {
     // When enabled, a format conversion that replaces the original image in its
     // own folder also renames/updates the adjacent Cocos Creator .meta file.
     bool syncMetaFile;
+    bool tgaRle = true;
 } CompressionOptions;
 
 typedef struct FileDates {

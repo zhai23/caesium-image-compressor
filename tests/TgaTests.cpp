@@ -319,7 +319,10 @@ private slots:
             const QString path = dir.filePath(QString::number(i) + ".tga");
             futures.append(QtConcurrent::run([path, i]() {
                 const QImage expected = sample(i % 2);
-                return TgaCodec::write(path, expected) && equalPixels(TgaCodec::read(path), expected);
+                const bool rle = (i / 2) % 2;
+                return TgaCodec::write(path, expected, nullptr, rle)
+                    && uchar(bytes(path)[2]) == (rle ? 10 : 2)
+                    && equalPixels(TgaCodec::read(path), expected);
             }));
         }
         for (auto& future : futures) QVERIFY(future.result());
@@ -347,6 +350,80 @@ private slots:
         QVERIFY(image.compress(opt));
         QCOMPARE(bytes(source), original);
         QCOMPARE(image.getStatus(), CImageStatus::WARNING);
+    }
+    void uncompressedPreviewWithoutExtension_data()
+    {
+        QTest::addColumn<int>("edge");
+        QTest::addColumn<bool>("alpha");
+        for (int edge : {256, 2048})
+            for (bool alpha : {false, true})
+                QTest::newRow(qPrintable(QString("%1-%2").arg(edge).arg(alpha))) << edge << alpha;
+    }
+    void uncompressedPreviewWithoutExtension()
+    {
+        QFETCH(int, edge);
+        QFETCH(bool, alpha);
+        QTemporaryDir dir;
+        QImage expected(edge, edge, alpha ? QImage::Format_RGBA8888 : QImage::Format_RGB888);
+        expected.fill(QColor(199, 23, 170, alpha ? 73 : 255));
+        const QString path = dir.filePath("preview-cache-without-extension");
+        QVERIFY(TgaCodec::write(path, expected, nullptr, false));
+        // Some uncompressed TGA headers are also accepted by Qt's ICO probe.
+        QCOMPARE(ImageIO::format(path), QString("tga"));
+        QCOMPARE(ImageIO::size(path), expected.size());
+        QVERIFY(equalPixels(ImageIO::read(path), expected));
+    }
+    void iconAndCursorDetection()
+    {
+        QTemporaryDir dir;
+        QImage expected = sample();
+        QByteArray png;
+        QBuffer buffer(&png);
+        QVERIFY(buffer.open(QIODevice::WriteOnly));
+        QVERIFY(expected.save(&buffer, "PNG"));
+        for (int type : {1, 2}) {
+            QByteArray icon(22, '\0');
+            putWord(icon, 2, type);
+            putWord(icon, 4, 1);
+            icon[6] = char(expected.width());
+            icon[7] = char(expected.height());
+            putWord(icon, 10, type == 1 ? 1 : 0);
+            putWord(icon, 12, type == 1 ? 32 : 0);
+            for (int i = 0; i < 4; ++i) icon[14 + i] = char(quint32(png.size()) >> (i * 8));
+            icon[18] = 22;
+            icon.append(png);
+            const QString path = dir.filePath("icon-without-extension");
+            QVERIFY(save(path, icon));
+            QVERIFY(ImageIO::format(path) != "tga");
+            QCOMPARE(ImageIO::size(path), expected.size());
+            QVERIFY(equalPixels(ImageIO::read(path), expected));
+        }
+    }
+    void compressionMethodAndPreview()
+    {
+        QTemporaryDir dir;
+        const QString path = dir.filePath("texture.tga");
+        const QImage expected = sample();
+        QVERIFY(save(path, rawTga(expected)));
+        CImage image(path);
+        auto opt = options(dir.filePath("output"));
+        QVERIFY(opt.tgaRle);
+        opt.tgaRle = false;
+        QVERIFY(image.preview(opt));
+        QCOMPARE(uchar(bytes(image.getTemporaryPreviewFullPath())[2]), uchar(2));
+        QVERIFY(equalPixels(ImageIO::read(image.getTemporaryPreviewFullPath()), expected));
+        QVERIFY(image.compress(opt));
+        QCOMPARE(uchar(bytes(image.getCompressedFullPath())[2]), uchar(2));
+        QCOMPARE(image.getCompressedSize(), size_t(18 + expected.width() * expected.height() * 4));
+        QVERIFY(equalPixels(ImageIO::read(image.getCompressedFullPath()), expected));
+        opt.tgaRle = true;
+        opt.suffix = "_rle";
+        QVERIFY(image.preview(opt));
+        QCOMPARE(uchar(bytes(image.getTemporaryPreviewFullPath())[2]), uchar(10));
+        QVERIFY(image.compress(opt));
+        QVERIFY(image.getCompressedSize() < image.getOriginalSize());
+        QVERIFY(equalPixels(ImageIO::read(image.getCompressedFullPath()), expected));
+        QFile::remove(image.getTemporaryPreviewFullPath());
     }
 };
 

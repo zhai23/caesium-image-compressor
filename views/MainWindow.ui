@@ -362,6 +362,48 @@ QScrollArea &gt; QWidget &gt; QScrollBar { background: 1; }</string>
                   <number>0</number>
                  </property>
                  <item>
+                  <layout class="QGridLayout" name="TGAOptionsToggler_GridLayout">
+                   <property name="spacing"><number>0</number></property>
+                   <item row="0" column="0">
+                    <widget class="QCollapseToolButton" name="TGAToggle_ToolButton">
+                     <property name="text"><string notr="true">TGA</string></property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="Line" name="TGAToggle_HLine">
+                     <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0" colspan="2">
+                    <widget class="QFrame" name="TGAOptions_Frame">
+                     <layout class="QGridLayout" name="TGAOptions_GridLayout">
+                      <property name="leftMargin"><number>6</number></property>
+                      <property name="topMargin"><number>6</number></property>
+                      <property name="rightMargin"><number>6</number></property>
+                      <property name="bottomMargin"><number>6</number></property>
+                      <item row="0" column="0">
+                       <widget class="QLabel" name="TGACompressionMethod_Label">
+                        <property name="text"><string>Method</string></property>
+                       </widget>
+                      </item>
+                      <item row="0" column="1">
+                       <widget class="QComboBox" name="TGACompressionMethod_ComboBox">
+                        <item><property name="text"><string>RLE (lossless)</string></property></item>
+                        <item><property name="text"><string>Uncompressed</string></property></item>
+                       </widget>
+                      </item>
+                      <item row="1" column="0" colspan="2">
+                       <widget class="QLabel" name="TGACompressionHint_Label">
+                        <property name="text"><string>Both modes preserve pixels and transparency. Quality sliders do not apply to TGA.</string></property>
+                        <property name="wordWrap"><bool>true</bool></property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
                   <widget class="QStackedWidget" name="compression_StackedWidget">
                    <property name="currentIndex">
                     <number>0</number>

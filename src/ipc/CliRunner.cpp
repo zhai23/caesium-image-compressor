@@ -276,6 +276,7 @@ QString cliOptionZh(const QString& key)
         { QStringLiteral("webp_quality"), QStringLiteral("WebP 质量") },
         { QStringLiteral("tiff_method"), QStringLiteral("TIFF 压缩方式") },
         { QStringLiteral("tiff_deflate_level"), QStringLiteral("TIFF Deflate 级别") },
+        { QStringLiteral("tga_compression"), QStringLiteral("TGA 压缩方式") },
         { QStringLiteral("max_output_size"), QStringLiteral("目标输出大小") },
         { QStringLiteral("max_output_size_unit"), QStringLiteral("大小单位") },
         { QStringLiteral("fit_to"), QStringLiteral("缩放方式") },
@@ -308,6 +309,7 @@ QString cliOptionCategory(const QString& key)
         QStringLiteral("jpeg_progressive"), QStringLiteral("png_quality"),
         QStringLiteral("png_optimization_level"), QStringLiteral("webp_quality"),
         QStringLiteral("tiff_method"), QStringLiteral("tiff_deflate_level"),
+        QStringLiteral("tga_compression"),
         QStringLiteral("max_output_size"), QStringLiteral("max_output_size_unit"),
     };
     static const QSet<QString> resize = {
@@ -559,6 +561,7 @@ int runCompress(QStringList args, bool json, bool autoLaunch)
         { QStringLiteral("--jpeg-quality"), QStringLiteral("jpeg_quality") },
         { QStringLiteral("--png-quality"), QStringLiteral("png_quality") },
         { QStringLiteral("--webp-quality"), QStringLiteral("webp_quality") },
+        { QStringLiteral("--tga-compression"), QStringLiteral("tga_compression") },
         { QStringLiteral("--output"), QStringLiteral("output_folder") },
         { QStringLiteral("-o"), QStringLiteral("output_folder") },
         { QStringLiteral("--suffix"), QStringLiteral("output_suffix") },
@@ -941,6 +944,7 @@ QStringList shellOptionNames()
         QStringLiteral("--format"), QStringLiteral("-f"), QStringLiteral("--quality"),
         QStringLiteral("-q"), QStringLiteral("--jpeg-quality"), QStringLiteral("--png-quality"),
         QStringLiteral("--webp-quality"), QStringLiteral("--output"), QStringLiteral("-o"),
+        QStringLiteral("--tga-compression"),
         QStringLiteral("--suffix"), QStringLiteral("--fit"), QStringLiteral("--mode"),
         QStringLiteral("--width"), QStringLiteral("--height"), QStringLiteral("--edge"),
         QStringLiteral("--max-output-size"), QStringLiteral("--max-output-size-unit"),
@@ -1193,7 +1197,8 @@ void printHelp()
     printOutLn(QStringLiteral("    不放大：--do-not-enlarge"));
     printOutLn(QStringLiteral("  输出："));
     printOutLn(QStringLiteral("    输出格式：--format <jpg|png|webp|tiff|tga|same>"));
-    printOutLn(QStringLiteral("    TGA 使用无损 RLE，保留透明通道；质量参数不适用，目标体积无法达到时会报错。"));
+    printOutLn(QStringLiteral("    TGA 压缩方式：--tga-compression <rle|none>（默认 rle；none 为不压缩）"));
+    printOutLn(QStringLiteral("    TGA 两种方式均保留像素和透明通道；质量参数不适用，目标体积无法达到时会报错。"));
     printOutLn(QStringLiteral("    输出文件夹：-o, --output <目录>"));
     printOutLn(QStringLiteral("    输出后缀：--suffix <文本>"));
     printOutLn(QStringLiteral("    输出到输入目录：--same-folder-as-input"));

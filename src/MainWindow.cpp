@@ -92,7 +92,7 @@ MainWindow::MainWindow(CliServer* cliServer, QWidget* parent)
 
     ui->format_ComboBox->addItems(getOutputSupportedFormats());
     ui->format_ComboBox->setItemData(5,
-        tr("TGA uses lossless RLE compression and preserves transparency. Quality sliders do not apply. TGA metadata is not supported."), Qt::ToolTipRole);
+        tr("Choose RLE or uncompressed output in the TGA compression panel. Both preserve transparency; quality sliders do not apply."), Qt::ToolTipRole);
     ui->format_ComboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     this->setupChromaSubsamplingComboBox();
 
@@ -100,6 +100,14 @@ MainWindow::MainWindow(CliServer* cliServer, QWidget* parent)
     ui->PNGToggle_ToolButton->setContent(ui->PNGOptions_Frame);
     ui->WebPToggle_ToolButton->setContent(ui->WebPOptions_Frame);
     ui->TIFFToggle_ToolButton->setContent(ui->TIFFOptions_Frame);
+    ui->TGAToggle_ToolButton->setContent(ui->TGAOptions_Frame);
+    connect(ui->TGAToggle_ToolButton, &QCollapseToolButton::contentVisibilityToggled, [](bool visible) {
+        QSettings().setValue("mainwindow/compression/tga_options_visible", visible);
+    });
+    connect(ui->TGACompressionMethod_ComboBox, &QComboBox::currentIndexChanged, this, [this](int index) {
+        QSettings().setValue("compression_options/compression/tga_rle", index == 0);
+        this->refreshPreview();
+    });
 
     this->installCompressionOptionsEventFilter();
 
@@ -467,6 +475,8 @@ void MainWindow::writeSettings() const
     QSettings().setValue("mainwindow/compression/png_options_visible", ui->PNGToggle_ToolButton->contentVisible());
     QSettings().setValue("mainwindow/compression/webp_options_visible", ui->WebPToggle_ToolButton->contentVisible());
     QSettings().setValue("mainwindow/compression/tiff_options_visible", ui->TIFFToggle_ToolButton->contentVisible());
+    QSettings().setValue("mainwindow/compression/tga_options_visible", ui->TGAToggle_ToolButton->contentVisible());
+    QSettings().setValue("compression_options/compression/tga_rle", ui->TGACompressionMethod_ComboBox->currentIndex() == 0);
 
     QSettings().setValue("compression_options/compression/mode", ui->compressionMode_ComboBox->currentIndex());
     QSettings().setValue("compression_options/compression/lossless", ui->lossless_CheckBox->isChecked());
@@ -523,6 +533,8 @@ void MainWindow::readSettings()
     ui->PNGToggle_ToolButton->setContentVisible(QSettings().value("mainwindow/compression/png_options_visible", true).toBool());
     ui->WebPToggle_ToolButton->setContentVisible(QSettings().value("mainwindow/compression/webp_options_visible", true).toBool());
     ui->TIFFToggle_ToolButton->setContentVisible(QSettings().value("mainwindow/compression/tiff_options_visible", true).toBool());
+    ui->TGAToggle_ToolButton->setContentVisible(QSettings().value("mainwindow/compression/tga_options_visible", true).toBool());
+    ui->TGACompressionMethod_ComboBox->setCurrentIndex(QSettings().value("compression_options/compression/tga_rle", true).toBool() ? 0 : 1);
 
     ui->compressionMode_ComboBox->setCurrentIndex(QSettings().value("compression_options/compression/mode", 0).toInt());
     ui->lossless_CheckBox->setChecked(QSettings().value("compression_options/compression/lossless", false).toBool());
@@ -923,6 +935,7 @@ CompressionOptions MainWindow::getCompressionOptions(const QString& rootFolder) 
         ui->deleteOriginalFormatFile_CheckBox->isChecked(),
         QSettings().value("preferences/general/transparency_fill_color", "#FFFFFF").toString(),
         ui->syncMetaFile_CheckBox->isChecked(),
+        ui->TGACompressionMethod_ComboBox->currentIndex() == 0,
     };
 
     return compressionOptions;
@@ -2041,6 +2054,7 @@ void MainWindow::installCompressionOptionsEventFilter() const
 
     ui->TIFFDeflateLevel_Slider->installEventFilter(new QSliderScrollFilter());
     ui->TIFFCompressionMethod_ComboBox->installEventFilter(new QSliderScrollFilter());
+    ui->TGACompressionMethod_ComboBox->installEventFilter(new QSliderScrollFilter());
 }
 
 // ---------------------------------------------------------------------------
@@ -2911,6 +2925,7 @@ QJsonObject MainWindow::currentOptionsJson() const
     o["webp_quality"] = ui->WebPQuality_Slider->value();
     o["tiff_method"] = cliTiffMethodIndexToString(ui->TIFFCompressionMethod_ComboBox->currentIndex());
     o["tiff_deflate_level"] = ui->TIFFDeflateLevel_Slider->value();
+    o["tga_compression"] = ui->TGACompressionMethod_ComboBox->currentIndex() == 0 ? "rle" : "none";
     o["max_output_size"] = ui->maxOutputSize_SpinBox->value();
     o["max_output_size_unit"] = cliUnitIndexToString(ui->maxOutputSizeUnit_ComboBox->currentIndex());
     o["fit_to"] = cliFitIndexToString(ui->fitTo_ComboBox->currentIndex());
@@ -2993,6 +3008,14 @@ QStringList MainWindow::applyCliOptions(const QJsonObject& options)
             ui->TIFFCompressionMethod_ComboBox->setCurrentIndex(idx);
         } else {
             unknown << "tiff_method";
+        }
+    }
+    if (options.contains("tga_compression")) {
+        const QString method = options.value("tga_compression").toString().toLower();
+        if (method == "rle" || method == "none") {
+            ui->TGACompressionMethod_ComboBox->setCurrentIndex(method == "rle" ? 0 : 1);
+        } else {
+            unknown << "tga_compression";
         }
     }
     if (options.contains("tiff_deflate_level")) {
@@ -3242,6 +3265,7 @@ bool MainWindow::isCompressionOptionKey(const QString& key) const
         QStringLiteral("jpeg_quality"), QStringLiteral("jpeg_chroma_subsampling"), QStringLiteral("jpeg_progressive"),
         QStringLiteral("png_quality"), QStringLiteral("png_optimization_level"), QStringLiteral("webp_quality"),
         QStringLiteral("tiff_method"), QStringLiteral("tiff_deflate_level"),
+        QStringLiteral("tga_compression"),
         QStringLiteral("max_output_size"), QStringLiteral("max_output_size_unit"),
         QStringLiteral("fit_to"), QStringLiteral("width"), QStringLiteral("height"), QStringLiteral("edge"),
         QStringLiteral("keep_aspect_ratio"), QStringLiteral("do_not_enlarge"),

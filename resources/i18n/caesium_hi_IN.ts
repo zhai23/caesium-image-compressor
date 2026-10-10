@@ -1045,6 +1045,23 @@ Saved: %4 (%5%)</source>
         <source>TGA uses lossless RLE compression and preserves transparency. Quality sliders do not apply. TGA metadata is not supported.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="95"/>
+        <source>Choose RLE or uncompressed output in the TGA compression panel. Both preserve transparency; quality sliders do not apply.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1488"/>
+        <source>RLE (lossless)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1491"/>
+        <source>Both modes preserve pixels and transparency. Quality sliders do not apply to TGA.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>
@@ -1479,6 +1496,11 @@ Saved: %4 (%5%)</source>
     <message>
         <location filename="../../src/models/CImage.cpp" line="446"/>
         <source>TGA lossless RLE cannot meet the requested size. Choose another format or resize the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/models/CImage.cpp" line="446"/>
+        <source>TGA output cannot meet the requested size. Choose another format or resize the image.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

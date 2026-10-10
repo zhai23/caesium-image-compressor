@@ -1044,6 +1044,23 @@ Saved: %4 (%5%)</source>
         <source>TGA uses lossless RLE compression and preserves transparency. Quality sliders do not apply. TGA metadata is not supported.</source>
         <translation>TGA 使用无损 RLE 压缩并保留透明通道，质量滑块不适用，不支持保留 TGA 元数据。</translation>
     </message>
+    <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1488"/>
+        <source>RLE (lossless)</source>
+        <translation>RLE（无损）</translation>
+    </message>
+    <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1491"/>
+        <source>Both modes preserve pixels and transparency. Quality sliders do not apply to TGA.</source>
+        <translation>两种方式均保留像素和透明通道，质量滑块不适用于 TGA。</translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="95"/>
+        <source>Choose RLE or uncompressed output in the TGA compression panel. Both preserve transparency; quality sliders do not apply.</source>
+        <translation>在 TGA 压缩面板中选择 RLE 或未压缩输出。两种方式均保留透明通道，质量滑块不适用。</translation>
+    </message>
 </context>
 <context>
     <name>PreferencesDialog</name>
@@ -1479,6 +1496,11 @@ Saved: %4 (%5%)</source>
         <location filename="../../src/models/CImage.cpp" line="446"/>
         <source>TGA lossless RLE cannot meet the requested size. Choose another format or resize the image.</source>
         <translation>TGA 无损 RLE 无法达到指定体积。请选择其他格式或调整图片尺寸。</translation>
+    </message>
+    <message>
+        <location filename="../../src/models/CImage.cpp" line="446"/>
+        <source>TGA output cannot meet the requested size. Choose another format or resize the image.</source>
+        <translation>TGA 输出无法达到指定体积。请选择其他格式或调整图片尺寸。</translation>
     </message>
 </context>
 <context>

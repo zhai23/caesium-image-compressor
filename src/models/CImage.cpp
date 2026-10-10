@@ -432,7 +432,7 @@ bool CImage::writeTgaOutput(const QString& sourcePath, const QString& outputPath
         error = output.errorString();
         return false;
     }
-    const bool written = TgaCodec::write(output, image, &error);
+    const bool written = TgaCodec::write(output, image, &error, options.tgaRle);
     const bool flushed = output.flush();
     output.close();
     if (!written || !flushed) {
@@ -443,7 +443,7 @@ bool CImage::writeTgaOutput(const QString& sourcePath, const QString& outputPath
     if (options.compressionMode == SIZE
         && quint64(QFileInfo(outputPath).size()) > getMaxOutputSizeInBytes(options.maxOutputSize, QFileInfo(sourcePath).size())) {
         QFile::remove(outputPath);
-        error = QIODevice::tr("TGA lossless RLE cannot meet the requested size. Choose another format or resize the image.");
+        error = QIODevice::tr("TGA output cannot meet the requested size. Choose another format or resize the image.");
         return false;
     }
     return true;

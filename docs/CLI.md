@@ -502,7 +502,8 @@ caesium-cli --raw '{"method":"ping","params":{}}'
 |---|---|
 | `-q, --quality <0-100>` | 同时设置 JPEG/PNG/WebP 质量 |
 | `--jpeg-quality` `--png-quality` `--webp-quality` | 单独设置某种格式质量 |
-| `--format <jpg\|png\|webp\|tiff\|tga\|same>` | 输出格式（`same` = 保持原格式；TGA 输出使用无损 RLE） |
+| `--format <jpg\|png\|webp\|tiff\|tga\|same>` | 输出格式（`same` = 保持原格式；TGA 默认使用无损 RLE） |
+| `--tga-compression <rle\|none>` | TGA 压缩方式：无损 RLE / 不压缩，均保留像素和透明通道 |
 | `-o, --output <目录>` | 输出文件夹 |
 | `--suffix <文本>` | 输出文件后缀 |
 | `--mode <quality\|size>` | 压缩模式 |
@@ -542,6 +543,7 @@ caesium-cli --raw '{"method":"ping","params":{}}'
 | `png_optimization_level` | `1`-`6` |
 | `jpeg_progressive` | `true` / `false` |
 | `tiff_method` | `uncompressed` `lzw` `deflate` `packbits` |
+| `tga_compression` | `rle`（默认）/ `none`（不压缩） |
 | `tiff_deflate_level` | `1`-`3` |
 | `max_output_size` `max_output_size_unit` | 数值 + `bytes`/`kb`/`mb`/`percentage` |
 | `fit_to` | `none` `dimensions` `percentage` `short_edge` `long_edge` `fixed_width` `fixed_height` |
