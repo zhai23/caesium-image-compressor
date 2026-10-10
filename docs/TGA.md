@@ -6,7 +6,7 @@ caching, restoration, and Cocos Creator `.meta` synchronization use the same
 image pipeline as the other supported formats.
 
 Choose **Same as input** to recompress a TGA, or **TGA** to convert another
-supported format to TGA. The **TGA** section at the top of the **Compression**
+supported format to TGA. The **TGA** section after TIFF in the **Compression**
 tab offers **RLE (lossless)** (default) and **Uncompressed**. This section remains
 available in both quality and target-size modes. The choice is saved and changing
 it refreshes the automatic preview when enabled. Output is 24-bit RGB or 32-bit RGBA.

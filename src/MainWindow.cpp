@@ -1935,6 +1935,14 @@ void MainWindow::onCompressionModeChanged(int value) const
 {
     QSettings().setValue("compression_options/compression/mode", ui->compressionMode_ComboBox->currentIndex());
 
+    // Keep TGA last among the format groups, and available in size mode.
+    if (value == QUALITY) {
+        ui->verticalLayout_7->insertWidget(ui->verticalLayout_7->indexOf(ui->qualityContainer_Widget), ui->TGAOptions_Widget);
+    } else {
+        ui->verticalLayout_4->insertWidget(0, ui->TGAOptions_Widget);
+    }
+    ui->TGAOptions_Widget->show();
+
     this->toggleLosslessWarningVisible();
 }
 
