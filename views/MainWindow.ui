@@ -2037,8 +2037,7 @@ QScrollArea &gt; QWidget &gt; QScrollBar { background: 1; }</string>
    <addaction name="separator"/>
    <addaction name="actionRemove"/>
    <addaction name="actionClear"/>
-   <addaction name="separator"/>
-    <addaction name="actionPreview"/>
+    <addaction name="separator"/>
     <addaction name="actionCompress"/>
     <addaction name="actionRestore"/>
     <addaction name="separator"/>
