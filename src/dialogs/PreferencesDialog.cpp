@@ -47,6 +47,9 @@ void PreferencesDialog::setupConnections()
     connect(ui->themeVariant_ComboBox, &QComboBox::currentIndexChanged, this, &PreferencesDialog::onThemeVariantChanged);
     connect(ui->argsBehaviour_ComboBox, &QComboBox::currentIndexChanged, this, &PreferencesDialog::onArgsBehaviourChanged);
     connect(ui->promptExit_CheckBox, &QCheckBox::toggled, this, &PreferencesDialog::onPromptExitToggled);
+    connect(ui->closeToTray_CheckBox, &QCheckBox::toggled, [](bool checked) {
+        QSettings().setValue("preferences/general/close_to_tray", checked);
+    });
     connect(ui->checkUpdatesAtStartup_CheckBox, &QCheckBox::toggled, this, &PreferencesDialog::onCheckUpdatesAtStartupToggled);
     connect(ui->importSubfolders_CheckBox, &QCheckBox::toggled, this, &PreferencesDialog::onImportSubfoldersToggled);
     connect(ui->sendUsageReport_CheckBox, &QCheckBox::toggled, this, &PreferencesDialog::onSendUsageReportToggled);
@@ -82,6 +85,7 @@ void PreferencesDialog::loadPreferences() const
 {
     QSettings settings;
     ui->promptExit_CheckBox->setChecked(settings.value("preferences/general/prompt_before_exit", false).toBool());
+    ui->closeToTray_CheckBox->setChecked(settings.value("preferences/general/close_to_tray", false).toBool());
     ui->checkUpdatesAtStartup_CheckBox->setChecked(settings.value("preferences/general/check_updates_at_startup", true).toBool());
     ui->importSubfolders_CheckBox->setChecked(settings.value("preferences/general/import_subfolders", true).toBool());
     ui->sendUsageReport_CheckBox->setChecked(settings.value("preferences/general/send_usage_reports", true).toBool());

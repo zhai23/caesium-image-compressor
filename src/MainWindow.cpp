@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include <QScopedValueRollback>
 #include "utils/ImageIO.h"
 #include "delegates/HtmlDelegate.h"
 #include "exceptions/ImageNotSupportedException.h"
@@ -66,10 +67,10 @@ MainWindow::MainWindow(CliServer* cliServer, QWidget* parent)
     this->previewRefreshTimer->setInterval(350);
     connect(this->previewRefreshTimer, &QTimer::timeout, this, &MainWindow::doRefreshPreview);
     this->listContextMenu = new QMenu();
-    this->trayIconContextMenu = new QMenu();
+    this->trayIconContextMenu = new QMenu(this);
     this->networkOperations = new NetworkOperations();
     this->proxyModel = new CImageSortFilterProxyModel();
-    this->trayIcon = new QSystemTrayIcon();
+    this->trayIcon = new QSystemTrayIcon(this);
 
     ui->sidebar_HSplitter->setCollapsible(1, true);
 
@@ -281,10 +282,10 @@ void MainWindow::initListContextMenu()
 
 void MainWindow::initTrayIconContextMenu()
 {
-    auto* exitAction = new QAction(tr("Exit"));
     this->trayIconContextMenu->addAction(ui->actionShow);
-    this->trayIconContextMenu->addAction(exitAction);
-    connect(exitAction, &QAction::triggered, ui->actionExit, &QAction::triggered);
+    this->trayIconContextMenu->addSeparator();
+    this->trayIconContextMenu->addAction(ui->actionExit);
+    connect(ui->actionShow, &QAction::triggered, this, &MainWindow::restoreWindow);
 }
 
 void MainWindow::initListWidget() const
@@ -393,8 +394,38 @@ void MainWindow::initTrayIcon()
 
     this->trayIcon->setIcon(icon);
     this->trayIcon->setContextMenu(this->trayIconContextMenu);
-    connect(this->trayIcon, &QSystemTrayIcon::messageClicked, this, &MainWindow::showNormal);
+    this->trayIcon->setToolTip(QCoreApplication::applicationName());
+    connect(this->trayIcon, &QSystemTrayIcon::messageClicked, this, &MainWindow::restoreWindow);
+    connect(this->trayIcon, &QSystemTrayIcon::activated, this, [this](QSystemTrayIcon::ActivationReason reason) {
+        if (reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick) {
+            this->restoreWindow();
+        }
+    });
     this->trayIcon->show();
+}
+
+void MainWindow::restoreWindow()
+{
+    this->setWindowState(this->windowState() & ~Qt::WindowMinimized);
+    this->show();
+    this->raise();
+    this->activateWindow();
+}
+
+bool MainWindow::minimizeToTray()
+{
+    if (!QSystemTrayIcon::isSystemTrayAvailable()) return false;
+    this->trayIcon->show();
+    this->writeSettings();
+    this->hide();
+    return true;
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    const QScopedValueRollback<bool> requested(this->explicitExitRequested, true);
+    if (this->isHidden()) this->restoreWindow();
+    this->close();
 }
 
 void MainWindow::on_actionAbout_Caesium_Image_Compressor_triggered() const
@@ -953,16 +984,30 @@ void MainWindow::on_removeFiles_Button_clicked()
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
+    if (!this->cliQuitInProgress && !this->explicitExitRequested
+        && QSettings().value("preferences/general/close_to_tray", false).toBool()
+        && this->minimizeToTray()) {
+        event->ignore();
+        return;
+    }
     if (QSettings().value("preferences/general/prompt_before_exit", false).toBool() && !this->cliQuitInProgress) {
-        QCaesiumMessageBox exitPrompt;
+        QCaesiumMessageBox exitPrompt(this);
+        exitPrompt.setObjectName("exitPrompt");
         exitPrompt.setText(tr("Do you really want to quit?"));
 
-        exitPrompt.addButton(tr("Yes"), QMessageBox::YesRole);
+        auto exitButton = exitPrompt.addButton(tr("Yes"), QMessageBox::YesRole);
+        auto trayButton = exitPrompt.addButton(tr("Minimize to tray"), QMessageBox::ActionRole);
+        trayButton->setEnabled(QSystemTrayIcon::isSystemTrayAvailable());
         auto rejectButton = exitPrompt.addButton(tr("Cancel"), QMessageBox::RejectRole);
+        exitPrompt.setDefaultButton(exitButton);
+        exitPrompt.setEscapeButton(rejectButton);
 
         exitPrompt.exec();
 
-        if (exitPrompt.clickedButton() == rejectButton) {
+        if (exitPrompt.clickedButton() == trayButton) {
+            this->minimizeToTray();
+        }
+        if (exitPrompt.clickedButton() != exitButton) {
             event->ignore();
             return;
         }
@@ -3174,6 +3219,7 @@ CliResponse MainWindow::cliGetSettings(const QJsonObject& params)
     settings["import_subfolders"] = s.value("preferences/general/import_subfolders", true).toBool();
     settings["skip_compression_dialogs"] = s.value("preferences/general/skip_compression_dialogs", false).toBool();
     settings["prompt_before_exit"] = s.value("preferences/general/prompt_before_exit", false).toBool();
+    settings["close_to_tray"] = s.value("preferences/general/close_to_tray", false).toBool();
     settings["send_usage_reports"] = s.value("preferences/general/send_usage_reports", true).toBool();
     settings["check_updates_at_startup"] = s.value("preferences/general/check_updates_at_startup", true).toBool();
     settings["multithreading"] = s.value("preferences/general/multithreading", true).toBool();
@@ -3217,6 +3263,10 @@ bool MainWindow::applyPreferenceSetting(const QString& key, const QJsonValue& va
     }
     if (key == QLatin1String("prompt_before_exit")) {
         s.setValue("preferences/general/prompt_before_exit", cliValueToBool(value));
+        return true;
+    }
+    if (key == QLatin1String("close_to_tray")) {
+        s.setValue("preferences/general/close_to_tray", cliValueToBool(value));
         return true;
     }
     if (key == QLatin1String("send_usage_reports")) {
@@ -3321,10 +3371,7 @@ CliResponse MainWindow::cliSetSettings(const QJsonObject& params)
 
 CliResponse MainWindow::cliShow(const QJsonObject&)
 {
-    this->show();
-    this->setWindowState((this->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
-    this->raise();
-    this->activateWindow();
+    this->restoreWindow();
     QJsonObject result;
     result["shown"] = true;
     return { true, {}, {}, result };

@@ -38,3 +38,28 @@ else()
 endif()
 add_test(NAME TgaTests COMMAND TgaTests -o -,txt)
 
+# Tray integration tests need the full window and, for native tray checks,
+# a desktop session. Opt in to avoid rebuilding the UI for codec-only tests.
+option(CAESIUM_GUI_TESTS "Build main-window and tray integration tests" OFF)
+if(CAESIUM_GUI_TESTS)
+    set(TRAY_TEST_SOURCES TrayTests.cpp)
+    foreach(source IN LISTS SOURCES UI RESOURCES QM_FILES OSX_SOURCES)
+        if(source MATCHES "(^|/)main\\.cpp$")
+            continue()
+        endif()
+        if(IS_ABSOLUTE "${source}")
+            list(APPEND TRAY_TEST_SOURCES "${source}")
+        else()
+            list(APPEND TRAY_TEST_SOURCES "${CMAKE_SOURCE_DIR}/${source}")
+        endif()
+    endforeach()
+    add_executable(TrayTests ${TRAY_TEST_SOURCES})
+    set_target_properties(TrayTests PROPERTIES CXX_STANDARD 17
+        AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/views")
+    get_target_property(APP_LINK_LIBRARIES ${TARGET} LINK_LIBRARIES)
+    target_link_libraries(TrayTests PRIVATE ${APP_LINK_LIBRARIES} Qt${QT_VERSION_MAJOR}::Test)
+    add_dependencies(TrayTests ${TARGET})
+    add_test(NAME TrayTests COMMAND TrayTests -o -,txt)
+    set_tests_properties(TrayTests PROPERTIES TIMEOUT 60)
+endif()
+

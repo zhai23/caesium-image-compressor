@@ -50,6 +50,8 @@ protected:
     void showEvent(QShowEvent* event) override;
 
 private slots:
+    void on_actionExit_triggered();
+    void restoreWindow();
     void on_actionAbout_Caesium_Image_Compressor_triggered() const;
     void on_addFiles_Button_clicked();
     void on_actionAdd_files_triggered();
@@ -160,6 +162,7 @@ private:
     // True while "caesium quit" is closing the window, so closeEvent skips the
     // "are you sure?" prompt that would block the CLI response.
     bool cliQuitInProgress = false;
+    bool explicitExitRequested = false;
     // True while a CLI-initiated compression is running, so the (modal)
     // compression-summary dialog is suppressed instead of blocking the CLI.
     bool suppressSummaryDialog = false;
@@ -173,6 +176,7 @@ private:
     void initTrayIconContextMenu();
     void initListWidget() const;
     void initTrayIcon();
+    bool minimizeToTray();
     void updateCheckBoxColumnWidth() const;
     void updateTIFFDeflateLevelLabel(int value) const;
 

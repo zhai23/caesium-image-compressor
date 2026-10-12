@@ -562,6 +562,7 @@ caesium-cli --raw '{"method":"ping","params":{}}'
 | `import_subfolders` | `true` / `false` |
 | `skip_compression_dialogs` | `true` / `false` |
 | `prompt_before_exit` | `true` / `false` |
+| `close_to_tray` | `true` / `false`，关闭窗口时缩小到托盘，默认关闭 |
 | `send_usage_reports` | `true` / `false` |
 | `check_updates_at_startup` | `true` / `false` |
 | `multithreading` | `true` / `false` |

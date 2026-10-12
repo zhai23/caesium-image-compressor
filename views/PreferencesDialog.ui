@@ -40,7 +40,7 @@
       <bool>true</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout_6">
-      <item row="4" column="0" colspan="2">
+      <item row="5" column="0" colspan="2">
        <widget class="QCheckBox" name="skipCompressionDialogs_CheckBox">
         <property name="font">
          <font>
@@ -52,7 +52,7 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
+      <item row="8" column="0">
        <widget class="QLabel" name="previewBackground_Label">
         <property name="font">
          <font>
@@ -64,7 +64,7 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="2" colspan="2">
+      <item row="8" column="2" colspan="2">
        <widget class="QComboBox" name="previewBackground_ComboBox">
         <property name="font">
          <font>
@@ -93,7 +93,7 @@
         </item>
        </widget>
       </item>
-      <item row="8" column="0">
+      <item row="9" column="0">
        <widget class="QLabel" name="transparencyFillColor_Label">
         <property name="font">
          <font>
@@ -108,7 +108,7 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="2" colspan="2">
+      <item row="9" column="2" colspan="2">
        <widget class="QPushButton" name="transparencyFillColor_Button">
         <property name="font">
          <font>
@@ -144,7 +144,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0" colspan="2">
+      <item row="6" column="0" colspan="2">
        <widget class="QCheckBox" name="sendUsageReport_CheckBox">
         <property name="font">
          <font>
@@ -156,7 +156,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="2">
+      <item row="4" column="0" colspan="2">
        <widget class="QCheckBox" name="checkUpdatesAtStartup_CheckBox">
         <property name="enabled">
          <bool>true</bool>
@@ -171,7 +171,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="2">
+      <item row="6" column="2">
        <widget class="QLabel" name="showUsageData_Label">
         <property name="font">
          <font>
@@ -246,6 +246,13 @@
         <property name="focusPolicy">
          <enum>Qt::FocusPolicy::TabFocus</enum>
         </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="4">
+       <widget class="QCheckBox" name="closeToTray_CheckBox">
+        <property name="font"><font><bold>false</bold></font></property>
+        <property name="text"><string>Close to system tray</string></property>
+        <property name="toolTip"><string>Keep running in the system tray when closing the window. Use Exit in the tray menu to quit.</string></property>
        </widget>
       </item>
      </layout>

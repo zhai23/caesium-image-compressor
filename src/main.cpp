@@ -129,6 +129,7 @@ int main(int argc, char* argv[])
             CliClient::sendRequest("import",
                 { { "paths", QJsonArray::fromStringList(positionalArgs) } });
         }
+        CliClient::sendRequest("show", {});
         return 0;
     }
 
