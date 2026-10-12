@@ -1570,6 +1570,16 @@ QScrollArea &gt; QWidget &gt; QScrollBar { background: 1; }</string>
                 </widget>
                </item>
                <item>
+                <widget class="QCheckBox" name="syncFontAtlasFiles_CheckBox">
+                 <property name="toolTip">
+                  <string>When converting format or resizing, sync the matching .fnt, .fnt.meta and .labelatlas.meta files to adapt to the game engine.</string>
+                 </property>
+                 <property name="text">
+                  <string>Sync bitmap font atlas files</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <layout class="QHBoxLayout" name="moveOriginalFile_HorizontalLayout">
                  <property name="spacing">
                   <number>0</number>

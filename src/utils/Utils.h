@@ -137,6 +137,12 @@ typedef struct CompressionOptions {
     // own folder also updates the image name recorded in the adjacent Spine
     // atlas file (<name>.atlas / <name>.atlas.txt).
     bool syncSpineFile;
+    // When enabled, a compression that converts the format and/or resizes an
+    // atlas image also updates the adjacent bitmap-font atlas descriptors
+    // (<name>.fnt, <name>.fnt.meta and the *.labelatlas.meta of art fonts):
+    // the image name they record and, when resizing, all of their glyph
+    // metrics.
+    bool syncFontAtlasFiles;
     bool tgaRle = true;
 } CompressionOptions;
 

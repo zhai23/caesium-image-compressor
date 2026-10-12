@@ -169,3 +169,4 @@ ts.py
 *.log
 /portable
 /caesium_registry/backups
+/测试文件

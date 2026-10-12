@@ -15,7 +15,9 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QJsonValue>
+#include <QMap>
 #include <QPainter>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <cmath>
@@ -176,6 +178,13 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
     QFileInfo inputFileInfo = QFileInfo(inputFullPath);
     // Size/comparisons should reflect the actual source bytes being read.
     QFileInfo sourceFileInfo = QFileInfo(sourceReadPath);
+    // The image as it currently sits on disk: bitmap-font atlas descriptors
+    // describe THIS file, so their metrics have to be re-scaled from its size
+    // (a re-compression may start from a previously resized image).
+    QSize imageDimsBeforeCompression = ImageIO::size(inputFullPath);
+    if (!imageDimsBeforeCompression.isValid() || imageDimsBeforeCompression.isEmpty()) {
+        imageDimsBeforeCompression = QSize(this->width, this->height);
+    }
     QString outputFormat = getOutputSupportedFormats()[compressionOptions.format];
     const bool tgaOutput = outputFormat == "TGA" || (compressionOptions.format == 0 && this->format == "tga");
     bool convert = compressionOptions.format != 0 && this->format.compare(outputFormat, Qt::CaseInsensitive) != 0;
@@ -351,10 +360,12 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
         // - Spine "<name>.atlas" / "<name>.atlas.txt": update the image file
         //   name recorded in its first line ("1.png" -> "1.jpg").
         const QFileInfo convertedFileInfo(outputFullPath);
+        const bool sameTargetName = convertedFileInfo.completeBaseName() == inputFileInfo.completeBaseName();
+        const bool sameTargetFolder = QDir::cleanPath(convertedFileInfo.absolutePath()) == QDir::cleanPath(inputFileInfo.absolutePath());
         const bool convertedInPlace = convert
             && !outputIsBiggerThanInput
-            && convertedFileInfo.completeBaseName() == inputFileInfo.completeBaseName()
-            && QDir::cleanPath(convertedFileInfo.absolutePath()) == QDir::cleanPath(inputFileInfo.absolutePath())
+            && sameTargetName
+            && sameTargetFolder
             && !QFileInfo::exists(inputFileInfo.absoluteFilePath());
         if (convertedInPlace && compressionOptions.syncMetaFile) {
             CImage::syncMetaFileForConversion(inputFileInfo.absoluteFilePath(), convertedFileInfo.absoluteFilePath());
@@ -368,6 +379,20 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
             CImage::setFileDates(outputFileInfo, compressionOptions.datesMap, inputFileDates);
         }
         this->setCompressedInfo(outputFileInfo);
+
+        // Bitmap-font atlas support: the .fnt / .fnt.meta / *.labelatlas.meta
+        // descriptors of an atlas font record the image file name and the
+        // pixel metrics of every glyph, so a conversion (recorded name) and a
+        // resize (all metrics) both have to be written back. Contrary to the
+        // sidecars above, this also covers a pure resize overwriting the image
+        // under its own name.
+        const bool imageReplacedInPlace = convertedInPlace
+            || QDir::cleanPath(outputFullPath) == QDir::cleanPath(inputFileInfo.absoluteFilePath());
+        if (compressionOptions.syncFontAtlasFiles && !outputIsBiggerThanInput && imageReplacedInPlace) {
+            CImage::syncFontAtlasFiles(
+                inputFileInfo.absoluteFilePath(), imageDimsBeforeCompression,
+                convertedFileInfo.absoluteFilePath(), QSize(this->compressedWidth, this->compressedHeight));
+        }
     } else {
         this->additionalInfo = QString::fromUtf8(result.error_message);
         qCritical() << "Compression result for i:" << inputFullPath << "and o: " << tempFileFullPath << "is false. Error:" << result.error_message;
@@ -682,7 +707,7 @@ void CImage::removeCachedOriginal() const
     }
 }
 
-bool CImage::restoreFromCache()
+bool CImage::restoreFromCache(bool syncFontAtlas)
 {
     QString cachedPath = this->getCachedOriginalPath();
     if (!QFile::exists(cachedPath)) {
@@ -731,7 +756,19 @@ bool CImage::restoreFromCache()
         CImage::syncSpineFileForConversion(this->compressedFullPath, this->fullPath);
     }
 
-    // 5) Reset compression info back to the uncompressed original state.
+    // 5) If the previous compression rewrote the bitmap-font atlas
+    //    descriptors of the image (.fnt / .fnt.meta / *.labelatlas.meta),
+    //    bring their recorded image name and glyph metrics back to the
+    //    restored original. This is opt-in (the caller passes the current
+    //    state of the sync option) because the metrics can only be scaled
+    //    back when they were scaled on compression in the first place.
+    if (syncFontAtlas && !this->compressedFullPath.isEmpty()) {
+        CImage::syncFontAtlasFiles(this->compressedFullPath,
+            QSize(this->compressedWidth, this->compressedHeight),
+            this->fullPath, QSize(this->width, this->height));
+    }
+
+    // 6) Reset compression info back to the uncompressed original state.
     this->compressedFullPath.clear();
     this->compressedDirectory.clear();
     this->compressedSize = this->size;
@@ -775,6 +812,274 @@ void collectMetaFileExtensions(const QJsonValue& value, QStringList& extensions)
             collectMetaFileExtensions(elem, extensions);
         }
     }
+}
+
+// ---------------------------------------------------------------------------
+// Bitmap-font atlas descriptors: AngelCode text .fnt files and the Cocos
+// Creator metas of bitmap fonts (".fnt.meta") and art fonts
+// (".labelatlas.meta"). All of them record the atlas image name and pixel
+// metrics, so a format conversion (the recorded name) and a resize (every
+// metric) must be written back. They are edited textually so the
+// Cocos-written formatting, key order and number styles are preserved: a
+// JSON round-trip would sort the keys and re-indent the whole file.
+
+// A number as written in a descriptor file.
+const QString ATLAS_NUMBER = QStringLiteral("-?\\d+(?:\\.\\d+)?(?:[eE][-+]?\\d+)?");
+
+// Scale one recorded number while keeping its text style: integral values
+// keep a plain integer ("69" -> "35"), fractional ones keep their decimals
+// ("60.72" -> "30.36"). integralValues is set for the .fnt interchange format
+// and the metas derived from it, which only hold integers; art-font metas are
+// the data itself and keep full precision so scaling is lossless.
+QString scaledAtlasNumber(const QString& valueText, double scale, bool integralValues)
+{
+    bool ok = false;
+    const double value = valueText.toDouble(&ok);
+    if (!ok) {
+        return valueText;
+    }
+    const bool integral = integralValues
+        && !valueText.contains(QLatin1Char('.'))
+        && !valueText.contains(QLatin1Char('e'), Qt::CaseInsensitive);
+    if (integral) {
+        return QString::number(qRound64(value * scale));
+    }
+    double scaled = std::round(value * scale * 1000000.0) / 1000000.0;
+    // Snap to the coarsest decimal grid the value still matches, so scaling a
+    // metric away and back does not leave crumbs like "69.000001" behind: the
+    // error of one scaling step is absorbed by the next one.
+    for (int decimals = 0; decimals < 6; ++decimals) {
+        const double factor = std::pow(10.0, decimals);
+        const double snapped = std::round(scaled * factor) / factor;
+        if (std::abs(scaled - snapped) < 0.00001) {
+            scaled = snapped;
+            break;
+        }
+    }
+    QString text = QString::number(scaled, 'f', 6);
+    while (text.endsWith(QLatin1Char('0'))) {
+        text.chop(1);
+    }
+    if (text.endsWith(QLatin1Char('.'))) {
+        text.chop(1);
+    }
+    return text;
+}
+
+// Rewrite every number recorded for one of the given keys ("<key>": <number>
+// in a JSON meta). Each key brings its own scale factor because x metrics and
+// y metrics scale differently. Returns how many values were changed.
+int scaleAtlasJsonNumbers(QString& content, const QMap<QString, double>& keyScales, bool integralValues)
+{
+    int changed = 0;
+    for (auto it = keyScales.constBegin(); it != keyScales.constEnd(); ++it) {
+        const QRegularExpression re(QStringLiteral("\"%1\"\\s*:\\s*(%2)")
+            .arg(QRegularExpression::escape(it.key()), ATLAS_NUMBER));
+        QList<QRegularExpressionMatch> matches;
+        QRegularExpressionMatchIterator matchIt = re.globalMatch(content);
+        while (matchIt.hasNext()) {
+            matches.append(matchIt.next());
+        }
+        for (int i = matches.size() - 1; i >= 0; --i) {
+            const QRegularExpressionMatch& match = matches.at(i);
+            const QString valueText = match.captured(1);
+            const QString scaled = scaledAtlasNumber(valueText, it.value(), integralValues);
+            if (scaled == valueText) {
+                continue;
+            }
+            content.replace(match.capturedStart(1), match.capturedEnd(1) - match.capturedStart(1), scaled);
+            ++changed;
+        }
+    }
+    return changed;
+}
+
+// Same for the key=<number> tokens of an AngelCode .fnt line. The key has to
+// start a token so "x=" is never taken from "xoffset=". The .fnt format is
+// integer based, so values are always rounded.
+int scaleAtlasFntNumbers(QString& line, const QMap<QString, double>& keyScales)
+{
+    int changed = 0;
+    for (auto it = keyScales.constBegin(); it != keyScales.constEnd(); ++it) {
+        const QRegularExpression re(QStringLiteral("(?:^|\\s)(%1)=(%2)")
+            .arg(QRegularExpression::escape(it.key()), ATLAS_NUMBER));
+        QList<QRegularExpressionMatch> matches;
+        QRegularExpressionMatchIterator matchIt = re.globalMatch(line);
+        while (matchIt.hasNext()) {
+            matches.append(matchIt.next());
+        }
+        for (int i = matches.size() - 1; i >= 0; --i) {
+            const QRegularExpressionMatch& match = matches.at(i);
+            const QString valueText = match.captured(2);
+            const QString scaled = scaledAtlasNumber(valueText, it.value(), true);
+            if (scaled == valueText) {
+                continue;
+            }
+            line.replace(match.capturedStart(2), match.capturedEnd(2) - match.capturedStart(2), scaled);
+            ++changed;
+        }
+    }
+    return changed;
+}
+
+// Set one key=<value> token of a .fnt line to a fixed value. Returns 1 when
+// the line changed.
+int setAtlasFntValue(QString& line, const QString& key, const QString& valueText)
+{
+    const QRegularExpression re(QStringLiteral("(?:^|\\s)(%1)=(%2)")
+        .arg(QRegularExpression::escape(key), ATLAS_NUMBER));
+    const QRegularExpressionMatch match = re.match(line);
+    if (!match.hasMatch() || match.captured(2) == valueText) {
+        return 0;
+    }
+    line.replace(match.capturedStart(2), match.capturedEnd(2) - match.capturedStart(2), valueText);
+    return 1;
+}
+
+// Scale every number inside the "kerningDict": { ... } object of a meta: they
+// are the kerning amounts, which are x-axis metrics. Its keys ("43_45") live
+// inside strings and are never taken for values.
+int scaleAtlasKerningNumbers(QString& content, double scale, bool integralValues)
+{
+    static const QRegularExpression marker(QStringLiteral("\"kerningDict\"\\s*:\\s*\\{"));
+    const QRegularExpressionMatch markerMatch = marker.match(content);
+    if (!markerMatch.hasMatch()) {
+        return 0;
+    }
+    const int objectStart = content.indexOf(QLatin1Char('{'), markerMatch.capturedStart());
+    if (objectStart < 0) {
+        return 0;
+    }
+
+    QList<QPair<int, int>> spans;
+    bool inString = false;
+    bool escaped = false;
+    int depth = 0;
+    for (int i = objectStart; i < content.size(); ++i) {
+        const QChar c = content.at(i);
+        if (inString) {
+            if (escaped) {
+                escaped = false;
+            } else if (c == QLatin1Char('\\')) {
+                escaped = true;
+            } else if (c == QLatin1Char('"')) {
+                inString = false;
+            }
+            continue;
+        }
+        if (c == QLatin1Char('"')) {
+            inString = true;
+            continue;
+        }
+        if (c == QLatin1Char('{') || c == QLatin1Char('[')) {
+            ++depth;
+            continue;
+        }
+        if (c == QLatin1Char('}') || c == QLatin1Char(']')) {
+            --depth;
+            if (depth == 0) {
+                break;
+            }
+            continue;
+        }
+        if (!c.isDigit() && c != QLatin1Char('-') && c != QLatin1Char('.')) {
+            continue;
+        }
+        int end = i;
+        while (end < content.size()) {
+            const QChar d = content.at(end);
+            if (!d.isDigit() && d != QLatin1Char('-') && d != QLatin1Char('+')
+                && d != QLatin1Char('.') && d != QLatin1Char('e') && d != QLatin1Char('E')) {
+                break;
+            }
+            ++end;
+        }
+        bool ok = false;
+        content.mid(i, end - i).toDouble(&ok);
+        if (ok) {
+            spans.append(qMakePair(i, end));
+        }
+        i = end - 1;
+    }
+
+    int changed = 0;
+    for (int i = spans.size() - 1; i >= 0; --i) {
+        const int start = spans.at(i).first;
+        const int length = spans.at(i).second - start;
+        const QString valueText = content.mid(start, length);
+        const QString scaled = scaledAtlasNumber(valueText, scale, integralValues);
+        if (scaled == valueText) {
+            continue;
+        }
+        content.replace(start, length, scaled);
+        ++changed;
+    }
+    return changed;
+}
+
+// Point every image name matched by valueRegex (its first capture group is the
+// name) at the converted file. Only the file extension changes
+// ("texture.tga" -> "texture.png"); extension-less names ("texture", as kept
+// by art-font metas) and names of other images are left untouched. Returns how
+// many names were changed.
+int renameAtlasImageNames(QString& content, const QRegularExpression& valueRegex,
+    const QString& sourceFileName, const QString& outputFileName)
+{
+    QList<QRegularExpressionMatch> matches;
+    QRegularExpressionMatchIterator matchIt = valueRegex.globalMatch(content);
+    while (matchIt.hasNext()) {
+        matches.append(matchIt.next());
+    }
+    int changed = 0;
+    for (int i = matches.size() - 1; i >= 0; --i) {
+        const QRegularExpressionMatch& match = matches.at(i);
+        const QString value = match.captured(1);
+        const int slash = qMax(value.lastIndexOf(QLatin1Char('/')), value.lastIndexOf(QLatin1Char('\\')));
+        if (value.mid(slash + 1).compare(sourceFileName, Qt::CaseInsensitive) != 0) {
+            continue;
+        }
+        const QString replacement = value.left(slash + 1) + outputFileName;
+        if (replacement == value) {
+            continue;
+        }
+        content.replace(match.capturedStart(1), match.capturedEnd(1) - match.capturedStart(1), replacement);
+        ++changed;
+    }
+    return changed;
+}
+
+// A Cocos Creator meta names its atlas image in "atlasName" ("texture.tga"
+// for bitmap fonts, the bare "texture" for art fonts). Metas without such a
+// name fall back to their own file name ("texture.fnt.meta" belongs to
+// texture.<ext>).
+bool atlasMetaReferencesImage(const QString& content, const QString& imageFileName,
+    const QString& imageBaseName, const QString& metaBaseName)
+{
+    QJsonParseError parseError {};
+    const QJsonDocument doc = QJsonDocument::fromJson(content.toUtf8(), &parseError);
+    if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
+        return false;
+    }
+    const QJsonObject userData = doc.object().value(QLatin1String("userData")).toObject();
+    QStringList recordedNames;
+    for (const QJsonObject& holder : { userData, userData.value(QLatin1String("_fntConfig")).toObject() }) {
+        const QJsonValue name = holder.value(QLatin1String("atlasName"));
+        if (name.isString() && !name.toString().isEmpty()) {
+            recordedNames.append(name.toString());
+        }
+    }
+    if (recordedNames.isEmpty()) {
+        return metaBaseName.compare(imageBaseName, Qt::CaseInsensitive) == 0;
+    }
+    for (const QString& recorded : recordedNames) {
+        const int slash = qMax(recorded.lastIndexOf(QLatin1Char('/')), recorded.lastIndexOf(QLatin1Char('\\')));
+        const QString name = recorded.mid(slash + 1);
+        if (name.compare(imageFileName, Qt::CaseInsensitive) == 0
+            || name.compare(imageBaseName, Qt::CaseInsensitive) == 0) {
+            return true;
+        }
+    }
+    return false;
 }
 
 } // namespace
@@ -935,6 +1240,183 @@ bool CImage::syncSpineFileForConversion(const QString& sourceImagePath, const QS
         }
         atlasFile.write(updatedContent.toUtf8());
         atlasFile.close();
+        updated = true;
+    }
+    return updated;
+}
+
+bool CImage::syncFontAtlasFiles(const QString& sourceImagePath, const QSize& sourceSize,
+    const QString& outputImagePath, const QSize& outputSize)
+{
+    static const QRegularExpression pageFileRegex(QStringLiteral("file=\"([^\"]*)\""));
+    static const QRegularExpression atlasNameRegex(QStringLiteral("\"atlasName\"\\s*:\\s*\"([^\"]*)\""));
+
+    const QFileInfo sourceInfo(sourceImagePath);
+    const QFileInfo outputInfo(outputImagePath);
+    const QString sourceFileName = sourceInfo.fileName();
+    const QString outputFileName = outputInfo.fileName();
+    if (sourceFileName.isEmpty() || outputFileName.isEmpty()) {
+        return false;
+    }
+    if (!sourceSize.isValid() || !outputSize.isValid()
+        || sourceSize.width() <= 0 || sourceSize.height() <= 0
+        || outputSize.width() <= 0 || outputSize.height() <= 0) {
+        return false;
+    }
+    const bool nameChanged = sourceFileName.compare(outputFileName, Qt::CaseInsensitive) != 0;
+    const double scaleX = static_cast<double>(outputSize.width()) / sourceSize.width();
+    const double scaleY = static_cast<double>(outputSize.height()) / sourceSize.height();
+    const bool scaleChanged = scaleX != 1.0 || scaleY != 1.0;
+    if (!nameChanged && !scaleChanged) {
+        return false;
+    }
+
+    const QString sourceBaseName = sourceInfo.completeBaseName();
+    const QDir directory = sourceInfo.absoluteDir();
+    // Every glyph metric is paired with the axis it belongs to.
+    const QMap<QString, double> jsonKeys = {
+        { QStringLiteral("fontSize"), scaleY },
+        { QStringLiteral("commonHeight"), scaleY },
+        { QStringLiteral("itemHeight"), scaleY },
+        { QStringLiteral("y"), scaleY },
+        { QStringLiteral("height"), scaleY },
+        { QStringLiteral("yOffset"), scaleY },
+        { QStringLiteral("itemWidth"), scaleX },
+        { QStringLiteral("x"), scaleX },
+        { QStringLiteral("width"), scaleX },
+        { QStringLiteral("xOffset"), scaleX },
+        { QStringLiteral("xAdvance"), scaleX },
+    };
+
+    bool updated = false;
+
+    // 1) AngelCode text .fnt atlases.
+    const QStringList fntFiles = directory.entryList({ QLatin1String("*.fnt") }, QDir::Files);
+    for (const QString& fntFile : fntFiles) {
+        QFile file(directory.filePath(fntFile));
+        if (!file.open(QIODevice::ReadOnly)) {
+            qWarning() << "Cannot read bitmap font file:" << file.fileName();
+            continue;
+        }
+        const QByteArray raw = file.readAll();
+        file.close();
+        if (raw.left(3) == QByteArrayLiteral("BMF")) {
+            continue; // Binary BMF atlases are not edited.
+        }
+        QString content = QString::fromUtf8(raw);
+        QStringList lines = content.split(QLatin1Char('\n'));
+
+        // The page line names the atlas image. Only single-page atlases are
+        // edited: the layout of a multi-page atlas is bound to every page
+        // image, and Cocos Creator bitmap fonts are single page.
+        QList<int> pageLines;
+        QString recordedName;
+        for (int i = 0; i < lines.size(); ++i) {
+            if (!lines.at(i).startsWith(QLatin1String("page "))) {
+                continue;
+            }
+            pageLines.append(i);
+            const QRegularExpressionMatch match = pageFileRegex.match(lines.at(i));
+            if (match.hasMatch()) {
+                recordedName = match.captured(1);
+            }
+        }
+        if (pageLines.size() != 1) {
+            continue;
+        }
+        const int nameSlash = qMax(recordedName.lastIndexOf(QLatin1Char('/')), recordedName.lastIndexOf(QLatin1Char('\\')));
+        const QString recordedFile = recordedName.mid(nameSlash + 1);
+        if (recordedFile.compare(sourceFileName, Qt::CaseInsensitive) != 0
+            && recordedFile.compare(sourceBaseName, Qt::CaseInsensitive) != 0) {
+            continue;
+        }
+
+        int changed = 0;
+        for (QString& line : lines) {
+            const int space = line.indexOf(QLatin1Char(' '));
+            const QString kind = space < 0 ? line : line.left(space);
+            if (kind == QLatin1String("page")) {
+                changed += renameAtlasImageNames(line, pageFileRegex, sourceFileName, outputFileName);
+                continue;
+            }
+            if (!scaleChanged) {
+                continue;
+            }
+            if (kind == QLatin1String("info")) {
+                changed += scaleAtlasFntNumbers(line, { { QStringLiteral("size"), scaleY } });
+            } else if (kind == QLatin1String("common")) {
+                changed += scaleAtlasFntNumbers(line, {
+                    { QStringLiteral("lineHeight"), scaleY },
+                    { QStringLiteral("base"), scaleY },
+                });
+                changed += setAtlasFntValue(line, QStringLiteral("scaleW"), QString::number(outputSize.width()));
+                changed += setAtlasFntValue(line, QStringLiteral("scaleH"), QString::number(outputSize.height()));
+            } else if (kind == QLatin1String("char")) {
+                changed += scaleAtlasFntNumbers(line, {
+                    { QStringLiteral("x"), scaleX },
+                    { QStringLiteral("y"), scaleY },
+                    { QStringLiteral("width"), scaleX },
+                    { QStringLiteral("height"), scaleY },
+                    { QStringLiteral("xoffset"), scaleX },
+                    { QStringLiteral("yoffset"), scaleY },
+                    { QStringLiteral("xadvance"), scaleX },
+                });
+            } else if (kind == QLatin1String("kerning")) {
+                changed += scaleAtlasFntNumbers(line, { { QStringLiteral("amount"), scaleX } });
+            }
+        }
+        const QString updatedContent = lines.join(QLatin1Char('\n'));
+        if (changed == 0 || updatedContent == content) {
+            continue;
+        }
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            qWarning() << "Cannot write bitmap font file:" << file.fileName();
+            continue;
+        }
+        file.write(updatedContent.toUtf8());
+        file.close();
+        updated = true;
+    }
+
+    // 2) Cocos Creator metas of bitmap fonts (".fnt.meta") and art fonts
+    //    (".labelatlas.meta").
+    const QStringList metaFiles = directory.entryList({ QLatin1String("*.fnt.meta"), QLatin1String("*.labelatlas.meta") }, QDir::Files);
+    for (const QString& metaFile : metaFiles) {
+        QFile file(directory.filePath(metaFile));
+        if (!file.open(QIODevice::ReadOnly)) {
+            qWarning() << "Cannot read bitmap font meta file:" << file.fileName();
+            continue;
+        }
+        QString content = QString::fromUtf8(file.readAll());
+        file.close();
+
+        // Metas without a recorded name are matched by their own file name:
+        // "texture.fnt.meta" belongs to texture.<ext>.
+        const QString metaBaseName = QFileInfo(QFileInfo(metaFile).completeBaseName()).completeBaseName();
+        if (!atlasMetaReferencesImage(content, sourceFileName, sourceBaseName, metaBaseName)) {
+            continue;
+        }
+
+        // The .fnt interchange format and the meta derived from it only hold
+        // integer metrics; an art-font meta is the data itself (its fontSize is
+        // already fractional) and keeps full precision, which also makes the
+        // scaling lossless in both directions.
+        const bool integralValues = !metaFile.endsWith(QLatin1String(".labelatlas.meta"));
+        QString updatedContent = content;
+        int changed = renameAtlasImageNames(updatedContent, atlasNameRegex, sourceFileName, outputFileName);
+        if (scaleChanged) {
+            changed += scaleAtlasJsonNumbers(updatedContent, jsonKeys, integralValues);
+            changed += scaleAtlasKerningNumbers(updatedContent, scaleX, integralValues);
+        }
+        if (changed == 0 || updatedContent == content) {
+            continue;
+        }
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            qWarning() << "Cannot write bitmap font meta file:" << file.fileName();
+            continue;
+        }
+        file.write(updatedContent.toUtf8());
+        file.close();
         updated = true;
     }
     return updated;

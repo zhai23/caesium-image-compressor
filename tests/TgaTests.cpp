@@ -335,6 +335,250 @@ private slots:
         QCOMPARE(bytes(dir.filePath("texture.atlas")), atlas);
         image.removeCachedOriginal();
     }
+    void fontAtlasFollowsConversionAndResize()
+    {
+        QTemporaryDir dir;
+        const QString path = dir.filePath("texture.tga");
+        const QByteArray original = rawTga(sample());
+        // AngelCode text .fnt (CRLF like the editor writes it).
+        const QByteArray fnt =
+            "info face=\"texture\" size=8\r\n"
+            "common lineHeight=8 base=6 scaleW=16 scaleH=8 pages=1\r\n"
+            "page id=0 file=\"texture.tga\"\r\n"
+            "chars count=1\r\n"
+            "char id=65 x=0 y=0 width=8 height=8 xoffset=2 yoffset=2 xadvance=8 page=0 chnl=15\r\n";
+        const QByteArray expectedFnt =
+            "info face=\"texture\" size=4\r\n"
+            "common lineHeight=4 base=3 scaleW=8 scaleH=4 pages=1\r\n"
+            "page id=0 file=\"texture.png\"\r\n"
+            "chars count=1\r\n"
+            "char id=65 x=0 y=0 width=4 height=4 xoffset=1 yoffset=1 xadvance=4 page=0 chnl=15\r\n";
+        const QByteArray meta = R"({
+  "ver": "1.0.6",
+  "importer": "bitmap-font",
+  "uuid": "test-fnt-uuid",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "_fntConfig": {
+      "commonHeight": 8,
+      "fontSize": 8,
+      "atlasName": "texture.tga",
+      "fontDefDictionary": {
+        "65": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 8,
+            "height": 8
+          },
+          "xOffset": 2,
+          "yOffset": 2,
+          "xAdvance": 8
+        }
+      },
+      "kerningDict": {}
+    },
+    "fontSize": 8,
+    "textureUuid": "test-tex-uuid"
+  }
+}
+)";
+        const QByteArray expectedMeta = R"({
+  "ver": "1.0.6",
+  "importer": "bitmap-font",
+  "uuid": "test-fnt-uuid",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "_fntConfig": {
+      "commonHeight": 4,
+      "fontSize": 4,
+      "atlasName": "texture.png",
+      "fontDefDictionary": {
+        "65": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 4,
+            "height": 4
+          },
+          "xOffset": 1,
+          "yOffset": 1,
+          "xAdvance": 4
+        }
+      },
+      "kerningDict": {}
+    },
+    "fontSize": 4,
+    "textureUuid": "test-tex-uuid"
+  }
+}
+)";
+        // An atlas naming another image is never touched.
+        const QByteArray foreignFnt =
+            "info face=\"foreign\" size=8\n"
+            "common lineHeight=8 base=6 scaleW=16 scaleH=8 pages=1\n"
+            "page id=0 file=\"foreign.tga\"\n"
+            "chars count=1\n"
+            "char id=65 x=0 y=0 width=8 height=8 xoffset=2 yoffset=2 xadvance=8 page=0 chnl=15\n";
+        QVERIFY(save(path, original));
+        QVERIFY(save(dir.filePath("texture.fnt"), fnt));
+        QVERIFY(save(dir.filePath("texture.fnt.meta"), meta));
+        QVERIFY(save(dir.filePath("foreign.fnt"), foreignFnt));
+        CImage image(path);
+        auto opt = options(dir.path());
+        opt.format = 2;
+        opt.suffix.clear();
+        opt.sameFolderAsInput = true;
+        opt.cacheOriginals = true;
+        opt.deleteOriginalFormatFile = true;
+        opt.syncFontAtlasFiles = true;
+        opt.resize = true;
+        opt.fitTo = PERCENTAGE;
+        opt.width = 50;
+        opt.height = 50;
+        QVERIFY(image.compress(opt));
+        QVERIFY(!QFile::exists(path));
+        QCOMPARE(ImageIO::size(image.getCompressedFullPath()), QSize(8, 4));
+        QCOMPARE(bytes(dir.filePath("texture.fnt")), expectedFnt);
+        QCOMPARE(bytes(dir.filePath("texture.fnt.meta")), expectedMeta);
+        QCOMPARE(bytes(dir.filePath("foreign.fnt")), foreignFnt);
+        QVERIFY(image.restoreFromCache(true));
+        QCOMPARE(bytes(path), original);
+        QCOMPARE(bytes(dir.filePath("texture.fnt")), fnt);
+        QCOMPARE(bytes(dir.filePath("texture.fnt.meta")), meta);
+        QCOMPARE(bytes(dir.filePath("foreign.fnt")), foreignFnt);
+        QVERIFY(!QFile::exists(dir.filePath("texture.png")));
+        image.removeCachedOriginal();
+    }
+    void labelAtlasFollowsResize()
+    {
+        QTemporaryDir dir;
+        const QString path = dir.filePath("texture.tga");
+        const QByteArray original = rawTga(sample());
+        // Art fonts (label atlases) keep their grid in the meta and name the
+        // atlas image without extension. Their metrics keep full precision so
+        // scaling (and restoring) is lossless even for odd values.
+        const QByteArray meta = R"({
+  "ver": "1.0.1",
+  "importer": "label-atlas",
+  "uuid": "test-label-uuid",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "itemWidth": 8,
+    "itemHeight": 7,
+    "fontSize": 7.5,
+    "startChar": "3",
+    "spriteFrameUuid": "test-tex-uuid@f9941",
+    "_fntConfig": {
+      "commonHeight": 7,
+      "fontSize": 7,
+      "atlasName": "texture",
+      "fontDefDictionary": {
+        "65": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 8,
+            "height": 7
+          },
+          "xOffset": 2,
+          "yOffset": 2,
+          "xAdvance": 8
+        }
+      },
+      "kerningDict": {
+        "51_52": 2
+      }
+    }
+  }
+}
+)";
+        const QByteArray expectedMeta = R"({
+  "ver": "1.0.1",
+  "importer": "label-atlas",
+  "uuid": "test-label-uuid",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "itemWidth": 4,
+    "itemHeight": 3.5,
+    "fontSize": 3.75,
+    "startChar": "3",
+    "spriteFrameUuid": "test-tex-uuid@f9941",
+    "_fntConfig": {
+      "commonHeight": 3.5,
+      "fontSize": 3.5,
+      "atlasName": "texture",
+      "fontDefDictionary": {
+        "65": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 4,
+            "height": 3.5
+          },
+          "xOffset": 1,
+          "yOffset": 1,
+          "xAdvance": 4
+        }
+      },
+      "kerningDict": {
+        "51_52": 1
+      }
+    }
+  }
+}
+)";
+        const QByteArray foreignMeta = R"({
+  "ver": "1.0.1",
+  "importer": "label-atlas",
+  "uuid": "test-foreign-uuid",
+  "userData": {
+    "itemWidth": 8,
+    "itemHeight": 8,
+    "fontSize": 7.5,
+    "_fntConfig": {
+      "atlasName": "foreign",
+      "commonHeight": 8
+    }
+  }
+}
+)";
+        QVERIFY(save(path, original));
+        QVERIFY(save(dir.filePath("label-atlas.labelatlas.meta"), meta));
+        QVERIFY(save(dir.filePath("other.labelatlas.meta"), foreignMeta));
+        CImage image(path);
+        auto opt = options(dir.path());
+        opt.suffix.clear();
+        opt.sameFolderAsInput = true;
+        opt.cacheOriginals = true;
+        opt.syncFontAtlasFiles = true;
+        opt.resize = true;
+        opt.fitTo = PERCENTAGE;
+        opt.width = 50;
+        opt.height = 50;
+        // Same format: the resize simply overwrites the atlas image in place.
+        QVERIFY(image.compress(opt));
+        QCOMPARE(ImageIO::size(path), QSize(8, 4));
+        QCOMPARE(bytes(dir.filePath("label-atlas.labelatlas.meta")), expectedMeta);
+        QCOMPARE(bytes(dir.filePath("other.labelatlas.meta")), foreignMeta);
+        QVERIFY(image.restoreFromCache(true));
+        QCOMPARE(bytes(path), original);
+        QCOMPARE(bytes(dir.filePath("label-atlas.labelatlas.meta")), meta);
+        QCOMPARE(bytes(dir.filePath("other.labelatlas.meta")), foreignMeta);
+        image.removeCachedOriginal();
+    }
     void sameFormatRestore()
     {
         QTemporaryDir dir;

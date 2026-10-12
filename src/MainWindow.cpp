@@ -540,6 +540,7 @@ void MainWindow::writeSettings() const
     QSettings().setValue("compression_options/output/delete_original_format_file", ui->deleteOriginalFormatFile_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/sync_meta_file", ui->syncMetaFile_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/sync_spine_file", ui->syncSpineFile_CheckBox->isChecked());
+    QSettings().setValue("compression_options/output/sync_font_atlas_files", ui->syncFontAtlasFiles_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/keep_dates", ui->keepDates_CheckBox->checkState());
     QSettings().setValue("compression_options/output/keep_creation_date", ui->keepCreationDate_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/keep_last_modified_date", ui->keepLastModifiedDate_CheckBox->isChecked());
@@ -600,6 +601,7 @@ void MainWindow::readSettings()
     ui->deleteOriginalFormatFile_CheckBox->setChecked(QSettings().value("compression_options/output/delete_original_format_file", true).toBool());
     ui->syncMetaFile_CheckBox->setChecked(QSettings().value("compression_options/output/sync_meta_file", false).toBool());
     ui->syncSpineFile_CheckBox->setChecked(QSettings().value("compression_options/output/sync_spine_file", false).toBool());
+    ui->syncFontAtlasFiles_CheckBox->setChecked(QSettings().value("compression_options/output/sync_font_atlas_files", false).toBool());
     ui->keepDates_CheckBox->setCheckState(QSettings().value("compression_options/output/keep_dates", Qt::Unchecked).value<Qt::CheckState>());
     ui->keepCreationDate_CheckBox->setChecked(QSettings().value("compression_options/output/keep_creation_date", false).toBool());
     ui->keepLastModifiedDate_CheckBox->setChecked(QSettings().value("compression_options/output/keep_last_modified_date", false).toBool());
@@ -969,6 +971,7 @@ CompressionOptions MainWindow::getCompressionOptions(const QString& rootFolder) 
         QSettings().value("preferences/general/transparency_fill_color", "#FFFFFF").toString(),
         ui->syncMetaFile_CheckBox->isChecked(),
         ui->syncSpineFile_CheckBox->isChecked(),
+        ui->syncFontAtlasFiles_CheckBox->isChecked(),
         ui->TGACompressionMethod_ComboBox->currentIndex() == 0,
     };
 
@@ -1633,7 +1636,7 @@ void MainWindow::on_actionRestore_triggered()
     int failedCount = 0;
     for (int row : rows) {
         auto* cImage = this->cImageModel->getRootItem()->children().at(row)->getCImage();
-        if (cImage->restoreFromCache()) {
+        if (cImage->restoreFromCache(ui->syncFontAtlasFiles_CheckBox->isChecked())) {
             this->cImageModel->emitDataChanged(row);
             restoredCount++;
         } else {
@@ -1915,6 +1918,11 @@ void MainWindow::on_syncMetaFile_CheckBox_toggled(bool checked)
 void MainWindow::on_syncSpineFile_CheckBox_toggled(bool checked)
 {
     QSettings().setValue("compression_options/output/sync_spine_file", checked);
+}
+
+void MainWindow::on_syncFontAtlasFiles_CheckBox_toggled(bool checked)
+{
+    QSettings().setValue("compression_options/output/sync_font_atlas_files", checked);
 }
 
 void MainWindow::outputFormatIndexChanged(int index) const
@@ -2950,7 +2958,7 @@ CliResponse MainWindow::cliRestore(const QJsonObject& params)
     int restored = 0;
     int failed = 0;
     for (int k = 0; k < unique.size(); ++k) {
-        if (unique.at(k)->restoreFromCache()) {
+        if (unique.at(k)->restoreFromCache(ui->syncFontAtlasFiles_CheckBox->isChecked())) {
             this->cImageModel->emitDataChanged(uniqueRows.at(k));
             restored++;
         } else {

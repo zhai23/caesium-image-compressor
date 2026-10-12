@@ -199,21 +199,21 @@ All rights reserved.</source>
         <translation>載入檔案夾...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="722"/>
+        <location filename="../../src/MainWindow.cpp" line="724"/>
         <source>Importing files...</source>
         <translation>正在載入檔案...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1576"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1576"/>
-        <location filename="../../src/MainWindow.cpp" line="722"/>
-        <location filename="../../src/MainWindow.cpp" line="1004"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1586"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1586"/>
+        <location filename="../../src/MainWindow.cpp" line="724"/>
+        <location filename="../../src/MainWindow.cpp" line="1007"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="822"/>
+        <location filename="../../src/MainWindow.cpp" line="824"/>
         <source>You are about to overwrite your original images and this action can&apos;t be undone.
 
 Do you really want to continue?</source>
@@ -222,77 +222,77 @@ Do you really want to continue?</source>
 確定繼續嗎？</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="824"/>
+        <location filename="../../src/MainWindow.cpp" line="826"/>
         <source>No</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="889"/>
-        <location filename="../../src/MainWindow.cpp" line="1839"/>
+        <location filename="../../src/MainWindow.cpp" line="891"/>
+        <location filename="../../src/MainWindow.cpp" line="1842"/>
         <source>Compressing...</source>
         <translation>正在壓縮...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="999"/>
+        <location filename="../../src/MainWindow.cpp" line="1002"/>
         <source>Do you really want to quit?</source>
         <translation>確定退出嗎？</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="823"/>
-        <location filename="../../src/MainWindow.cpp" line="1001"/>
+        <location filename="../../src/MainWindow.cpp" line="825"/>
+        <location filename="../../src/MainWindow.cpp" line="1004"/>
         <source>Yes</source>
         <translation>確定</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="804"/>
-        <location filename="../../src/MainWindow.cpp" line="808"/>
+        <location filename="../../src/MainWindow.cpp" line="806"/>
+        <location filename="../../src/MainWindow.cpp" line="810"/>
         <source>Please select an output folder first</source>
         <translation>請首先選擇一個輸出文件夾</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="809"/>
-        <location filename="../../src/MainWindow.cpp" line="855"/>
-        <location filename="../../src/MainWindow.cpp" line="1137"/>
-        <location filename="../../src/MainWindow.cpp" line="1440"/>
-        <location filename="../../src/MainWindow.cpp" line="1466"/>
-        <location filename="../../src/MainWindow.cpp" line="1488"/>
-        <location filename="../../src/MainWindow.cpp" line="1655"/>
+        <location filename="../../src/MainWindow.cpp" line="811"/>
+        <location filename="../../src/MainWindow.cpp" line="857"/>
+        <location filename="../../src/MainWindow.cpp" line="1140"/>
+        <location filename="../../src/MainWindow.cpp" line="1443"/>
+        <location filename="../../src/MainWindow.cpp" line="1469"/>
+        <location filename="../../src/MainWindow.cpp" line="1491"/>
+        <location filename="../../src/MainWindow.cpp" line="1658"/>
         <source>Ok</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="837"/>
+        <location filename="../../src/MainWindow.cpp" line="839"/>
         <source>No images in the list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="849"/>
-        <location filename="../../src/MainWindow.cpp" line="853"/>
+        <location filename="../../src/MainWindow.cpp" line="851"/>
+        <location filename="../../src/MainWindow.cpp" line="855"/>
         <source>No images selected</source>
         <translation>未選擇圖片</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="854"/>
+        <location filename="../../src/MainWindow.cpp" line="856"/>
         <source>Please check at least one image to compress.</source>
         <translation>請至少勾選一張圖片進行壓縮。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1030"/>
+        <location filename="../../src/MainWindow.cpp" line="1033"/>
         <source>Select output folder...</source>
         <translation>選擇輸出檔案夾...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1101"/>
+        <location filename="../../src/MainWindow.cpp" line="1104"/>
         <source>Compression finished!</source>
         <translation>壓縮完成！</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1127"/>
+        <location filename="../../src/MainWindow.cpp" line="1130"/>
         <source>You just saved %1!</source>
         <translation>你已節省 %1 的儲存空間!</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1131"/>
+        <location filename="../../src/MainWindow.cpp" line="1134"/>
         <source>Total files: %1
 Original size: %2
 Compressed size: %3
@@ -303,861 +303,861 @@ Saved: %4 (%5%)</source>
 節省比例: %4 (%5%)</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1398"/>
+        <location filename="../../src/MainWindow.cpp" line="1401"/>
         <source>Original:</source>
         <translation>原始:</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1399"/>
+        <location filename="../../src/MainWindow.cpp" line="1402"/>
         <source>Compressed:</source>
         <translation>壓縮後:</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1438"/>
-        <location filename="../../src/MainWindow.cpp" line="1465"/>
+        <location filename="../../src/MainWindow.cpp" line="1441"/>
+        <location filename="../../src/MainWindow.cpp" line="1468"/>
         <source>Could not check for updates.</source>
         <translation>無法檢查更新。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1475"/>
+        <location filename="../../src/MainWindow.cpp" line="1478"/>
         <source>A new version is available!</source>
         <translation>有新版本可用！</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1476"/>
+        <location filename="../../src/MainWindow.cpp" line="1479"/>
         <source>Version %1 is available (you have %2). Do you want to download it?</source>
         <translation>版本 %1 可用（目前 %2）。是否下載？</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1478"/>
+        <location filename="../../src/MainWindow.cpp" line="1481"/>
         <source>Download</source>
         <translation>下載</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1479"/>
+        <location filename="../../src/MainWindow.cpp" line="1482"/>
         <source>Not now</source>
         <translation>暫不</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1486"/>
+        <location filename="../../src/MainWindow.cpp" line="1489"/>
         <source>You are up to date!</source>
         <translation>已是最新版本！</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1487"/>
+        <location filename="../../src/MainWindow.cpp" line="1490"/>
         <source>Version %1 is the latest available.</source>
         <translation>版本 %1 已是最新。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1653"/>
+        <location filename="../../src/MainWindow.cpp" line="1656"/>
         <source>Nothing to restore</source>
         <translation>沒有可還原的內容</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1654"/>
+        <location filename="../../src/MainWindow.cpp" line="1657"/>
         <source>The selected images have no cached original to restore from.</source>
         <translation>所選圖片沒有可用於還原的快取原圖。</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1711"/>
-        <location filename="../../src/MainWindow.cpp" line="1716"/>
+        <location filename="../../src/MainWindow.cpp" line="1714"/>
+        <location filename="../../src/MainWindow.cpp" line="1719"/>
         <source>File not found</source>
         <translation>未找到文件</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1751"/>
+        <location filename="../../src/MainWindow.cpp" line="1754"/>
         <source>Finishing...</source>
         <translation>壓縮中...</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2070"/>
+        <location filename="../../src/MainWindow.cpp" line="2078"/>
         <source>Recompress failed</source>
         <translation>再壓縮失敗</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2432"/>
+        <location filename="../../src/MainWindow.cpp" line="2440"/>
         <source>Unknown command: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2438"/>
+        <location filename="../../src/MainWindow.cpp" line="2446"/>
         <source>Compression is in progress. Wait for it to finish or cancel it first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2442"/>
+        <location filename="../../src/MainWindow.cpp" line="2450"/>
         <source>No paths specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2447"/>
+        <location filename="../../src/MainWindow.cpp" line="2455"/>
         <source>No supported image files found in the given paths.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2462"/>
-        <location filename="../../src/MainWindow.cpp" line="2515"/>
-        <location filename="../../src/MainWindow.cpp" line="2711"/>
-        <location filename="../../src/MainWindow.cpp" line="2808"/>
-        <location filename="../../src/MainWindow.cpp" line="2881"/>
+        <location filename="../../src/MainWindow.cpp" line="2470"/>
+        <location filename="../../src/MainWindow.cpp" line="2523"/>
+        <location filename="../../src/MainWindow.cpp" line="2719"/>
+        <location filename="../../src/MainWindow.cpp" line="2816"/>
+        <location filename="../../src/MainWindow.cpp" line="2889"/>
         <source>Compression is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2475"/>
-        <location filename="../../src/MainWindow.cpp" line="2739"/>
+        <location filename="../../src/MainWindow.cpp" line="2483"/>
+        <location filename="../../src/MainWindow.cpp" line="2747"/>
         <source>No paths or IDs specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2617"/>
+        <location filename="../../src/MainWindow.cpp" line="2625"/>
         <source>Compression is already running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2666"/>
+        <location filename="../../src/MainWindow.cpp" line="2674"/>
         <source>No images in the list. Add some first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2669"/>
+        <location filename="../../src/MainWindow.cpp" line="2677"/>
         <source>Please select an output folder first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2674"/>
+        <location filename="../../src/MainWindow.cpp" line="2682"/>
         <source>No images selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2700"/>
+        <location filename="../../src/MainWindow.cpp" line="2708"/>
         <source>No compression in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2663"/>
-        <location filename="../../src/MainWindow.cpp" line="2774"/>
+        <location filename="../../src/MainWindow.cpp" line="2671"/>
+        <location filename="../../src/MainWindow.cpp" line="2782"/>
         <source>None of the given paths/IDs are in the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2832"/>
+        <location filename="../../src/MainWindow.cpp" line="2840"/>
         <source>No image with the given ID/path is in the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2840"/>
+        <location filename="../../src/MainWindow.cpp" line="2848"/>
         <source>Could not generate the preview.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2934"/>
+        <location filename="../../src/MainWindow.cpp" line="2942"/>
         <source>No matching images to restore.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="3193"/>
+        <location filename="../../src/MainWindow.cpp" line="3201"/>
         <source>Unknown option key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="3212"/>
+        <location filename="../../src/MainWindow.cpp" line="3220"/>
         <source>No options to set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="3245"/>
+        <location filename="../../src/MainWindow.cpp" line="3253"/>
         <source>Unknown setting key: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="3354"/>
+        <location filename="../../src/MainWindow.cpp" line="3362"/>
         <source>No settings to set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1445"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1445"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1451"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1451"/>
         <source>Caesium Image Compressor</source>
         <translation>Caesium Image Compressor</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1487"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1487"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1493"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1493"/>
         <source>Add...</source>
         <translation>添加...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1456"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1488"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1456"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1488"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1462"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1494"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1462"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1494"/>
         <source>Remove</source>
         <translation>刪除</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1473"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1475"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1489"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1473"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1475"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1489"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1479"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1481"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1495"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1479"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1481"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1495"/>
         <source>Compress</source>
         <translation>壓縮</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1526"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1526"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1532"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1532"/>
         <source>Compression</source>
         <translation>壓縮選項</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1495"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1495"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1501"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1501"/>
         <source>JPEG</source>
         <translation>JPEG</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1492"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1496"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1500"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1503"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1492"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1496"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1500"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1503"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1498"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1502"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1506"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1509"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1498"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1502"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1506"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1509"/>
         <source>Quality</source>
         <translation>圖片品質</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1499"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1499"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1505"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1505"/>
         <source>PNG</source>
         <translation>PNG</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1502"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1502"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1508"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1508"/>
         <source>WebP</source>
         <translation>WebP</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1517"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1517"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1523"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1523"/>
         <source>Lossless</source>
         <translation>無損壓縮</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1519"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1519"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1525"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1525"/>
         <source>Maximum output size</source>
         <translation>最大圖片體積</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1491"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1491"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1497"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1497"/>
         <source>Mode</source>
         <translation>模式</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1518"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1518"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1524"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1524"/>
         <source>Keep Metadata</source>
         <translation>保留元數據</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1542"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1542"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1548"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1548"/>
         <source>Resize</source>
         <translation>圖片尺寸</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1527"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1527"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1533"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1533"/>
         <source>Resize to fit</source>
         <translation>調整方式</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1528"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1528"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1534"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1534"/>
         <source>No resize</source>
         <translation>保持原始尺寸</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1529"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1529"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1535"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1535"/>
         <source>Dimensions</source>
         <translation>像素值</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1530"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1530"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1536"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1536"/>
         <source>Percentage</source>
         <translation>百分比</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1531"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1531"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1537"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1537"/>
         <source>Short edge</source>
         <translation>短邊固定</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1532"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1532"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1538"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1538"/>
         <source>Long edge</source>
         <translation>長邊固定</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1533"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1536"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1533"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1536"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1539"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1542"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1539"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1542"/>
         <source>Width</source>
         <translation>寬度</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1538"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1538"/>
-        <location filename="../../src/MainWindow.cpp" line="1171"/>
-        <location filename="../../src/MainWindow.cpp" line="1175"/>
-        <location filename="../../src/MainWindow.cpp" line="1210"/>
-        <location filename="../../src/MainWindow.cpp" line="1214"/>
-        <location filename="../../src/MainWindow.cpp" line="1223"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1544"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1544"/>
+        <location filename="../../src/MainWindow.cpp" line="1174"/>
+        <location filename="../../src/MainWindow.cpp" line="1178"/>
+        <location filename="../../src/MainWindow.cpp" line="1213"/>
+        <location filename="../../src/MainWindow.cpp" line="1217"/>
         <location filename="../../src/MainWindow.cpp" line="1226"/>
+        <location filename="../../src/MainWindow.cpp" line="1229"/>
         <source>px</source>
         <translation>px</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1493"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1537"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1493"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1537"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1499"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1543"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1499"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1543"/>
         <source>Size</source>
         <translation>大小</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1534"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1539"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1534"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1539"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1540"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1545"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1540"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1545"/>
         <source>Height</source>
         <translation>高度</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1540"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1540"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1546"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1546"/>
         <source>Do not enlarge</source>
         <translation>不要放大</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1541"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1541"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1547"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1547"/>
         <source>Keep aspect ratio</source>
         <translation>保持長寬比</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1573"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1573"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1583"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1583"/>
         <source>Output</source>
         <translation>輸出</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1543"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1543"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1549"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1549"/>
         <source>Folder</source>
         <translation>檔案夾</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1544"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1544"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1550"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1550"/>
         <source>Select...</source>
         <translation>選擇...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1545"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1545"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1551"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1551"/>
         <source>Same folder as input</source>
         <translation>輸出到原目錄</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1546"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1546"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1552"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1552"/>
         <source>Keep folder structure</source>
         <translation>保留目錄結構</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1547"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1547"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1553"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1553"/>
         <source>Skip if output size is bigger than the original</source>
         <translation>若輸出體積大於源文件則跳過</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1568"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1568"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1578"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1578"/>
         <source>Keep file dates</source>
         <translation>保留檔案時間</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1569"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1569"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1579"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1579"/>
         <source>Creation</source>
         <translation>建立日期</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1570"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1570"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1580"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1580"/>
         <source>Last modified</source>
         <translation>修改日期</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1571"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1571"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1581"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1581"/>
         <source>Last access</source>
         <translation>存取日期</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1490"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1490"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1496"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1496"/>
         <source>Format</source>
         <translation>格式</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1521"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1521"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1527"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1527"/>
         <source>bytes</source>
         <translation>bytes</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1501"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1501"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1507"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1507"/>
         <source>Optimization level</source>
         <translation>优化級別</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1504"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1504"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1510"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1510"/>
         <source>TIFF</source>
         <translation>TIFF</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1505"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1512"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1505"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1512"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1511"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1518"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1511"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1518"/>
         <source>Method</source>
         <translation>方法</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2046"/>
+        <location filename="../../src/MainWindow.cpp" line="2054"/>
         <source>Best</source>
         <translation>最佳</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1511"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1511"/>
-        <location filename="../../src/MainWindow.cpp" line="2048"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1517"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1517"/>
+        <location filename="../../src/MainWindow.cpp" line="2056"/>
         <source>Balanced</source>
         <translation>平衡</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2044"/>
+        <location filename="../../src/MainWindow.cpp" line="2052"/>
         <source>Fast</source>
         <translation>最快</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1506"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1514"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1506"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1514"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1512"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1520"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1512"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1520"/>
         <source>Uncompressed</source>
         <translation>不壓縮</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1497"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1497"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1503"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1503"/>
         <source>Chroma subsampling</source>
         <translation>色度二次采樣</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1522"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1522"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1528"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1528"/>
         <source>KB</source>
         <translation>KB</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1523"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1523"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1529"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1529"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1564"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1564"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1574"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1574"/>
         <source>Move the original file</source>
         <translation>移動原始文件</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1565"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1565"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1575"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1575"/>
         <source>To Trash</source>
         <translation>刪除到回收站</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1566"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1566"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1576"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1576"/>
         <source>Delete Permanently</source>
         <translation>永久刪除</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1572"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1572"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1582"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1582"/>
         <source>Suffix</source>
         <translation>後綴</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1575"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1575"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1585"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1585"/>
         <source>Converting to a new format or resizing can degrade quality even if &quot;lossless&quot; option is selected</source>
         <translation>圖片轉換格式或圖片調整大小後可能會降低圖像質量，即使勾選了“無損”;</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1580"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1580"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1590"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1590"/>
         <source>Compressed</source>
         <translation>壓縮</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1577"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1577"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1587"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1587"/>
         <source>Original</source>
         <translation>源文件</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1498"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1498"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1504"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1504"/>
         <source>Progressive</source>
         <translation>漸進式</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1582"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1582"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1592"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1592"/>
         <source>Help</source>
         <translation>幫助</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1583"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1583"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1593"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1593"/>
         <source>File</source>
         <translation>檔案</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1584"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1584"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1594"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1594"/>
         <source>Edit</source>
         <translation>編輯</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1585"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1585"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1595"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1595"/>
         <source>View</source>
         <translation>視圖</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1586"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1587"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1586"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1587"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1596"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1597"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1596"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1597"/>
         <source>Toolbar</source>
         <translation>工具欄</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1446"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1446"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1452"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1452"/>
         <source>About Caesium Image Compressor</source>
         <translation>關於 Caesium Image Compressor</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1447"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1447"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1453"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1453"/>
         <source>Add files...</source>
         <translation>打開檔案...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1449"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1449"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1455"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1455"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1451"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1451"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1457"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1457"/>
         <source>Add folder...</source>
         <translation>打開檔案夾...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1453"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1453"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1459"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1459"/>
         <source>Ctrl+Shift+O</source>
         <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1455"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1455"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1461"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1461"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1458"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1458"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1464"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1464"/>
         <source>Del</source>
         <translation>刪除</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1460"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1460"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1466"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1466"/>
         <source>Select All</source>
         <translation>全選</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1462"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1462"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1468"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1468"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1464"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1464"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1470"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1470"/>
         <source>Clear</source>
         <translation>清空</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1465"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1465"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1471"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1471"/>
         <source>Show previews</source>
         <translation>預覽</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1466"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1466"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1472"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1472"/>
         <source>Preferences...</source>
         <translation>選項...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1467"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1467"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1473"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1473"/>
         <source>Show original in file manager</source>
         <translation>在文件管理器中查看原圖</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1468"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1468"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1474"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1474"/>
         <source>Show compressed in file manager</source>
         <translation>在文件管理器中查看壓縮圖</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1477"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1477"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1483"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1483"/>
         <source>Icons</source>
         <translation>圖標</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1478"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1478"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1484"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1484"/>
         <source>Icons and Text</source>
         <translation>圖標和文本</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1479"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1479"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1485"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1485"/>
         <source>Hide</source>
         <translation>隱藏</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1480"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1480"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1486"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1486"/>
         <source>Show</source>
         <translation>顯示</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1481"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1481"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1487"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1487"/>
         <source>Auto preview</source>
         <translation>自動預覽</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1482"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1482"/>
-        <location filename="../../src/MainWindow.cpp" line="1734"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1488"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1488"/>
+        <location filename="../../src/MainWindow.cpp" line="1737"/>
         <source>Preview</source>
         <translation>預覽</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1484"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1484"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1490"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1490"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1486"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1486"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1492"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1492"/>
         <source>Advanced import...</source>
         <translation>高級導入...</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1524"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1524"/>
-        <location filename="../../src/MainWindow.cpp" line="1185"/>
-        <location filename="../../src/MainWindow.cpp" line="1189"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1530"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1530"/>
+        <location filename="../../src/MainWindow.cpp" line="1188"/>
+        <location filename="../../src/MainWindow.cpp" line="1192"/>
         <source>%</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1397"/>
+        <location filename="../../src/MainWindow.cpp" line="1400"/>
         <source>images in list</source>
         <translation>張已選圖片</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1549"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1549"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1555"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1555"/>
         <source>Keep a copy of the original images so you can re-compress with different settings even after overwriting them.</source>
         <translation>保留原圖副本，即使覆蓋原圖後也能用不同參數重新壓縮。</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1551"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1551"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1557"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1557"/>
         <source>Cache originals for re-compression</source>
         <translation>快取原圖以便重複壓縮</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1553"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1553"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1559"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1559"/>
         <source>After converting to a new format, delete the same-named file with the original extension in the output folder.</source>
         <translation>轉換為新格式後，刪除輸出目錄中同名但原副檔名的檔案。</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1555"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1555"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1561"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1561"/>
         <source>Delete original-format file after conversion</source>
         <translation>轉換格式後刪除原格式檔案</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1509"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1509"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1515"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1515"/>
         <source>Current Deflate level (Fast / Balanced / Best)</source>
         <translation>目前 Deflate 級別（快速 / 平衡 / 最佳）</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1469"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1469"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1475"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1475"/>
         <source>Restore</source>
         <translation>還原</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1471"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1471"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1477"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1477"/>
         <source>Restore the original image from cache and remove the converted output.</source>
         <translation>從快取還原原圖，並刪除轉換產生的輸出檔案。</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1559"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1559"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1565"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1565"/>
         <source>Sync same-name .meta file</source>
         <translation>同步更新.meta檔案</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1557"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1557"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1563"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1563"/>
         <source>When converting format, sync the matching .meta file to adapt to the game engine.</source>
         <translation>格式轉換時同步更新同名的 .meta 檔案，以適配遊戲引擎。</translation>
     </message>
@@ -1168,36 +1168,50 @@ Saved: %4 (%5%)</source>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1513"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1513"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1519"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1519"/>
         <source>RLE (lossless)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1516"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1516"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1522"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1522"/>
         <source>Both modes preserve pixels and transparency. Quality sliders do not apply to TGA.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="1002"/>
+        <location filename="../../src/MainWindow.cpp" line="1005"/>
         <source>Minimize to tray</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1561"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1561"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1567"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1567"/>
         <source>When converting format, sync the matching Spine .atlas/.atlas.txt file to adapt to the game engine.</source>
         <translation>格式轉換時同步更新同名的 Spine .atlas/.atlas.txt 檔案，以適配遊戲引擎。</translation>
     </message>
     <message>
         <location filename="../../views/MainWindow.ui"/>
-        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1563"/>
-        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1563"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1569"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1569"/>
         <source>Sync same-name Spine .atlas file</source>
         <translation>同步更新Spine檔案</translation>
+    </message>
+    <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1571"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1571"/>
+        <source>When converting format or resizing, sync the matching .fnt, .fnt.meta and .labelatlas.meta files to adapt to the game engine.</source>
+        <translation>格式轉換或縮放時同步更新關聯的 .fnt、.fnt.meta、.labelatlas.meta 檔案，以適配遊戲引擎。</translation>
+    </message>
+    <message>
+        <location filename="../../views/MainWindow.ui"/>
+        <location filename="../../build_dir/caesium_image_compressor_autogen/include/ui_MainWindow.h" line="1573"/>
+        <location filename="../../build_dir/tests/TrayTests_autogen/include/ui_MainWindow.h" line="1573"/>
+        <source>Sync bitmap font atlas files</source>
+        <translation>同步更新圖集字型檔案</translation>
     </message>
 </context>
 <context>
@@ -1585,52 +1599,52 @@ Saved: %4 (%5%)</source>
         <translation>圖片檔案</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="185"/>
+        <location filename="../../src/models/CImage.cpp" line="194"/>
         <source>Input file does not exist</source>
         <translation>輸入文件不存在</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="210"/>
+        <location filename="../../src/models/CImage.cpp" line="219"/>
         <source>Cannot make output path, check your permissions</source>
         <translation>無法創建輸出路徑，請檢查訪問權限</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="227"/>
+        <location filename="../../src/models/CImage.cpp" line="236"/>
         <source>Temporary file creation failed</source>
         <translation>無法創建臨時文件</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="239"/>
+        <location filename="../../src/models/CImage.cpp" line="248"/>
         <source>File conversion failed</source>
         <translation>文件轉換失敗</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="300"/>
+        <location filename="../../src/models/CImage.cpp" line="309"/>
         <source>Skipped: compressed file is bigger than original</source>
         <translation>跳過：壓縮後的文件尺寸大於原始文件</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="310"/>
+        <location filename="../../src/models/CImage.cpp" line="319"/>
         <source>Cannot copy output file, check your permissions</source>
         <translation>無法復製輸出文件到輸出路徑，請檢查訪問權限</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="335"/>
+        <location filename="../../src/models/CImage.cpp" line="344"/>
         <source>Cannot move original file to trash, check your permissions</source>
         <translation>無法刪除源文件，請檢查訪問權限</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="338"/>
+        <location filename="../../src/models/CImage.cpp" line="347"/>
         <source>Cannot delete original file, check your permissions</source>
         <translation>無法刪除原始文件，請檢查您的權限</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="534"/>
+        <location filename="../../src/models/CImage.cpp" line="559"/>
         <source>Compressing...</source>
         <translation>正在壓縮...</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="536"/>
+        <location filename="../../src/models/CImage.cpp" line="561"/>
         <source>Error:</source>
         <translation>異常：</translation>
     </message>
@@ -1675,22 +1689,22 @@ Saved: %4 (%5%)</source>
         <translation>自動</translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="166"/>
+        <location filename="../../src/models/CImage.cpp" line="168"/>
         <source>Cannot cache original image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="417"/>
+        <location filename="../../src/models/CImage.cpp" line="442"/>
         <source>TGA metadata cannot be preserved. Disable Keep metadata to continue.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="422"/>
+        <location filename="../../src/models/CImage.cpp" line="447"/>
         <source>Cannot decode source image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/models/CImage.cpp" line="453"/>
+        <location filename="../../src/models/CImage.cpp" line="478"/>
         <source>TGA output cannot meet the requested size. Choose another format or resize the image.</source>
         <translation type="unfinished"></translation>
     </message>

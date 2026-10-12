@@ -44,8 +44,11 @@ public:
     QString getCompressionSourcePath(bool cacheOriginals) const;
     void removeCachedOriginal() const;
     // Restore the image to its uncompressed original by copying the cached
-    // original back to its location and removing the converted output.
-    bool restoreFromCache();
+    // original back to its location and removing the converted output. When
+    // syncFontAtlas is true, the bitmap-font atlas descriptors updated on
+    // compression are brought back too (they can only be scaled back when they
+    // were scaled in the first place).
+    bool restoreFromCache(bool syncFontAtlas = false);
 
     // Session-local numeric ID (1, 2, 3, ...) assigned at import time, so the
     // CLI can reference images by ID instead of by full path.
@@ -94,6 +97,17 @@ private:
     // (e.g. "1.png" -> "1.jpg"). sourceImagePath / outputImagePath are the
     // paths of the old and the new image files.
     static bool syncSpineFileForConversion(const QString& sourceImagePath, const QString& outputImagePath);
+
+    // Update the bitmap-font atlas descriptors of an image (AngelCode text
+    // .fnt and the Cocos Creator .fnt.meta / *.labelatlas.meta metas) so they
+    // follow a conversion and/or a resize of the atlas image: the recorded
+    // image name moves to outputImagePath's name and every glyph metric they
+    // store is scaled by outputSize / sourceSize. The sizes are the dimensions
+    // of the atlas image before and after the conversion. The integer based
+    // .fnt format and the meta derived from it round to whole pixels (scaling
+    // back can then be off by one pixel); art-font metas keep full precision.
+    static bool syncFontAtlasFiles(const QString& sourceImagePath, const QSize& sourceSize,
+        const QString& outputImagePath, const QSize& outputSize);
 };
 
 #endif // CIMAGE_H
