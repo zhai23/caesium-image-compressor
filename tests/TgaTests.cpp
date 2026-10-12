@@ -278,6 +278,63 @@ private slots:
         QVERIFY(!QFile::exists(dir.filePath("texture.png")));
         image.removeCachedOriginal();
     }
+    void restoreAndSpineAtlas()
+    {
+        QTemporaryDir dir;
+        const QString path = dir.filePath("texture.tga");
+        const QByteArray original = rawTga(sample());
+        const QByteArray atlas = "texture.tga\r\nsize:1102,3976\r\nfilter:Linear,Linear\r\n0\r\nbounds:1039,264,37,43\r\n";
+        const QByteArray syncedAtlas = "texture.png\r\nsize:1102,3976\r\nfilter:Linear,Linear\r\n0\r\nbounds:1039,264,37,43\r\n";
+        // Same-name atlas in the ".atlas.txt" flavour, with the page attributes
+        // glued right after the image name on the first line.
+        const QByteArray gluedAtlas = "texture.tgasize:1102,3976\nfilter:Linear,Linear\n";
+        const QByteArray syncedGluedAtlas = "texture.pngsize:1102,3976\nfilter:Linear,Linear\n";
+        QVERIFY(save(path, original));
+        QVERIFY(save(dir.filePath("texture.atlas"), atlas));
+        QVERIFY(save(dir.filePath("texture.atlas.txt"), gluedAtlas));
+        CImage image(path);
+        auto opt = options(dir.path());
+        opt.format = 2;
+        opt.suffix.clear();
+        opt.sameFolderAsInput = true;
+        opt.cacheOriginals = true;
+        opt.deleteOriginalFormatFile = true;
+        opt.syncSpineFile = true;
+        QVERIFY(image.compress(opt));
+        QVERIFY(!QFile::exists(path));
+        QCOMPARE(bytes(dir.filePath("texture.atlas")), syncedAtlas);
+        QCOMPARE(bytes(dir.filePath("texture.atlas.txt")), syncedGluedAtlas);
+        QVERIFY(image.restoreFromCache());
+        QCOMPARE(bytes(path), original);
+        QCOMPARE(bytes(dir.filePath("texture.atlas")), atlas);
+        QCOMPARE(bytes(dir.filePath("texture.atlas.txt")), gluedAtlas);
+        QVERIFY(!QFile::exists(dir.filePath("texture.png")));
+        image.removeCachedOriginal();
+    }
+    void spineAtlasFollowsOnlyItsOwnImage()
+    {
+        QTemporaryDir dir;
+        const QString path = dir.filePath("texture.tga");
+        const QByteArray original = rawTga(sample());
+        const QByteArray atlas = "other.png\nsize:1102,3976\n";
+        QVERIFY(save(path, original));
+        QVERIFY(save(dir.filePath("texture.atlas"), atlas));
+        CImage image(path);
+        auto opt = options(dir.path());
+        opt.format = 2;
+        opt.suffix.clear();
+        opt.sameFolderAsInput = true;
+        opt.cacheOriginals = true;
+        opt.deleteOriginalFormatFile = true;
+        opt.syncSpineFile = true;
+        QVERIFY(image.compress(opt));
+        // The atlas does not point at the converted image: it must stay as is.
+        QCOMPARE(bytes(dir.filePath("texture.atlas")), atlas);
+        QVERIFY(image.restoreFromCache());
+        QCOMPARE(bytes(path), original);
+        QCOMPARE(bytes(dir.filePath("texture.atlas")), atlas);
+        image.removeCachedOriginal();
+    }
     void sameFormatRestore()
     {
         QTemporaryDir dir;

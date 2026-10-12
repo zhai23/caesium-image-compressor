@@ -339,21 +339,28 @@ bool CImage::compress(const CompressionOptions& compressionOptions)
             }
         }
 
-        // Cocos Creator support: when the image was actually converted to a new
+        // Game engine support: when the image was actually converted to a new
         // format, the output was placed in the same folder as the original and
-        // the original source file has been removed, the adjacent
-        // "<name>.meta" file must follow the new file (rename + update the
-        // format recorded inside it), otherwise the editor would reimport the
-        // asset with a brand new uuid and break existing references.
-        if (compressionOptions.syncMetaFile) {
-            const QFileInfo convertedFileInfo(outputFullPath);
-            if (convert
-                && !outputIsBiggerThanInput
-                && convertedFileInfo.completeBaseName() == inputFileInfo.completeBaseName()
-                && QDir::cleanPath(convertedFileInfo.absolutePath()) == QDir::cleanPath(inputFileInfo.absolutePath())
-                && !QFileInfo::exists(inputFileInfo.absoluteFilePath())) {
-                CImage::syncMetaFileForConversion(inputFileInfo.absoluteFilePath(), convertedFileInfo.absoluteFilePath());
-            }
+        // the original source file has been removed, the adjacent sidecar
+        // files must follow the new file, otherwise they would keep pointing
+        // to the removed image.
+        // - Cocos Creator "<name>.meta": rename it (1.png.meta -> 1.jpg.meta)
+        //   and update the format entry recorded inside it (the "files" list),
+        //   otherwise the editor would reimport the asset with a brand new
+        //   uuid and break existing references.
+        // - Spine "<name>.atlas" / "<name>.atlas.txt": update the image file
+        //   name recorded in its first line ("1.png" -> "1.jpg").
+        const QFileInfo convertedFileInfo(outputFullPath);
+        const bool convertedInPlace = convert
+            && !outputIsBiggerThanInput
+            && convertedFileInfo.completeBaseName() == inputFileInfo.completeBaseName()
+            && QDir::cleanPath(convertedFileInfo.absolutePath()) == QDir::cleanPath(inputFileInfo.absolutePath())
+            && !QFileInfo::exists(inputFileInfo.absoluteFilePath());
+        if (convertedInPlace && compressionOptions.syncMetaFile) {
+            CImage::syncMetaFileForConversion(inputFileInfo.absoluteFilePath(), convertedFileInfo.absoluteFilePath());
+        }
+        if (convertedInPlace && compressionOptions.syncSpineFile) {
+            CImage::syncSpineFileForConversion(inputFileInfo.absoluteFilePath(), convertedFileInfo.absoluteFilePath());
         }
 
         QFileInfo outputFileInfo = QFileInfo(outputFullPath);
@@ -714,7 +721,17 @@ bool CImage::restoreFromCache()
         }
     }
 
-    // 4) Reset compression info back to the uncompressed original state.
+    // 4) If the previous conversion rewrote the image name recorded in the
+    //    adjacent Spine atlas file (e.g. "1.png" -> "1.jpg" in 1.atlas), bring
+    //    the recorded name back to the restored original. The atlas file name
+    //    itself never changes, only its first line, and it is left untouched
+    //    when it does not point to the converted output.
+    if (!this->compressedFullPath.isEmpty()
+        && QFileInfo(this->compressedFullPath).absoluteFilePath() != QFileInfo(this->fullPath).absoluteFilePath()) {
+        CImage::syncSpineFileForConversion(this->compressedFullPath, this->fullPath);
+    }
+
+    // 5) Reset compression info back to the uncompressed original state.
     this->compressedFullPath.clear();
     this->compressedDirectory.clear();
     this->compressedSize = this->size;
@@ -839,4 +856,86 @@ bool CImage::syncMetaFileForConversion(const QString& sourceImagePath, const QSt
         return false;
     }
     return true;
+}
+
+bool CImage::syncSpineFileForConversion(const QString& sourceImagePath, const QString& outputImagePath)
+{
+    const QFileInfo sourceInfo(sourceImagePath);
+    const QFileInfo outputInfo(outputImagePath);
+    const QString sourceExt = sourceInfo.suffix();
+    const QString outputExt = outputInfo.suffix();
+    if (sourceExt.compare(outputExt, Qt::CaseInsensitive) == 0) {
+        return false;
+    }
+    if (sourceInfo.fileName().isEmpty() || outputInfo.fileName().isEmpty()) {
+        return false;
+    }
+
+    // Spine atlases are named after the image base name ("hdjl.atlas" or
+    // "hdjl.atlas.txt" for "hdjl.png"). A format conversion never changes the
+    // image base name, so the atlas file itself is not renamed: only the image
+    // file name recorded in its first line has to follow the new extension.
+    const QDir sourceDir = sourceInfo.absoluteDir();
+    const QString baseName = sourceInfo.completeBaseName();
+    const QStringList atlasPaths = {
+        sourceDir.filePath(baseName + QLatin1String(".atlas")),
+        sourceDir.filePath(baseName + QLatin1String(".atlas.txt")),
+    };
+
+    bool updated = false;
+    for (const QString& atlasPath : atlasPaths) {
+        QFile atlasFile(atlasPath);
+        if (!atlasFile.exists()) {
+            continue;
+        }
+        if (!atlasFile.open(QIODevice::ReadOnly)) {
+            qWarning() << "Cannot read Spine atlas file:" << atlasPath;
+            continue;
+        }
+        QString content = QString::fromUtf8(atlasFile.readAll());
+        atlasFile.close();
+
+        // The first line of the atlas is the image file name; everything after
+        // the line break is left byte-for-byte untouched.
+        const int lineBreak = content.indexOf(QLatin1Char('\n'));
+        const QString firstLine = lineBreak >= 0 ? content.left(lineBreak) : content;
+        const QString remainder = lineBreak >= 0 ? content.mid(lineBreak) : QString();
+
+        // The recorded name is surrounded by the line break and possibly some
+        // whitespace, and it may carry a directory prefix to keep.
+        int nameEnd = firstLine.size();
+        while (nameEnd > 0 && firstLine.at(nameEnd - 1).isSpace()) {
+            --nameEnd;
+        }
+        int nameStart = 0;
+        while (nameStart < nameEnd && firstLine.at(nameStart).isSpace()) {
+            ++nameStart;
+        }
+        const QString core = firstLine.mid(nameStart, nameEnd - nameStart);
+        const int slash = qMax(core.lastIndexOf(QLatin1Char('/')), core.lastIndexOf(QLatin1Char('\\')));
+        const QString prefix = core.left(slash + 1);
+        const QString recordedName = core.mid(slash + 1);
+
+        QString replacement = outputInfo.fileName();
+        if (recordedName.compare(sourceInfo.fileName(), Qt::CaseInsensitive) != 0) {
+            // Some exports glue the page attributes right after the image name
+            // ("hdjl.pngsize:1102,3976"): in that case only the leading file
+            // name is swapped and the rest of the line is kept as it is.
+            if (!recordedName.startsWith(sourceInfo.fileName(), Qt::CaseInsensitive)) {
+                continue;
+            }
+            replacement = outputInfo.fileName() + recordedName.mid(sourceInfo.fileName().size());
+        }
+
+        const QString updatedContent = firstLine.left(nameStart) + prefix + replacement
+            + firstLine.mid(nameEnd) + remainder;
+        if (!atlasFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            qWarning() << "Cannot write Spine atlas file:" << atlasPath;
+            continue;
+        }
+        atlasFile.write(updatedContent.toUtf8());
+        atlasFile.close();
+        updated = true;
+    }
+    return updated;
 }

@@ -539,6 +539,7 @@ void MainWindow::writeSettings() const
     QSettings().setValue("compression_options/output/cache_originals", ui->cacheOriginals_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/delete_original_format_file", ui->deleteOriginalFormatFile_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/sync_meta_file", ui->syncMetaFile_CheckBox->isChecked());
+    QSettings().setValue("compression_options/output/sync_spine_file", ui->syncSpineFile_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/keep_dates", ui->keepDates_CheckBox->checkState());
     QSettings().setValue("compression_options/output/keep_creation_date", ui->keepCreationDate_CheckBox->isChecked());
     QSettings().setValue("compression_options/output/keep_last_modified_date", ui->keepLastModifiedDate_CheckBox->isChecked());
@@ -598,6 +599,7 @@ void MainWindow::readSettings()
     ui->cacheOriginals_CheckBox->setChecked(QSettings().value("compression_options/output/cache_originals", false).toBool());
     ui->deleteOriginalFormatFile_CheckBox->setChecked(QSettings().value("compression_options/output/delete_original_format_file", true).toBool());
     ui->syncMetaFile_CheckBox->setChecked(QSettings().value("compression_options/output/sync_meta_file", false).toBool());
+    ui->syncSpineFile_CheckBox->setChecked(QSettings().value("compression_options/output/sync_spine_file", false).toBool());
     ui->keepDates_CheckBox->setCheckState(QSettings().value("compression_options/output/keep_dates", Qt::Unchecked).value<Qt::CheckState>());
     ui->keepCreationDate_CheckBox->setChecked(QSettings().value("compression_options/output/keep_creation_date", false).toBool());
     ui->keepLastModifiedDate_CheckBox->setChecked(QSettings().value("compression_options/output/keep_last_modified_date", false).toBool());
@@ -966,6 +968,7 @@ CompressionOptions MainWindow::getCompressionOptions(const QString& rootFolder) 
         ui->deleteOriginalFormatFile_CheckBox->isChecked(),
         QSettings().value("preferences/general/transparency_fill_color", "#FFFFFF").toString(),
         ui->syncMetaFile_CheckBox->isChecked(),
+        ui->syncSpineFile_CheckBox->isChecked(),
         ui->TGACompressionMethod_ComboBox->currentIndex() == 0,
     };
 
@@ -1907,6 +1910,11 @@ void MainWindow::on_deleteOriginalFormatFile_CheckBox_toggled(bool checked)
 void MainWindow::on_syncMetaFile_CheckBox_toggled(bool checked)
 {
     QSettings().setValue("compression_options/output/sync_meta_file", checked);
+}
+
+void MainWindow::on_syncSpineFile_CheckBox_toggled(bool checked)
+{
+    QSettings().setValue("compression_options/output/sync_spine_file", checked);
 }
 
 void MainWindow::outputFormatIndexChanged(int index) const

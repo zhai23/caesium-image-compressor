@@ -107,6 +107,7 @@ private slots:
     static void on_cacheOriginals_CheckBox_toggled(bool checked);
     static void on_deleteOriginalFormatFile_CheckBox_toggled(bool checked);
     static void on_syncMetaFile_CheckBox_toggled(bool checked);
+    static void on_syncSpineFile_CheckBox_toggled(bool checked);
     void outputFormatIndexChanged(int index) const;
     void moveOriginalFileToggled(bool checked) const;
     static void moveOriginalFileDestinationChanged(int index);

@@ -88,6 +88,12 @@ private:
     // recorded inside it (the top-level "files" list). sourceImagePath /
     // outputImagePath are the paths of the old and the new image files.
     static bool syncMetaFileForConversion(const QString& sourceImagePath, const QString& outputImagePath);
+
+    // Update an adjacent Spine atlas file (<name>.atlas / <name>.atlas.txt) so
+    // the image name it records in its first line follows a format conversion
+    // (e.g. "1.png" -> "1.jpg"). sourceImagePath / outputImagePath are the
+    // paths of the old and the new image files.
+    static bool syncSpineFileForConversion(const QString& sourceImagePath, const QString& outputImagePath);
 };
 
 #endif // CIMAGE_H
