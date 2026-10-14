@@ -584,7 +584,8 @@ private slots:
     void searchFilterMatchesOriginalFileNames()
     {
         QTemporaryDir dir;
-        const QStringList names = { "texture.tga", "Hero_Sprite.tga", "ui_panel.tga" };
+        QVERIFY(QDir().mkpath(dir.filePath("icons")));
+        const QStringList names = { "texture.tga", "Hero_Sprite.tga", "ui_panel.tga", "icons/star.tga" };
         QList<CImage*> images;
         for (const QString& name : names) {
             QVERIFY(save(dir.filePath(name), rawTga(sample())));
@@ -594,12 +595,22 @@ private slots:
         model.appendItems(images, dir.path());
         CImageSortFilterProxyModel proxy;
         proxy.setSourceModel(&model);
-        QCOMPARE(proxy.rowCount(), 3);
+        QCOMPARE(proxy.rowCount(), 4);
+        // What the name column shows is what the search runs on: the path
+        // relative to the imported root folder plus the original file name.
+        QCOMPARE(model.displayedRelativePath(images.at(3)), QString("icons/star.tga"));
 
-        // Fuzzy matching covers any part of the name, case insensitively.
+        // Fuzzy matching covers any part of the shown text, case insensitively.
         proxy.setSearchFilter("hero", false, false);
         QCOMPARE(proxy.rowCount(), 1);
         proxy.setSearchFilter("HERO", false, false);
+        QCOMPARE(proxy.rowCount(), 1);
+        // The folder part shown in the name column is searchable too.
+        proxy.setSearchFilter("icons/", false, false);
+        QCOMPARE(proxy.rowCount(), 1);
+        proxy.setSearchFilter("icons/star", false, false);
+        QCOMPARE(proxy.rowCount(), 1);
+        proxy.setSearchFilter("star.tga", false, false);
         QCOMPARE(proxy.rowCount(), 1);
         // The search runs on the ORIGINAL file name and extension: the name a
         // conversion would produce never matches.
@@ -612,21 +623,30 @@ private slots:
         QCOMPARE(proxy.rowCount(), 0);
         proxy.setSearchFilter("Hero", false, true);
         QCOMPARE(proxy.rowCount(), 1);
+        proxy.setSearchFilter("Icons/", false, true);
+        QCOMPARE(proxy.rowCount(), 0);
+        proxy.setSearchFilter("icons/", false, true);
+        QCOMPARE(proxy.rowCount(), 1);
         proxy.setSearchFilter("^UI_", true, true);
         QCOMPARE(proxy.rowCount(), 0);
         proxy.setSearchFilter("^ui_", true, true);
         QCOMPARE(proxy.rowCount(), 1);
-        // Regular expressions.
+        // Regular expressions: ^ and $ anchor to the shown text, so they can
+        // address the folder part as well as the end of the file name.
         proxy.setSearchFilter("^ui_.*\\.tga$", true, false);
+        QCOMPARE(proxy.rowCount(), 1);
+        proxy.setSearchFilter("^icons/.*", true, false);
+        QCOMPARE(proxy.rowCount(), 1);
+        proxy.setSearchFilter("star\\.tga$", true, false);
         QCOMPARE(proxy.rowCount(), 1);
         proxy.setSearchFilter("_", true, false);
         QCOMPARE(proxy.rowCount(), 2);
         // An incomplete regular expression must not empty the list while the
         // user is still typing it.
         proxy.setSearchFilter("[", true, false);
-        QCOMPARE(proxy.rowCount(), 3);
+        QCOMPARE(proxy.rowCount(), 4);
         proxy.setSearchFilter("", false, false);
-        QCOMPARE(proxy.rowCount(), 3);
+        QCOMPARE(proxy.rowCount(), 4);
     }
     void sameFormatRestore()
     {

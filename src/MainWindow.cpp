@@ -2159,8 +2159,8 @@ void MainWindow::setupSearchBox()
 
     this->searchLineEdit = new QLineEdit(searchWidget);
     this->searchLineEdit->setObjectName("searchLineEdit");
-    this->searchLineEdit->setPlaceholderText(tr("Search file names..."));
-    this->searchLineEdit->setToolTip(tr("Filter the list by the original file name (fuzzy: matches any part of it)."));
+    this->searchLineEdit->setPlaceholderText(tr("Search path or file name..."));
+    this->searchLineEdit->setToolTip(tr("Filter the list by the path and file name shown in it (fuzzy: matches any part of it)."));
     this->searchLineEdit->setClearButtonEnabled(true);
     this->searchLineEdit->setFixedWidth(200);
     searchLayout->addWidget(this->searchLineEdit);

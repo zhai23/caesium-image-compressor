@@ -388,16 +388,6 @@ Ahorrado: %4 (%5%)</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2162"/>
-        <source>Search file names...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/MainWindow.cpp" line="2163"/>
-        <source>Filter the list by the original file name (fuzzy: matches any part of it).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../src/MainWindow.cpp" line="2173"/>
         <source>Use a regular expression instead of a fuzzy match.</source>
         <translation type="unfinished"></translation>
@@ -471,6 +461,16 @@ Ahorrado: %4 (%5%)</translation>
         <location filename="../../src/MainWindow.cpp" line="2837"/>
         <location filename="../../src/MainWindow.cpp" line="2948"/>
         <source>None of the given paths/IDs are in the list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="2162"/>
+        <source>Search path or file name...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="2163"/>
+        <source>Filter the list by the path and file name shown in it (fuzzy: matches any part of it).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -388,16 +388,6 @@ Saved: %4 (%5%)</source>
         <translation>再壓縮失敗</translation>
     </message>
     <message>
-        <location filename="../../src/MainWindow.cpp" line="2162"/>
-        <source>Search file names...</source>
-        <translation>搜尋檔案名稱…</translation>
-    </message>
-    <message>
-        <location filename="../../src/MainWindow.cpp" line="2163"/>
-        <source>Filter the list by the original file name (fuzzy: matches any part of it).</source>
-        <translation>按原檔名過濾列表（模糊匹配檔名的任意部分）。</translation>
-    </message>
-    <message>
         <location filename="../../src/MainWindow.cpp" line="2173"/>
         <source>Use a regular expression instead of a fuzzy match.</source>
         <translation>改用正則表達式匹配。</translation>
@@ -472,6 +462,16 @@ Saved: %4 (%5%)</source>
         <location filename="../../src/MainWindow.cpp" line="2948"/>
         <source>None of the given paths/IDs are in the list.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="2162"/>
+        <source>Search path or file name...</source>
+        <translation>搜尋路徑或檔名…</translation>
+    </message>
+    <message>
+        <location filename="../../src/MainWindow.cpp" line="2163"/>
+        <source>Filter the list by the path and file name shown in it (fuzzy: matches any part of it).</source>
+        <translation>按列表中顯示的路徑和檔名過濾（模糊匹配任意部分）。</translation>
     </message>
     <message>
         <location filename="../../src/MainWindow.cpp" line="3006"/>

@@ -29,6 +29,11 @@ public:
     CImageTreeItem* getRootItem() const;
     bool contains(CImage* cImage);
 
+    // The plain text the name column shows for an image: its path relative to
+    // the imported root folder, file name included (e.g. "sub/texture.tga",
+    // the folder part being drawn grayed out).
+    QString displayedRelativePath(CImage* cImage) const;
+
     void setAllChecked(bool checked);
     int checkedItemsCount() const;
 

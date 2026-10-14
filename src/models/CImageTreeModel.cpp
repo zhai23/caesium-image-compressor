@@ -133,6 +133,12 @@ bool CImageTreeModel::contains(CImage* cImage)
     return false;
 }
 
+QString CImageTreeModel::displayedRelativePath(CImage* cImage) const
+{
+    QString fullPath = cImage->getFullPath();
+    return fullPath.remove(baseFolder + "/");
+}
+
 QVariant CImageTreeModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid()) {
@@ -160,8 +166,7 @@ QVariant CImageTreeModel::data(const QModelIndex& index, int role) const
         if (role & QStyle::State_Selected) {
             defaultColor = QApplication::palette().highlightedText().color();
         }
-        QString fullPath = item->getCImage()->getFullPath();
-        QString computedBaseFolder = fullPath.remove(baseFolder + "/");
+        QString computedBaseFolder = this->displayedRelativePath(item->getCImage());
         QString baseFolderWithoutName = computedBaseFolder.remove(item->getCImage()->getFileName());
         QString rgbaString = "rgba(" + QString::number(defaultColor.red()) + "," + QString::number(defaultColor.green()) + "," + QString::number(defaultColor.blue()) + ",.6);";
         return "<span style=\"color:" + rgbaString + ";\">" + baseFolderWithoutName + "</span>" + item->getCImage()->getFileName();

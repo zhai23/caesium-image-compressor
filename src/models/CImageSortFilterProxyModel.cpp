@@ -1,5 +1,6 @@
 #include "CImageSortFilterProxyModel.h"
 #include "models/CImageTreeItem.h"
+#include "models/CImageTreeModel.h"
 #include "utils/Utils.h"
 #include <QCollator>
 
@@ -33,8 +34,9 @@ bool CImageSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelInd
         return true;
     }
 
-    // The search matches the original file name (with its original extension),
-    // which is what the name column shows and what the images are known by.
+    // The search runs on the text the name column shows: the path of the image
+    // relative to the imported root folder with its original file name (e.g.
+    // "sub/texture.tga"), so both the folder part and the name can be found.
     const QModelIndex nameIndex = sourceModel()->index(sourceRow, CImageColumns::NAME_COLUMN, sourceParent);
     if (!nameIndex.isValid()) {
         return true;
@@ -44,12 +46,13 @@ bool CImageSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelInd
     if (image == nullptr) {
         return true;
     }
-    const QString fileName = image->getFileName();
+    auto* model = static_cast<const CImageTreeModel*>(this->sourceModel());
+    const QString name = model->displayedRelativePath(item->getCImage());
 
     if (this->searchRegexEnabled) {
-        return this->searchExpression.match(fileName).hasMatch();
+        return this->searchExpression.match(name).hasMatch();
     }
-    return fileName.contains(this->searchPattern, this->searchCaseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive);
+    return name.contains(this->searchPattern, this->searchCaseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive);
 }
 
 bool CImageSortFilterProxyModel::lessThan(const QModelIndex& left, const QModelIndex& right) const
