@@ -15,17 +15,25 @@
 #include <QDialog>
 #include <QFile>
 #include <QFileDialog>
+#include <QHBoxLayout>
+#include <QIcon>
 #include <QJsonArray>
+#include <QKeySequence>
+#include <QLineEdit>
 #include <QMovie>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QPainter>
+#include <QPixmap>
 #include <QProgressBar>
 #include <QProgressDialog>
 #include <QRegularExpression>
 #include <QScrollBar>
 #include <QSet>
+#include <QShortcut>
 #include <QTimer>
+#include <QToolButton>
 #include <QWheelEvent>
 #include <QWindow>
 #include <QtConcurrent>
@@ -90,6 +98,7 @@ MainWindow::MainWindow(CliServer* cliServer, QWidget* parent)
     this->initTrayIconContextMenu();
     this->initTrayIcon();
     this->setupCompressButton();
+    this->setupSearchBox();
 
     ui->format_ComboBox->addItems(getOutputSupportedFormats());
     ui->format_ComboBox->setItemData(5,
@@ -500,6 +509,8 @@ void MainWindow::writeSettings() const
     QSettings().setValue("mainwindow/list_view/header_column_size/ratio", ui->imageList_TreeView->header()->sectionSize(CImageColumns::RATIO_COLUMN));
     QSettings().setValue("mainwindow/list_view/sort_column_index", ui->imageList_TreeView->header()->sortIndicatorSection());
     QSettings().setValue("mainwindow/list_view/sort_column_order", ui->imageList_TreeView->header()->sortIndicatorOrder());
+    QSettings().setValue("mainwindow/search/regex_mode", this->searchRegexToolButton->isChecked());
+    QSettings().setValue("mainwindow/search/case_sensitive", this->searchCaseToolButton->isChecked());
     QSettings().setValue("mainwindow/toolbar/visible", ui->toolBar->isVisible());
     QSettings().setValue("mainwindow/toolbar/button_style", ui->toolBar->toolButtonStyle());
     QSettings().setValue("mainwindow/compression/jpeg_options_visible", ui->JPEGToggle_ToolButton->contentVisible());
@@ -562,6 +573,8 @@ void MainWindow::readSettings()
     ui->actionAuto_preview->setChecked(QSettings().value("mainwindow/auto_preview", false).toBool());
     ui->toolBar->setVisible(QSettings().value("mainwindow/toolbar/visible", true).toBool());
     ui->toolBar->setToolButtonStyle(QSettings().value("mainwindow/toolbar/button_style", Qt::ToolButtonIconOnly).value<Qt::ToolButtonStyle>());
+    this->searchRegexToolButton->setChecked(QSettings().value("mainwindow/search/regex_mode", false).toBool());
+    this->searchCaseToolButton->setChecked(QSettings().value("mainwindow/search/case_sensitive", false).toBool());
     ui->JPEGToggle_ToolButton->setContentVisible(QSettings().value("mainwindow/compression/jpeg_options_visible", true).toBool());
     ui->PNGToggle_ToolButton->setContentVisible(QSettings().value("mainwindow/compression/png_options_visible", true).toBool());
     ui->WebPToggle_ToolButton->setContentVisible(QSettings().value("mainwindow/compression/webp_options_visible", true).toBool());
@@ -843,9 +856,31 @@ void MainWindow::startCompression(bool onlyFailed, const QList<CImage*>& targets
 
     bool multiSelectionEnabled = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
 
+    // A search filter narrows the list to what is visible: pressing Compress
+    // acts on the rows the user is looking at, never on the hidden ones. An
+    // explicit target list (CLI by ID/path) is never narrowed.
+    QList<CImage*> effectiveTargets = targets;
+    const bool narrowedBySearch = !this->cliMode && targets.isEmpty() && this->proxyModel->hasSearchFilter();
+    if (narrowedBySearch) {
+        effectiveTargets = this->visibleImages();
+        if (effectiveTargets.isEmpty()) {
+            QCaesiumMessageBox msgBox(this);
+            if (this->proxyModel->rowCount() == 0) {
+                msgBox.setText(tr("No images match the current search"));
+                msgBox.setInformativeText(tr("Please adjust the search to include the images you want to compress."));
+            } else {
+                msgBox.setText(tr("No images selected"));
+                msgBox.setInformativeText(tr("Please check at least one image to compress."));
+            }
+            msgBox.addButton(tr("Ok"), QMessageBox::AcceptRole);
+            msgBox.exec();
+            return;
+        }
+    }
+
     // When an explicit target list is given (CLI by ID/path), the multi-selection
     // checkbox state is irrelevant: we compress exactly the requested images.
-    if (targets.isEmpty() && multiSelectionEnabled && this->cImageModel->checkedItemsCount() == 0) {
+    if (effectiveTargets.isEmpty() && multiSelectionEnabled && this->cImageModel->checkedItemsCount() == 0) {
         if (this->cliMode) {
             this->cliErrorCode = "NO_IMAGES_SELECTED";
             this->cliErrorMessage = tr("No images selected");
@@ -887,7 +922,7 @@ void MainWindow::startCompression(bool onlyFailed, const QList<CImage*>& targets
     ui->compressionProgress_Label->show();
 
     ui->cancelCompression_Button->setEnabled(true);
-    const int progressMax = targets.isEmpty() ? totalImages : static_cast<int>(targets.size());
+    const int progressMax = effectiveTargets.isEmpty() ? totalImages : static_cast<int>(effectiveTargets.size());
     ui->compressionProgress_Label->setText(tr("Compressing...") + QString(" (%1/%2)").arg("0", QString::number(progressMax)));
     ui->compression_ProgressBar->setMinimum(0);
     ui->compression_ProgressBar->setMaximum(progressMax);
@@ -897,18 +932,18 @@ void MainWindow::startCompression(bool onlyFailed, const QList<CImage*>& targets
     CompressionOptions compressionOptions = this->getCompressionOptions(rootFolder);
 
     auto* root = this->cImageModel->getRootItem();
-    if (!targets.isEmpty()) {
-        this->compressionWatcher->setFuture(root->compressTargets(targets, compressionOptions, onlyFailed));
+    if (!effectiveTargets.isEmpty()) {
+        this->compressionWatcher->setFuture(root->compressTargets(effectiveTargets, compressionOptions, onlyFailed));
     } else if (onlyFailed) {
         this->compressionWatcher->setFuture(root->compressOnlyFailed(compressionOptions));
     } else {
         this->compressionWatcher->setFuture(root->compress(compressionOptions));
     }
 
-    if (!targets.isEmpty()) {
-        compressionSummary.totalImages = targets.size();
+    if (!effectiveTargets.isEmpty()) {
+        compressionSummary.totalImages = effectiveTargets.size();
         compressionSummary.totalUncompressedSize = 0;
-        for (CImage* image : targets) {
+        for (CImage* image : effectiveTargets) {
             compressionSummary.totalUncompressedSize += static_cast<double>(image->getOriginalSize());
         }
     } else {
@@ -2078,6 +2113,137 @@ void MainWindow::setupCompressButton()
     auto recompressAction = new QAction(tr("Recompress failed"));
     connect(recompressAction, &QAction::triggered, this, &MainWindow::recompressFailed);
     this->ui->compress_Button->addAction(recompressAction);
+}
+
+namespace {
+
+// Icon of a search option toggle: the label in the normal text color while the
+// option is on, grayed out under a red slash while it is off.
+QIcon searchOptionIcon(const QString& label, bool on, const QWidget* reference)
+{
+    const qreal pixelRatio = reference->devicePixelRatioF();
+    QPixmap pixmap(qRound(24 * pixelRatio), qRound(24 * pixelRatio));
+    pixmap.setDevicePixelRatio(pixelRatio);
+    pixmap.fill(Qt::transparent);
+
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.scale(pixelRatio, pixelRatio);
+    QFont font = reference->font();
+    font.setBold(true);
+    painter.setFont(font);
+    painter.setPen(reference->palette().color(on ? QPalette::Active : QPalette::Disabled, QPalette::Text));
+    painter.drawText(QRect(0, 0, 24, 24), Qt::AlignCenter, label);
+    if (!on) {
+        // Semi-transparent so the grayed out label stays readable underneath.
+        QPen slash(QColor(220, 45, 45, 150));
+        slash.setWidthF(2.0);
+        slash.setCapStyle(Qt::RoundCap);
+        painter.setPen(slash);
+        painter.drawLine(5, 19, 19, 5);
+    }
+    return QIcon(pixmap);
+}
+
+} // namespace
+
+void MainWindow::setupSearchBox()
+{
+    // Built in code (and not in the .ui) so the search box sits right behind
+    // the toolbar actions and so the option buttons can draw their own icons.
+    auto* searchWidget = new QWidget(ui->toolBar);
+    searchWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+    auto* searchLayout = new QHBoxLayout(searchWidget);
+    searchLayout->setContentsMargins(0, 0, 0, 0);
+    searchLayout->setSpacing(0);
+
+    this->searchLineEdit = new QLineEdit(searchWidget);
+    this->searchLineEdit->setObjectName("searchLineEdit");
+    this->searchLineEdit->setPlaceholderText(tr("Search file names..."));
+    this->searchLineEdit->setToolTip(tr("Filter the list by the original file name (fuzzy: matches any part of it)."));
+    this->searchLineEdit->setClearButtonEnabled(true);
+    this->searchLineEdit->setFixedWidth(200);
+    searchLayout->addWidget(this->searchLineEdit);
+
+    this->searchRegexToolButton = new QToolButton(searchWidget);
+    this->searchRegexToolButton->setObjectName("searchRegexToolButton");
+    this->searchRegexToolButton->setCheckable(true);
+    this->searchRegexToolButton->setAutoRaise(true);
+    this->searchRegexToolButton->setIconSize(QSize(24, 24));
+    this->searchRegexToolButton->setToolTip(tr("Use a regular expression instead of a fuzzy match."));
+    searchLayout->addWidget(this->searchRegexToolButton);
+
+    this->searchCaseToolButton = new QToolButton(searchWidget);
+    this->searchCaseToolButton->setObjectName("searchCaseToolButton");
+    this->searchCaseToolButton->setCheckable(true);
+    this->searchCaseToolButton->setAutoRaise(true);
+    this->searchCaseToolButton->setIconSize(QSize(24, 24));
+    this->searchCaseToolButton->setToolTip(tr("Distinguish upper and lower case when searching."));
+    searchLayout->addWidget(this->searchCaseToolButton);
+
+    auto updateSearchOptionIcons = [this]() {
+        this->searchRegexToolButton->setIcon(searchOptionIcon(".*", this->searchRegexToolButton->isChecked(), this->searchRegexToolButton));
+        this->searchCaseToolButton->setIcon(searchOptionIcon("Aa", this->searchCaseToolButton->isChecked(), this->searchCaseToolButton));
+    };
+    updateSearchOptionIcons();
+
+    ui->toolBar->addSeparator();
+    ui->toolBar->addWidget(searchWidget);
+
+    connect(this->searchLineEdit, &QLineEdit::textChanged, this, &MainWindow::applySearchFilter);
+    connect(this->searchRegexToolButton, &QToolButton::toggled, this, &MainWindow::applySearchFilter);
+    connect(this->searchCaseToolButton, &QToolButton::toggled, this, &MainWindow::applySearchFilter);
+    connect(this->searchRegexToolButton, &QToolButton::toggled, this, [updateSearchOptionIcons](bool) {
+        updateSearchOptionIcons();
+    });
+    connect(this->searchCaseToolButton, &QToolButton::toggled, this, [updateSearchOptionIcons](bool) {
+        updateSearchOptionIcons();
+    });
+    connect(this->searchRegexToolButton, &QToolButton::toggled, this, [](bool checked) {
+        QSettings().setValue("mainwindow/search/regex_mode", checked);
+    });
+    connect(this->searchCaseToolButton, &QToolButton::toggled, this, [](bool checked) {
+        QSettings().setValue("mainwindow/search/case_sensitive", checked);
+    });
+
+    // Ctrl+F jumps to the search box, ESC clears it while it has the focus.
+    auto* findShortcut = new QShortcut(QKeySequence::Find, this);
+    connect(findShortcut, &QShortcut::activated, this, &MainWindow::focusSearchBox);
+    auto* clearShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this->searchLineEdit);
+    clearShortcut->setContext(Qt::WidgetWithChildrenShortcut);
+    connect(clearShortcut, &QShortcut::activated, this->searchLineEdit, &QLineEdit::clear);
+}
+
+void MainWindow::applySearchFilter() const
+{
+    this->proxyModel->setSearchFilter(this->searchLineEdit->text(),
+        this->searchRegexToolButton->isChecked(),
+        this->searchCaseToolButton->isChecked());
+}
+
+void MainWindow::focusSearchBox() const
+{
+    this->searchLineEdit->setFocus();
+    this->searchLineEdit->selectAll();
+}
+
+QList<CImage*> MainWindow::visibleImages() const
+{
+    QList<CImage*> images;
+    const bool multiSelectionEnabled = QSettings().value("preferences/general/enable_multi_selection", false).toBool();
+    const int rows = this->proxyModel->rowCount();
+    for (int row = 0; row < rows; ++row) {
+        const QModelIndex sourceIndex = this->proxyModel->mapToSource(this->proxyModel->index(row, CImageColumns::NAME_COLUMN));
+        auto* item = static_cast<CImageTreeItem*>(sourceIndex.internalPointer());
+        if (item == nullptr) {
+            continue;
+        }
+        if (multiSelectionEnabled && !item->isChecked()) {
+            continue;
+        }
+        images.append(item->getCImage());
+    }
+    return images;
 }
 
 void MainWindow::onJPEGOptionsVisibilityChanged(bool visible)

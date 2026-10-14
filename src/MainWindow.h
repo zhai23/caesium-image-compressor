@@ -13,6 +13,8 @@
 
 class QTimer;
 class CliServer;
+class QLineEdit;
+class QToolButton;
 
 #include "models/CImageSortFilterProxyModel.h"
 #include "models/CImageTreeModel.h"
@@ -150,6 +152,11 @@ private:
     NetworkOperations* networkOperations;
     QElapsedTimer compressionTimer;
     CImageSortFilterProxyModel* proxyModel;
+    // Toolbar search box: narrows the list to the file names matching the
+    // pattern (fuzzy by default, regular expression with the .* button).
+    QLineEdit* searchLineEdit;
+    QToolButton* searchRegexToolButton;
+    QToolButton* searchCaseToolButton;
     long long selectedCount = 0;
     QList<QModelIndex> selectedIndexes;
     bool isItemRemovalRunning = false;
@@ -196,6 +203,11 @@ private:
     static void clearCache();
     void changeEvent(QEvent* event) override;
     void setupChromaSubsamplingComboBox() const;    void setupCompressButton();
+    void setupSearchBox();
+    void applySearchFilter() const;
+    void focusSearchBox() const;
+    // The images currently listed (a search filter may hide some rows).
+    QList<CImage*> visibleImages() const;
 
     // --- CLI command handlers (called on the main thread by the CliServer) ---
     bool isCompressionRunning() const;

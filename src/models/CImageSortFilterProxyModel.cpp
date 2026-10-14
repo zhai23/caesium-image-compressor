@@ -8,6 +8,50 @@ CImageSortFilterProxyModel::CImageSortFilterProxyModel(QObject* parent)
 {
 }
 
+void CImageSortFilterProxyModel::setSearchFilter(const QString& pattern, bool regexEnabled, bool caseSensitive)
+{
+    this->searchPattern = pattern;
+    this->searchRegexEnabled = regexEnabled;
+    this->searchCaseSensitive = caseSensitive;
+    this->searchExpression = QRegularExpression();
+    if (regexEnabled && !pattern.isEmpty()) {
+        this->searchExpression = QRegularExpression(pattern,
+            caseSensitive ? QRegularExpression::NoPatternOption : QRegularExpression::CaseInsensitiveOption);
+    }
+    this->invalidateFilter();
+}
+
+bool CImageSortFilterProxyModel::hasSearchFilter() const
+{
+    return !this->searchPattern.isEmpty()
+        && (!this->searchRegexEnabled || this->searchExpression.isValid());
+}
+
+bool CImageSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
+{
+    if (!this->hasSearchFilter()) {
+        return true;
+    }
+
+    // The search matches the original file name (with its original extension),
+    // which is what the name column shows and what the images are known by.
+    const QModelIndex nameIndex = sourceModel()->index(sourceRow, CImageColumns::NAME_COLUMN, sourceParent);
+    if (!nameIndex.isValid()) {
+        return true;
+    }
+    auto* item = static_cast<CImageTreeItem*>(nameIndex.internalPointer());
+    const CImage* image = item != nullptr ? item->getCImage() : nullptr;
+    if (image == nullptr) {
+        return true;
+    }
+    const QString fileName = image->getFileName();
+
+    if (this->searchRegexEnabled) {
+        return this->searchExpression.match(fileName).hasMatch();
+    }
+    return fileName.contains(this->searchPattern, this->searchCaseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive);
+}
+
 bool CImageSortFilterProxyModel::lessThan(const QModelIndex& left, const QModelIndex& right) const
 {
     QVariant leftData = sourceModel()->data(left);

@@ -3,6 +3,8 @@
 #include <QStandardPaths>
 #include <QTemporaryDir>
 #include "models/CImage.h"
+#include "models/CImageSortFilterProxyModel.h"
+#include "models/CImageTreeModel.h"
 #include "services/Importer.h"
 #include "utils/ImageIO.h"
 #include "utils/TgaCodec.h"
@@ -578,6 +580,53 @@ private slots:
         QCOMPARE(bytes(dir.filePath("label-atlas.labelatlas.meta")), meta);
         QCOMPARE(bytes(dir.filePath("other.labelatlas.meta")), foreignMeta);
         image.removeCachedOriginal();
+    }
+    void searchFilterMatchesOriginalFileNames()
+    {
+        QTemporaryDir dir;
+        const QStringList names = { "texture.tga", "Hero_Sprite.tga", "ui_panel.tga" };
+        QList<CImage*> images;
+        for (const QString& name : names) {
+            QVERIFY(save(dir.filePath(name), rawTga(sample())));
+            images.append(new CImage(dir.filePath(name)));
+        }
+        CImageTreeModel model;
+        model.appendItems(images, dir.path());
+        CImageSortFilterProxyModel proxy;
+        proxy.setSourceModel(&model);
+        QCOMPARE(proxy.rowCount(), 3);
+
+        // Fuzzy matching covers any part of the name, case insensitively.
+        proxy.setSearchFilter("hero", false, false);
+        QCOMPARE(proxy.rowCount(), 1);
+        proxy.setSearchFilter("HERO", false, false);
+        QCOMPARE(proxy.rowCount(), 1);
+        // The search runs on the ORIGINAL file name and extension: the name a
+        // conversion would produce never matches.
+        proxy.setSearchFilter("texture.tga", false, false);
+        QCOMPARE(proxy.rowCount(), 1);
+        proxy.setSearchFilter("texture.png", false, false);
+        QCOMPARE(proxy.rowCount(), 0);
+        // Case sensitivity is opt-in and applies to both modes.
+        proxy.setSearchFilter("hero", false, true);
+        QCOMPARE(proxy.rowCount(), 0);
+        proxy.setSearchFilter("Hero", false, true);
+        QCOMPARE(proxy.rowCount(), 1);
+        proxy.setSearchFilter("^UI_", true, true);
+        QCOMPARE(proxy.rowCount(), 0);
+        proxy.setSearchFilter("^ui_", true, true);
+        QCOMPARE(proxy.rowCount(), 1);
+        // Regular expressions.
+        proxy.setSearchFilter("^ui_.*\\.tga$", true, false);
+        QCOMPARE(proxy.rowCount(), 1);
+        proxy.setSearchFilter("_", true, false);
+        QCOMPARE(proxy.rowCount(), 2);
+        // An incomplete regular expression must not empty the list while the
+        // user is still typing it.
+        proxy.setSearchFilter("[", true, false);
+        QCOMPARE(proxy.rowCount(), 3);
+        proxy.setSearchFilter("", false, false);
+        QCOMPARE(proxy.rowCount(), 3);
     }
     void sameFormatRestore()
     {

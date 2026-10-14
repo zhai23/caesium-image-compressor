@@ -22,7 +22,9 @@ target_link_libraries(CsTests PRIVATE Qt${QT_VERSION_MAJOR}::Test Qt${QT_VERSION
 
 add_executable(TgaTests TgaTests.cpp
     ../src/utils/TgaCodec.cpp ../src/utils/ImageIO.cpp ../src/utils/Utils.cpp
-    ../src/models/CImage.cpp ../src/services/Importer.cpp
+    ../src/models/CImage.cpp ../src/models/CImageTreeItem.cpp ../src/models/CImageTreeModel.cpp
+    ../src/models/CImageSortFilterProxyModel.cpp
+    ../src/services/Importer.cpp
     ../src/exceptions/ImageNotSupportedException.cpp ../src/exceptions/ImageTooBigException.cpp
     ../src/widgets/QCaesiumMessageBox.cpp)
 set_property(TARGET TgaTests PROPERTY CXX_STANDARD 17)
